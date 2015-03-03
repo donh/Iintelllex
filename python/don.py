@@ -16,6 +16,76 @@ import MySQLdb
 
 
 """
+* @def name:		getLength(s)
+* @description:		This function gets length of input.
+* @related issues:	ITL-001
+* @param:			string s
+* @return:			integer length
+* @author:			Don Hsieh
+* @since:			03/03/2015
+* @last modified:	03/03/2015
+* @called by:		def setMaxLength(l, key, s)
+*					 in python/don.py
+"""
+def getLength(s):
+	length = -1
+	if s is None: return 0
+	if isinstance(s, (int, long, float)): s = str(s)
+	length = len(s)
+	return length
+
+
+"""
+* @def name:		setMaxLength(l, key, s)
+* @description:		This function sets max length of a field in a list.
+* @related issues:	ITL-001
+* @param:			list l
+* @param:			integer key
+* @param:			string s
+* @return:			list l
+* @author:			Don Hsieh
+* @since:			03/03/2015
+* @last modified:	03/03/2015
+* @called by:		def getMaxLengthOfEachField(rows)
+*					 in python/don.py
+"""
+def setMaxLength(l, key, s):
+	if key < len(l):
+		length = l[key]
+		if l[key] < getLength(s): l[key] = getLength(s)
+	return l
+
+
+"""
+* @def name:		getMaxLengthOfEachField(rows)
+* @description:		This function gets max length of each fields in rows.
+* @related issues:	ITL-001
+* @param:			list rows
+* @return:			void
+* @author:			Don Hsieh
+* @since:			03/03/2015
+* @last modified:	03/03/2015
+* @called by:		def ReadXls(srcDir)
+*					 in python/la.py
+*					main
+*					 in python/ddescription.py
+"""
+def getMaxLengthOfEachField(rows):
+	lstLength = []
+	for col in range(len(rows[0])):
+		lstLength.append(-1)
+	print rows
+	print lstLength
+
+	for row in rows:
+		key = 0
+		for s in row:
+			lstLength = setMaxLength(lstLength, key, s)
+			key += 1
+	print lstLength
+
+
+"""
 * @def name:		insertDB(dbName, table, fields, args)
 * @description:		This function inserts data into database.
 * @related issues:	ITL-001
