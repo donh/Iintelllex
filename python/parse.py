@@ -14,7 +14,7 @@
 
 
 
-#import don
+import don
 ##ITL-001
 
 filepath = '/var/www/intelllex/data/dump2'
@@ -24,7 +24,7 @@ with open(filepath) as f:
 	# content = f.readlines()
 	lines = f.readlines()
 	# print lines
-	print type(lines)
+	# print type(lines)
 	# raise
 	for line in lines:
 		# line = line.strip()
@@ -36,8 +36,8 @@ with open(filepath) as f:
 			s = ''
 		else: s += line
 		if len(block) > 1500:
-			print block
-			print len(block)
+			# print block
+			# print len(block)
 			block = block.split('Content::')[-1]
 			print block
 			header = block.split('Content:')[0].split('\n')
@@ -54,6 +54,14 @@ with open(filepath) as f:
 					application_type = string.split('contentType: ')[-1]
 			print url
 			print application_type
+
+			dbName = 'intelllex'
+			table = 'document_dump'
+			fields = 'url, application_type, content'
+			args = (url, application_type, content)
+			# args = (url, application_type, content, now)
+			# don.insertDB('intelllex', 'document_dump', fields, args)
+			don.insertDB(dbName, table, fields, args)
 			raise
 		# Recno:: 1
 		# s += line.strip()
