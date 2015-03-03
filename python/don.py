@@ -27,7 +27,7 @@ import MySQLdb
 * @author:			Don Hsieh
 * @since:			03/03/2015
 * @last modified:	03/03/2015
-* @called by:		main
+* @called by:		def parseContent(s)
 *					 in python/parse.py
 """
 def insertDB(dbName, table, fields, args):
