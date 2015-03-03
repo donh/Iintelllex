@@ -65,17 +65,15 @@ def setMaxLength(l, key, s):
 * @author:			Don Hsieh
 * @since:			03/03/2015
 * @last modified:	03/03/2015
-* @called by:		def ReadXls(srcDir)
-*					 in python/la.py
-*					main
-*					 in python/ddescription.py
+* @called by:		main
+*					 in python/parse.py
 """
 def getMaxLengthOfEachField(rows):
 	lstLength = []
 	for col in range(len(rows[0])):
 		lstLength.append(-1)
-	print rows
-	print lstLength
+	# print rows
+	# print lstLength
 
 	for row in rows:
 		key = 0

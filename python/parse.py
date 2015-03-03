@@ -13,13 +13,14 @@
 """
 
 
+import re
 
 """
 * @def name:		insertDB(dbName, table, fields, args)
 * @description:		This function inserts data into database.
 * @related issues:	ITL-001
 * @param:			string s
-* @return:			void
+* @return:			tuple args
 * @author:			Don Hsieh
 * @since:			03/03/2015
 * @last modified:	03/03/2015
@@ -54,32 +55,31 @@ def parseContent(s):
 	# args = (url, application_type, content, now)
 	# don.insertDB('intelllex', 'document_dump', fields, args)
 	don.insertDB(dbName, table, fields, args)
-
+	return args
 
 
 
 
 import don
-
-
 filepath = '/var/www/intelllex/data/dump2'
 s = ''
-block = ''
+insertions = []
 with open(filepath) as f:
-	# content = f.readlines()
 	lines = f.readlines()
-	# print lines
-	# print type(lines)
-	# raise
+	key = 1
 	for line in lines:
-		# line = line.strip()
-		
-		# print line
-		# if line == 'Recno:: 2': raise
+		if key % 10000 == 0:
+			print str(key) + ' / ' + str(len(lines))
 		if 'Recno:: ' in line:
-			# block = s
-			parseContent(s)
+			args = parseContent(s)
+			insertions.append(args)
 			s = ''
 		else: s += line
-parseContent(s)
+		key += 1
+
+args = parseContent(s)
+insertions.append(args)
+don.getMaxLengthOfEachField(insertions)
+l = [426, 25, 66724]
+
 print "Done"
