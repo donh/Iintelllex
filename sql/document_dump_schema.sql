@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `document_dump` (
 `id` int(9) NOT NULL,
   `url` varchar(500) NOT NULL,
-  `application_type` varchar(30) NOT NULL,
+  `application_type` varchar(80) NOT NULL,
   `content` mediumtext,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
