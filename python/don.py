@@ -47,7 +47,7 @@ def getLength(s):
 * @author:			Don Hsieh
 * @since:			03/03/2015
 * @last modified:	03/03/2015
-* @called by:		def getMaxLengthOfEachField(rows)
+* @called by:		def getMaxLengthOfFields(row, lstLength)
 *					 in python/don.py
 """
 def setMaxLength(l, key, s):
@@ -55,6 +55,25 @@ def setMaxLength(l, key, s):
 		length = l[key]
 		if l[key] < getLength(s): l[key] = getLength(s)
 	return l
+
+
+"""
+* @def name:		getMaxLengthOfFields(row, lstLength)
+* @description:		This function gets max length of each fields in rows.
+* @related issues:	ITL-001
+* @param:			[list or tuple] row
+* @param:			list lstLength
+* @return:			void
+* @author:			Don Hsieh
+* @since:			03/04/2015
+* @last modified:	03/04/2015
+* @called by:		main
+*					 in python/parse.py
+"""
+def getMaxLengthOfFields(row, lstLength):
+	for key, s in enumerate(row):
+		lstLength = setMaxLength(lstLength, key, s)
+	return lstLength
 
 
 """
@@ -82,6 +101,9 @@ def getMaxLengthOfEachField(rows):
 			lstLength = setMaxLength(lstLength, key, s)
 			key += 1
 	print lstLength
+
+
+
 
 
 """

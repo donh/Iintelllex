@@ -68,10 +68,17 @@ def parseContent(s):
 
 
 import don
-filepath = '/var/www/intelllex/data/dump'
-# filepath = '/var/www/intelllex/data/dump2'
+# filepath = '/var/www/intelllex/data/dump'
+filepath = '/var/www/intelllex/data/dump2'
 s = ''
 insertions = []
+
+fields = 'url, application_type, content'
+lstLength = []
+# for col in range(len(rows[0])):
+for col in range(len(fields.split(', '))):
+	lstLength.append(-1)
+
 with open(filepath) as f:
 	lines = f.readlines()
 	key = 1
@@ -80,6 +87,7 @@ with open(filepath) as f:
 		# if key % 50000 == 0:
 		if 'Recno:: ' in line:
 			args = parseContent(s)
+			lstLength = don.getMaxLengthOfFields(args, lstLength)
 			# if args is not None:
 			# 	insertions.append(args)
 			s = ''
@@ -95,6 +103,8 @@ with open(filepath) as f:
 		key += 1
 
 args = parseContent(s)
+lstLength = don.getMaxLengthOfFields(args, lstLength)
+print lstLength
 # insertions.append(args)
 # don.getMaxLengthOfEachField(insertions)
 l = [426, 25, 66724]
