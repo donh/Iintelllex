@@ -17,6 +17,25 @@ import MySQLdb
 
 
 """
+* @def name:		getNow(format=None)
+* @description:		This function returns a string of time of now.
+* @related issues:	ITL-001
+* @param:			string format=None
+* @return:			string now
+* @author:			Don Hsieh
+* @since:			03/04/2015
+* @last modified:	03/04/2015
+* @called by:		def download(images)
+*					 in python/image.py
+"""
+def getNow(format=None):
+	#if format is None: format = '%Y/%m/%d %a %H:%M:%S'
+	if format is None: format = '%Y-%m-%d %H:%M:%S'
+	now = datetime.now().strftime(format)
+	return now
+
+
+"""
 * @def name:		getLength(s)
 * @description:		This function gets length of input.
 * @related issues:	ITL-001

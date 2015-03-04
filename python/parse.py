@@ -94,7 +94,7 @@ with open(filepath) as f:
 		else: s += line
 		if key % 100000 == 0:
 		# if key % 1000000 == 0:
-			print str(key) + ' / ' + str(len(lines)) + '\t\t' + '(' + str(round(100 * key / len(lines))) + '%)'
+			print don.getNow() + '\t' + str(key) + ' / ' + str(len(lines)) + '\t\t' + '(' + str(round(100 * key / len(lines))) + '%)'
 			# row = insertions[-1]
 			# print type(row)
 			print args[0] + '\t\t\t' + args[1]
