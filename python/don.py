@@ -17,6 +17,32 @@ import MySQLdb
 from datetime import datetime
 
 
+
+
+"""
+* @def name:		queryDB(dbName, table, fields, where=None, args=None)
+* @description:		This function returns query result of given SQL command.
+* @related issues:	ITL-001
+* @param:			string dbName
+* @param:			string table
+* @param:			string fields
+* @param:			string where
+* @param:			tuple args
+* @return:			list rows
+* @author:			Don Hsieh
+* @since:			03/04/2015
+* @last modified:	03/04/2015
+* @called by:		main
+*					 in python/parse.py
+"""
+def queryDB(dbName, table, fields, where=None, args=None):
+	sql = 'SELECT ' + fields + ' FROM `' + table + '`'
+	if where is not None: sql += ' WHERE ' + where
+	rows = doSQL(dbName, table, sql, args)
+	return rows
+
+
+
 """
 * @def name:		timeDiff(start, end, format)
 * @description:		This function returns an object "duration" for time difference.
@@ -194,6 +220,7 @@ def insertDB(dbName, table, fields, args):
 * @since:			03/03/2015
 * @last modified:	03/03/2015
 * @called by:		def insertDB(dbName, table, fields, args)
+*					def queryDB(dbName, table, fields, where=None, args=None)
 *					 in python/don.py
 """
 def doSQL(dbName, table, sql, args):

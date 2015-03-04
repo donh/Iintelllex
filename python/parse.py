@@ -36,9 +36,9 @@ def parseContent(s):
 		application_type = ''
 		for line in header:
 			if 'url: http' in line:
-				url = line.split('url: ')[-1]
+				url = line.split('url: ')[-1].strip(', _\t\n\r')
 			elif 'contentType: ' in line:
-				application_type = line.split('contentType: ')[-1]
+				application_type = line.split('contentType: ')[-1].strip(', _\t\n\r')
 		# print url
 		# print application_type
 		types = ['image/jpeg', 'image/png', 'application/msword', 'application/pdf']
@@ -71,6 +71,17 @@ def parseContent(s):
 
 
 import don
+
+# dbName = 'intelllex'
+# table = 'document_dump'
+# fields = 'DISTINCT application_type'
+# where = '`content` = ""'
+# # where = '`Available` = "Y" OR `Available` = "R" OR `Available` = "N"'
+# rows = don.queryDB(dbName, table, fields, where)
+# print rows
+# print len(rows)
+# raise
+
 timeStart = don.getNow()
 filepath = '/var/www/intelllex/data/dump'
 # filepath = '/var/www/intelllex/data/dump2'
@@ -83,6 +94,7 @@ lstLength = []
 for col in range(len(fields.split(', '))):
 	lstLength.append(-1)
 
+cntRows = 0
 with open(filepath) as f:
 	lines = f.readlines()
 	key = 1
@@ -91,16 +103,20 @@ with open(filepath) as f:
 		# if key % 50000 == 0:
 		if 'Recno:: ' in line:
 			args = parseContent(s)
-			lstLength = don.getMaxLengthOfFields(args, lstLength)
+			if args is not None:
+				cntRows += 1
+				lstLength = don.getMaxLengthOfFields(args, lstLength)
 			# if args is not None:
 			# 	insertions.append(args)
 			s = ''
 		else: s += line
-		if key % 100000 == 0:
+		# if key % 50000 == 0:
+		# if key % 100000 == 0:
+		if key % 150000 == 0:
 		# if key % 1000000 == 0:
 			now = don.getNow()
-			print '\n' + now + '\t\t' + str(key) + ' / ' + str(len(lines)) + '\t\t' + '(' + str(round(100 * key / len(lines))) + '%)'
-			print 'Elapsed: ' + str(don.timeDiff(timeStart, now)) + '\t\t' + 'Statrt time: ' + timeStart
+			print '\n' + now + '\t\t' + str(key) + ' / ' + str(len(lines)) + '\t\t' + '(' + str(round(100 * key / len(lines), 1)) + '%)'
+			print 'Elapsed: ' + str(don.timeDiff(timeStart, now)) + '\t\t' + 'Statrt time: ' + timeStart + '\t\t' + str(cntRows) + ' insertions'
 			# row = insertions[-1]
 			# print type(row)
 			print args[0]
