@@ -14,6 +14,30 @@
 from __future__ import division
 import sys
 import MySQLdb
+from datetime import datetime
+
+
+"""
+* @def name:		timeDiff(start, end, format)
+* @description:		This function returns an object "duration" for time difference.
+* @related issues:	ITL-001
+* @param:			string start
+* @param:			string end
+* @param:			string format
+* @return:			object duration
+* @author:			Don Hsieh
+* @since:			03/04/2015
+* @last modified:	03/04/2015
+* @called by:		def getHeader(issueId, jiraAuth)
+*					 in python/summary.py
+"""
+def timeDiff(start, end, format=None):
+	# if format is None: format = '%Y/%m/%d %a %H:%M:%S'
+	if format is None: format = '%Y-%m-%d %H:%M:%S'
+	startDateStruct = datetime.strptime(start, format)
+	endDateStruct = datetime.strptime(end, format)
+	duration = endDateStruct - startDateStruct
+	return duration
 
 
 """
@@ -25,8 +49,8 @@ import MySQLdb
 * @author:			Don Hsieh
 * @since:			03/04/2015
 * @last modified:	03/04/2015
-* @called by:		def download(images)
-*					 in python/image.py
+* @called by:		main
+*					 in python/parse.py
 """
 def getNow(format=None):
 	#if format is None: format = '%Y/%m/%d %a %H:%M:%S'
@@ -90,8 +114,11 @@ def setMaxLength(l, key, s):
 *					 in python/parse.py
 """
 def getMaxLengthOfFields(row, lstLength):
-	for key, s in enumerate(row):
-		lstLength = setMaxLength(lstLength, key, s)
+	# print row
+	# print lstLength
+	if row is not None:
+		for key, s in enumerate(row):
+			lstLength = setMaxLength(lstLength, key, s)
 	return lstLength
 
 

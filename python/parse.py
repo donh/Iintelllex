@@ -32,19 +32,6 @@ def parseContent(s):
 	if 'Content::' in s:
 		s = s.split('Content::')[-1]
 		header = s.split('Content:')[0].split('\n')
-		# body = s.split('Content:')[-1].lstrip()
-		body = s.split('Content:')[-1].lstrip().decode('ascii', 'ignore')
-		body = s.split('Content:')[-1]
-		body = re.sub('\t+', ' ', body)
-		body = re.sub(' +', ' ', body)
-		body = re.sub('\n+', '\n', body)
-		content = body.strip(', _\t\n\r')
-		# content.decode('utf-8')
-		# content = content.decode('ascii')
-		# content = content.decode('ascii', 'ignore')
-		# anchorText = anchorText.decode('ascii', 'ignore')
-		# content = s.split('Content:')[-1].lstrip()
-
 		url = ''
 		application_type = ''
 		for line in header:
@@ -54,6 +41,22 @@ def parseContent(s):
 				application_type = line.split('contentType: ')[-1]
 		# print url
 		# print application_type
+		types = ['image/jpeg', 'image/png', 'application/msword', 'application/pdf']
+		if application_type in types:
+			content = ''
+		else:
+			# body = s.split('Content:')[-1].lstrip()
+			body = s.split('Content:')[-1].lstrip().decode('ascii', 'ignore')
+			body = s.split('Content:')[-1]
+			body = re.sub('\t+', ' ', body)
+			body = re.sub(' +', ' ', body)
+			body = re.sub('\n+', '\n', body)
+			content = body.strip(', _\t\n\r')
+			# content.decode('utf-8')
+			# content = content.decode('ascii')
+			# content = content.decode('ascii', 'ignore')
+			# anchorText = anchorText.decode('ascii', 'ignore')
+			# content = s.split('Content:')[-1].lstrip()
 
 		dbName = 'intelllex'
 		table = 'document_dump'
@@ -68,8 +71,9 @@ def parseContent(s):
 
 
 import don
-# filepath = '/var/www/intelllex/data/dump'
-filepath = '/var/www/intelllex/data/dump2'
+timeStart = don.getNow()
+filepath = '/var/www/intelllex/data/dump'
+# filepath = '/var/www/intelllex/data/dump2'
 s = ''
 insertions = []
 
@@ -94,10 +98,14 @@ with open(filepath) as f:
 		else: s += line
 		if key % 100000 == 0:
 		# if key % 1000000 == 0:
-			print don.getNow() + '\t' + str(key) + ' / ' + str(len(lines)) + '\t\t' + '(' + str(round(100 * key / len(lines))) + '%)'
+			now = don.getNow()
+			print '\n' + now + '\t\t' + str(key) + ' / ' + str(len(lines)) + '\t\t' + '(' + str(round(100 * key / len(lines))) + '%)'
+			print 'Elapsed: ' + str(don.timeDiff(timeStart, now)) + '\t\t' + 'Statrt time: ' + timeStart
 			# row = insertions[-1]
 			# print type(row)
-			print args[0] + '\t\t\t' + args[1]
+			print args[0]
+			print args[1]
+			# print args[0] + '\t\t\t' + args[1]
 			# print row[0]
 			# raise
 		key += 1
@@ -109,4 +117,5 @@ print lstLength
 # don.getMaxLengthOfEachField(insertions)
 l = [426, 25, 66724]
 
+print '\n' + 'Statrt time: ' + timeStart + '\t\t' + 'Elapsed: ' + str(don.timeDiff(timeStart, now))
 print "Done"
