@@ -111,6 +111,50 @@ def readXls(xls):
 
 
 """
+* @def name:		updateDB(dbName, table, fields, where, args)
+* @description:		This function updates data into database.
+* @related issues:	ITL-002
+* @param:			string dbName
+* @param:			string table
+* @param:			string fields
+* @param:			string where
+* @param:			list args
+* @return:			void
+* @author:			Don Hsieh
+* @since:			03/16/2015
+* @last modified:	03/16/2015
+* @called by:		main
+*					 in python/stop.py
+"""
+def updateDB(dbName, table, fields, where, args):
+	if args is None: return False
+	if len(args) < 1: return False
+	arr = fields.split(', ')
+	#print len(arr)
+	#print len(args)
+	lst = []
+	for s in arr:
+		s = '`' + s + '`=%s'
+		lst.append(s)
+	fields = (', ').join(lst)
+
+	#if where is not None: sql += ' WHERE ' + where
+
+	fieldsCount = len(fields.split(', '))
+	arr = []
+	for i in range(fieldsCount):
+		arr.append('%s')
+	values = ', '.join(arr)
+	values = '(' + values + ')'
+
+	sql = 'UPDATE ' + table + ' SET ' + fields + ' WHERE ' + where
+	#print sql
+	#print args
+	rows = doSQL(dbName, table, sql, args)
+
+
+
+"""
 * @def name:		queryDB(dbName, table, fields, where=None, args=None)
 * @description:		This function returns query result of given SQL command.
 * @related issues:	ITL-001

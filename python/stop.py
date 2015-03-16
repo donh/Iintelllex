@@ -117,7 +117,34 @@ def getTrainingSet():
 
 
 import don
+dbName = 'intelllex'
 # getTrainingSet()
 
-	# raise
+# nltk.download()
+# raise
+
+table = 'train'
+fields = 'id, content'
+# where = '`url` = "' + url + '" LIMIT 1'
+where = None
+rows = don.queryDB(dbName, table, fields, where)
+# print rows
+print len(rows)
+for row in rows:
+	id = row[0]
+	content = row[1]
+	# content = content.decode('ascii', 'ignore')
+	content = content.encode('utf-8').strip().decode('ascii', 'ignore')
+	content = content.lower()
+	content = don.neat(content)
+	# http://stackoverflow.com/questions/5499702/stop-words-nltk-python-problem
+	# word_list2 = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
+	stop = [w.strip() for w in content if w.strip() not in nltk.corpus.stopwords.words('english')]
+	stop_len = len(stop)
+
+	fields = 'stop, stop_len, updatedAt'
+	args = (stop, stop_len, don.getNow())
+	where = '`id`="' + str(id) + '"'
+	don.updateDB(dbName, table, fields, where, args)
+
 print "Done"
