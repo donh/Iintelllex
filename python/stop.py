@@ -16,7 +16,7 @@
 
 import re
 import nltk
-from nltk.tokenize import word_tokeniz
+from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
 
@@ -119,6 +119,10 @@ def getTrainingSet():
 
 
 import don
+
+snowball_stemmer = SnowballStemmer('english')
+wordnet_lemmatizer = WordNetLemmatizer()
+
 dbName = 'intelllex'
 # getTrainingSet()
 
@@ -151,6 +155,8 @@ for row in rows:
 			s = s.strip(', _\t\n\r"()[]:/-.;')
 			# if len(s) > 2 and '?' not in s and ')' not in s and '$' not in s:
 			if len(s) > 2 and '?' not in s and ')' not in s and not don.isNumber(s):
+				s = snowball_stemmer.stem(s)
+				s = wordnet_lemmatizer.lemmatize(s)
 				stop.append(s)
 	stop = list(set(stop))
 	stop.sort()
