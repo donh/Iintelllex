@@ -17,6 +17,8 @@
 import re
 import nltk
 from nltk.tokenize import word_tokeniz
+from nltk.stem import SnowballStemmer
+from nltk.stem import WordNetLemmatizer
 
 """
 * @def name:		getTypesOfNullContent()
