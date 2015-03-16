@@ -21,6 +21,40 @@ import re
 
 
 """
+* @def name:		isNumber(s)
+* @description:		This function returns True if s is numeric, False otherwise.
+* @related issues:	ITL-002
+* @param:			mixed s
+* @return:			boolean
+* @author:			Don Hsieh
+* @since:			03/16/2015
+* @last modified:	03/16/2015
+* @called by:		def updateDressDescription()
+*					 in wd/python/dress.py
+"""
+# http://www.pythoncentral.io/how-to-check-if-a-string-is-a-number-in-python-including-unicode/
+def isNumber(s):
+	s = s.replace('-', '').replace(',', '').replace('$', '').replace('(', '').replace(')', '')
+	try:
+		float(s)
+		return True
+	# except ValueError:
+		# return False
+	except ValueError:
+		pass
+	try:
+		import unicodedata
+		unicodedata.numeric(s)
+		return True
+	except (TypeError, ValueError):
+		pass
+	return False
+
+
+
+
+
+"""
 * @def name:		neat(s)
 * @description:		This function neats a string and removes unwatned characters.
 * @related issues:	ITL-002
@@ -148,8 +182,8 @@ def updateDB(dbName, table, fields, where, args):
 	values = '(' + values + ')'
 
 	sql = 'UPDATE ' + table + ' SET ' + fields + ' WHERE ' + where
-	#print sql
-	#print args
+	print sql
+	print args
 	rows = doSQL(dbName, table, sql, args)
 
 

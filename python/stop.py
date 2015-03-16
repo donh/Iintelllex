@@ -16,7 +16,7 @@
 
 import re
 import nltk
-
+from nltk.tokenize import word_tokeniz
 
 """
 * @def name:		getTypesOfNullContent()
@@ -137,14 +137,29 @@ for row in rows:
 	content = content.encode('utf-8').strip().decode('ascii', 'ignore')
 	content = content.lower()
 	content = don.neat(content)
+	# content = content.split(' ')
+	word_list = word_tokenize(content)
 	# http://stackoverflow.com/questions/5499702/stop-words-nltk-python-problem
 	# word_list2 = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
-	stop = [w.strip() for w in content if w.strip() not in nltk.corpus.stopwords.words('english')]
+	# lst = [w.strip() for w in content if w.strip() not in nltk.corpus.stopwords.words('english')]
+	lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
+	stop = []
+	for s in lst:
+		if isinstance(s, (basestring, unicode)):
+			s = s.strip(', _\t\n\r"()[]:/-.;')
+			# if len(s) > 2 and '?' not in s and ')' not in s and '$' not in s:
+			if len(s) > 2 and '?' not in s and ')' not in s and not don.isNumber(s):
+				stop.append(s)
+	stop = list(set(stop))
+	stop.sort()
+	stop = ' '.join(stop)
 	stop_len = len(stop)
 
 	fields = 'stop, stop_len, updatedAt'
-	args = (stop, stop_len, don.getNow())
+	# args = (stop, stop_len, don.getNow())
+	lstArgs = [stop, stop_len, don.getNow()]
 	where = '`id`="' + str(id) + '"'
-	don.updateDB(dbName, table, fields, where, args)
+	don.updateDB(dbName, table, fields, where, lstArgs)
+	# raise
 
 print "Done"
