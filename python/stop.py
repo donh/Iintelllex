@@ -3,6 +3,7 @@
 #python /var/www/intelllex/python/stop.py
 
 #sudo apt-get install python-dev; sudo pip install -U numpy; sudo pip install -U nltk
+#python -m nltk.downloader stopwords; python -m nltk.downloader punkt; python -m nltk.downloader wordnet
 
 """
 * @python name:		python/stop.py
