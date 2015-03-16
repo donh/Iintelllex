@@ -104,7 +104,7 @@ def neat(s):
 * @since:			03/16/2015
 * @last modified:	03/16/2015
 * @called by:		main
-*					 in python/stop.py
+*					 in python/token.py
 """
 def readXls(xls):
 	try:
@@ -158,7 +158,7 @@ def readXls(xls):
 * @since:			03/16/2015
 * @last modified:	03/16/2015
 * @called by:		main
-*					 in python/stop.py
+*					 in python/token.py
 """
 def updateDB(dbName, table, fields, where, args):
 	if args is None: return False
