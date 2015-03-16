@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.6deb1
+-- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生時間： 2015 年 03 月 16 日 17:36
--- 伺服器版本: 5.5.41-0ubuntu0.14.10.1
--- PHP 版本： 5.5.12-2ubuntu4.2
+-- 建立日期: 2015 年 03 月 16 日 21:30
+-- 伺服器版本: 5.5.41-0ubuntu0.14.04.1
+-- PHP 版本: 5.5.9-1ubuntu4.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- 資料庫： `intelllex`
+-- 資料庫: `intelllex`
 --
 
 -- --------------------------------------------------------
@@ -27,36 +27,23 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `train` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(500) DEFAULT NULL,
-  `content` longtext,
   `useful` tinyint(1) DEFAULT NULL,
+  `content` longtext,
+  `content_len` int(7) DEFAULT NULL,
   `stop` longtext,
+  `stop_len` int(7) DEFAULT NULL,
   `stemming` longtext,
+  `stemming_len` int(7) DEFAULT NULL,
   `title` text,
   `createdAt` datetime DEFAULT NULL,
-  `updatedAt` timestamp NULL DEFAULT NULL
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `url` (`url`(255)),
+  KEY `useful` (`useful`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 已匯出資料表的索引
---
-
---
--- 資料表索引 `train`
---
-ALTER TABLE `train`
- ADD PRIMARY KEY (`id`), ADD KEY `url` (`url`(255)), ADD KEY `useful` (`useful`);
-
---
--- 在匯出的資料表使用 AUTO_INCREMENT
---
-
---
--- 使用資料表 AUTO_INCREMENT `train`
---
-ALTER TABLE `train`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
