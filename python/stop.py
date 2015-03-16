@@ -103,7 +103,59 @@ import don
 
 xls = '/var/www/intelllex/data/ITL-002_URL_20150314.xlsx'
 rows = don.readXls(xls)
-print rows
-print len(rows)
+# print rows
+# print len(rows)
+# print rows[0]
+# print rows[4]
+cases = []
+for row in rows:
+	isCase = row[1]
+	# if isCase > 0:
+	if isCase is not None:
+		url = row[0]
+		cases.append([url.strip(), int(isCase)])
+# print cases
+print len(cases)
 
+
+
+dbName = 'intelllex'
+table = 'document2'
+fields = 'url, content, title'
+# where = '`url` = "' + url + '"'
+# where = '`Available` = "Y" OR `Available` = "R" OR `Available` = "N"'
+# rows = don.queryDB(dbName, table, fields, where)
+
+
+# dbName = 'intelllex'
+# table = 'document_dump'
+# fields = 'url, application_type, content'
+# args = (url, application_type, content)
+# # args = (url, application_type, content, now)
+# # don.insertDB('intelllex', 'document_dump', fields, args)
+# don.insertDB(dbName, table, fields, args)
+
+
+for case in cases:
+	url = case[0]
+	if len(url) > 400:
+		print url
+		print len(url)
+		raise
+	isCase = case[1]
+	table = 'document2'
+	fields = 'url, content, title'
+	where = '`url` = "' + url + '" LIMIT 1'
+	rows = don.queryDB(dbName, table, fields, where)
+	row = rows[0]
+	# print row
+	content = row[1]
+	title = row[2]
+	now = don.getNow()
+	# print row[2]
+	table = 'train'
+	fields = 'url, content, useful, title, createdAt'
+	args = (url, content, isCase, title, now)
+	don.insertDB(dbName, table, fields, args)
+	# raise
 print "Done"

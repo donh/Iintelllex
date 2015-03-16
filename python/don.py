@@ -17,6 +17,7 @@ import MySQLdb
 from datetime import datetime
 import xlrd
 from xlrd import XLRDError
+import re
 
 
 """

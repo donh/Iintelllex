@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生時間： 2015 年 03 月 16 日 16:34
+-- 產生時間： 2015 年 03 月 16 日 17:36
 -- 伺服器版本: 5.5.41-0ubuntu0.14.10.1
 -- PHP 版本： 5.5.12-2ubuntu4.2
 
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `train` (
   `url` varchar(500) DEFAULT NULL,
   `content` longtext,
   `useful` tinyint(1) DEFAULT NULL,
-  `stop` longtext NOT NULL,
-  `stemming` longtext NOT NULL,
+  `stop` longtext,
+  `stemming` longtext,
   `title` text,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` timestamp NULL DEFAULT NULL
