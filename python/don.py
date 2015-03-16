@@ -20,33 +20,69 @@ from xlrd import XLRDError
 
 
 """
+* @def name:		neat(s)
+* @description:		This function neats a string and removes unwatned characters.
+* @related issues:	ITL-002
+* @param:			mixed s
+* @return:			string s
+* @author:			Don Hsieh
+* @since:			03/16/2015
+* @last modified:	03/16/2015
+* @called by:		def readXls(xls)
+*					 in python/don.py
+"""
+# http://stackoverflow.com/questions/18664712/split-function-add-xef-xbb-xbf-n-to-my-list
+# data = data.decode("utf-8-sig").encode("utf-8")
+# But better don't encode it back to utf-8, but work with unicoded text. 
+# There is a good rule - decode all your input text data to unicode as soon as possible, and work inside only with unicode, and encode the output data to required encoding as later as possible. 
+# This will save you from many headaches.
+def neat(s):
+	if isinstance(s, float): s = str(int(s))
+	if isinstance(s, (basestring, unicode)) and s != '':
+		#s = s.encode('utf-8')
+		#http://stackoverflow.com/questions/1010961/string-slicing-python
+		if s.endswith('.0'): s = s[:-2]		#remove trailing '.0' in s
+		s = s.strip(', _\t\n\r')
+		s = re.sub('\t+', ' ', s)
+		s = re.sub(' +', ' ', s)
+		#s = re.sub('\n+', '\n', s)
+		#s = " ".join(s.split()) # same as s = re.sub(' +', ' ', s)
+		s = s.replace('  ', ' ');
+		s = s.replace('__', '_');
+		s = s.replace('\n', '');
+		s = s.replace('\r', '');
+		#s = s.replace(u'\xa0', u' ');	#Remove \xa0
+		#\xa0 is actually non-breaking space in Latin1 (ISO 8859-1), also chr(160).
+		#http://stackoverflow.com/questions/10993612/python-removing-xa0-from-string
+		s = s.strip(', _\t\n\r')
+	return s
+
+
+
+"""
 * @def name:		readXls(xls)
 * @description:		This function reads content of xls file.
-* @related issues:	WD-001
-* @related issues:	SEO-021
+* @related issues:	ITL-002
 * @param:			string xls
-* @return:			void
+* @return:			list rows
 * @author:			Don Hsieh
-* @since:			03/26/2014
-* @last modified:	04/28/2014
+* @since:			03/16/2015
+* @last modified:	03/16/2015
 * @called by:		main
-*					 in python/sb.py
-*					 in python/xls.py
+*					 in python/stop.py
 """
 def readXls(xls):
-	#print xls
 	try:
 		workbook = xlrd.open_workbook(xls)
 		#print workbook
 		worksheet = workbook.sheet_by_index(0)
 		num_rows = worksheet.nrows - 1
 		row = worksheet.row(0)
-		#print row
+
 		fields = []
 		for col in range(len(row)):
 			field = worksheet.cell_value(0, col)
 			fields.append(field)
-		#print fields
 
 		key = 0
 		strShow = ''
@@ -56,12 +92,10 @@ def readXls(xls):
 		for key in xrange(1, num_rows+1):
 			#if key % 50 == 0: print key
 			args = []
-			#print row
 			for col in range(len(row0)):
 				s = worksheet.cell_value(key, col)
 				if isinstance(s, basestring):
 					#s = s.strip()
-					#s = don.neat(s)
 					s = neat(s)
 					if len(s) == 0: s = None
 				args.append(s)
