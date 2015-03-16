@@ -15,7 +15,63 @@ from __future__ import division
 import sys
 import MySQLdb
 from datetime import datetime
+import xlrd
+from xlrd import XLRDError
 
+
+"""
+* @def name:		readXls(xls)
+* @description:		This function reads content of xls file.
+* @related issues:	WD-001
+* @related issues:	SEO-021
+* @param:			string xls
+* @return:			void
+* @author:			Don Hsieh
+* @since:			03/26/2014
+* @last modified:	04/28/2014
+* @called by:		main
+*					 in python/sb.py
+*					 in python/xls.py
+"""
+def readXls(xls):
+	#print xls
+	try:
+		workbook = xlrd.open_workbook(xls)
+		#print workbook
+		worksheet = workbook.sheet_by_index(0)
+		num_rows = worksheet.nrows - 1
+		row = worksheet.row(0)
+		#print row
+		fields = []
+		for col in range(len(row)):
+			field = worksheet.cell_value(0, col)
+			fields.append(field)
+		#print fields
+
+		key = 0
+		strShow = ''
+		row0 = worksheet.row(key)
+		#print row0
+		rows = []
+		for key in xrange(1, num_rows+1):
+			#if key % 50 == 0: print key
+			args = []
+			#print row
+			for col in range(len(row0)):
+				s = worksheet.cell_value(key, col)
+				if isinstance(s, basestring):
+					#s = s.strip()
+					#s = don.neat(s)
+					s = neat(s)
+					if len(s) == 0: s = None
+				args.append(s)
+				#print args
+			rows.append(args)
+		return rows
+	except xlrd.XLRDError as e: #<-- Qualified error here
+		no_termina = False
+		print 'Error occurs'
+		print e
 
 
 

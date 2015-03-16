@@ -101,7 +101,7 @@ def parseContent(s):
 
 import don
 
-xls = '/var/www/wd/data/ITL-002_URL_20150314.xlsx'
+xls = '/var/www/intelllex/data/ITL-002_URL_20150314.xlsx'
 rows = don.readXls(xls)
 print rows
 print len(rows)
