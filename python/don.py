@@ -19,7 +19,8 @@ import xlrd
 from xlrd import XLRDError
 import re
 
-import nltk
+# import nltk
+from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
@@ -58,9 +59,15 @@ def stemming(s):
 * @called by:		def getTokens()
 *					 in wd/python/tokens.py
 """
+# http://streamhacker.com/2010/05/24/text-classification-sentiment-analysis-stopwords-collocations/
+# Accuracy went down .2%, and pos precision and neg recall dropped as well!
+# Apparently stopwords add information to sentiment analysis classification. 
 def stopword(s):
 	word_list = word_tokenize(s)
-	lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
+	stopset = set(stopwords.words('english'))
+	# lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
+	# lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
+	lst = [w.strip() for w in word_list if w.strip() not in stopset]
 	return lst
 	
 

@@ -119,12 +119,12 @@ def getTokens():
 					tokens.append(s)
 		tokens = list(set(tokens))
 		tokens.sort()
-		token = ' '.join(tokens)
-		token_len = len(token)
+		tokens = ' '.join(tokens)
+		tokens_len = len(tokens)
 
-		fields = 'token, token_len, updatedAt'
+		fields = 'tokens, tokens_len, updatedAt'
 		# args = (stop, token_len, don.getNow())
-		lstArgs = [token, token_len, don.getNow()]
+		lstArgs = [tokens, tokens_len, don.getNow()]
 		where = '`id`="' + str(id) + '"'
 		don.updateDB(dbName, table, fields, where, lstArgs)
 		
@@ -141,8 +141,8 @@ import don
 
 
 dbName = 'intelllex'
-getContent()
-# getTokens()
+# getContent()
+getTokens()
 
 # nltk.download()
 # raise
