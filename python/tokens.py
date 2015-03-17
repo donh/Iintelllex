@@ -15,11 +15,6 @@
 * @called by:
 """
 
-import nltk
-from nltk.tokenize import word_tokenize
-from nltk.stem import SnowballStemmer
-from nltk.stem import WordNetLemmatizer
-
 
 
 """
@@ -86,8 +81,8 @@ def getContent():
 *					 in python/tokens.py
 """
 def getTokens():
-	snowball_stemmer = SnowballStemmer('english')
-	wordnet_lemmatizer = WordNetLemmatizer()
+	# snowball_stemmer = SnowballStemmer('english')
+	# wordnet_lemmatizer = WordNetLemmatizer()
 
 	table = 'tokens'
 	fields = 'id, content'
@@ -118,8 +113,9 @@ def getTokens():
 				s = s.strip(', _\t\n\r"()[]:/-.;`*')
 				# if len(s) > 2 and '?' not in s and ')' not in s and '$' not in s:
 				if len(s) > 2 and '?' not in s and ')' not in s and not don.isNumber(s):
-					s = snowball_stemmer.stem(s)
-					s = wordnet_lemmatizer.lemmatize(s)
+					# s = snowball_stemmer.stem(s)
+					# s = wordnet_lemmatizer.lemmatize(s)
+					s = don.stemming(s)
 					tokens.append(s)
 		tokens = list(set(tokens))
 		tokens.sort()

@@ -21,10 +21,33 @@ import re
 
 import nltk
 from nltk.tokenize import word_tokenize
+from nltk.stem import SnowballStemmer
+from nltk.stem import WordNetLemmatizer
+
 
 
 """
-* @def name:		isNumber(s)
+* @def name:		stemming(s)
+* @description:		This function stems a word.
+* @related issues:	ITL-002
+* @param:			string s
+* @return:			string s
+* @author:			Don Hsieh
+* @since:			03/17/2015
+* @last modified:	03/17/2015
+* @called by:		def getTokens()
+*					 in wd/python/tokens.py
+"""
+def stemming(s):
+	snowball_stemmer = SnowballStemmer('english')
+	wordnet_lemmatizer = WordNetLemmatizer()
+	s = snowball_stemmer.stem(s)
+	s = wordnet_lemmatizer.lemmatize(s)
+	return s
+
+
+"""
+* @def name:		stopword(s)
 * @description:		This function tokenizes a string and removes stop words from it.
 * @related issues:	ITL-002
 * @param:			string s
