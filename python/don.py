@@ -19,6 +19,29 @@ import xlrd
 from xlrd import XLRDError
 import re
 
+import nltk
+from nltk.tokenize import word_tokenize
+
+
+"""
+* @def name:		isNumber(s)
+* @description:		This function tokenizes a string and removes stop words from it.
+* @related issues:	ITL-002
+* @param:			string s
+* @return:			list lst
+* @author:			Don Hsieh
+* @since:			03/17/2015
+* @last modified:	03/17/2015
+* @called by:		def getTokens()
+*					 in wd/python/tokens.py
+"""
+def stopword(s):
+	word_list = word_tokenize(s)
+	lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
+	return lst
+	
+
+
 
 """
 * @def name:		isNumber(s)
@@ -29,8 +52,8 @@ import re
 * @author:			Don Hsieh
 * @since:			03/16/2015
 * @last modified:	03/16/2015
-* @called by:		def updateDressDescription()
-*					 in wd/python/dress.py
+* @called by:		def getTokens()
+*					 in wd/python/tokens.py
 """
 # http://www.pythoncentral.io/how-to-check-if-a-string-is-a-number-in-python-including-unicode/
 def isNumber(s):
@@ -103,8 +126,8 @@ def neat(s):
 * @author:			Don Hsieh
 * @since:			03/16/2015
 * @last modified:	03/16/2015
-* @called by:		main
-*					 in python/token.py
+* @called by:		def getContent()
+*					 in python/tokens.py
 """
 def readXls(xls):
 	try:
@@ -157,8 +180,8 @@ def readXls(xls):
 * @author:			Don Hsieh
 * @since:			03/16/2015
 * @last modified:	03/16/2015
-* @called by:		main
-*					 in python/token.py
+* @called by:		def getTokens()
+*					 in python/tokens.py
 """
 def updateDB(dbName, table, fields, where, args):
 	if args is None: return False
@@ -436,4 +459,3 @@ def doSQL(dbName, table, sql, args):
 		mydb.commit()
 		cursor.close()
 		raise
-

@@ -15,7 +15,6 @@
 * @called by:
 """
 
-import re
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
@@ -105,11 +104,14 @@ def getTokens():
 		content = content.lower()
 		content = don.neat(content)
 		# content = content.split(' ')
-		word_list = word_tokenize(content)
+		# word_list = word_tokenize(content)
 		# http://stackoverflow.com/questions/5499702/stop-words-nltk-python-problem
 		# word_list2 = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
 		# lst = [w.strip() for w in content if w.strip() not in nltk.corpus.stopwords.words('english')]
-		lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
+		# lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
+
+		lst = don.stopword(content)
+
 		tokens = []
 		for s in lst:
 			if isinstance(s, (basestring, unicode)):
