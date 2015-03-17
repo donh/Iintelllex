@@ -23,17 +23,17 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `token`
+-- 資料表結構 `tokens`
 --
 
-CREATE TABLE IF NOT EXISTS `token` (
+CREATE TABLE IF NOT EXISTS `tokens` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(500) DEFAULT NULL,
   `useful` tinyint(1) DEFAULT NULL,
   `content` longtext,
   `content_len` int(7) DEFAULT NULL,
-  `token` longtext,
-  `token_len` int(7) DEFAULT NULL,
+  `tokens` longtext,
+  `tokens_len` int(7) DEFAULT NULL,
   `title` text,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
