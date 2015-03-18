@@ -44,6 +44,9 @@ def getBigram():
 		words = don.tokenize(content)
 		print words
 		print len(words)
+
+		# don.evaluate_classifier()
+		# raise
 		# bcf = BigramCollocationFinder.from_words(words)
 		# bcf.apply_word_filter(filter_stopwords)
 		# bcf = BigramCollocationFinder.from_words(lst)
@@ -93,7 +96,12 @@ import don
 
 dbName = 'intelllex'
 # getContent()
-getBigram()
+# getBigram()
+
+
+don.evaluate_classifier()
+raise
+
 
 # nltk.download()
 # raise

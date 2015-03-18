@@ -34,12 +34,11 @@ from nltk.classify import NaiveBayesClassifier
 
 
 """
-* @def name:		getBigrams(words, count)
+* @def name:		evaluate_classifier()
 * @description:		This function returns bigrams.
 * @related issues:	ITL-002
-* @param:			list words
-* @param:			integer count
-* @return:			list bigrams
+* @param:			void
+* @return:			void
 * @author:			Don Hsieh
 * @since:			03/18/2015
 * @last modified:	03/18/2015
@@ -47,15 +46,66 @@ from nltk.classify import NaiveBayesClassifier
 *					 in wd/python/bigram.py
 """
 # http://streamhacker.com/2010/05/24/text-classification-sentiment-analysis-stopwords-collocations/
-def evaluate_classifier(feature):
-	negids = movie_reviews.fileids('neg')
-	posids = movie_reviews.fileids('pos')
+def evaluate_classifier():
+	dbName = 'intelllex'
+	table = 'tokens'
+	fields = 'id, useful, content'
+	# where = None
+	where = '`useful` = 0 AND `content_len` > 5'
+	# where = '`useful` = 1'
+	rows = queryDB(dbName, table, fields, where)
+	# print rows
+	# print len(rows)
+	negids = []
+	negfeats = []
+	# raise
+	for row in rows:
+		negid = int(row[0])
+		negids.append(negid)
+
+		content = row[2]
+		words = tokenize(content)
+		feature = getFeature(words, 50)
+		negfeats.append(feature)
+		
+
+	posids = []
+	posfeats = []
+	where = '`useful` = 1 AND `content_len` > 5'
+	rows = queryDB(dbName, table, fields, where)
+	# print rows
+	# print len(rows)
+	for row in rows:
+		posid = int(row[0])
+		posids.append(posid)
+
+		content = row[2]
+		words = tokenize(content)
+		feature = getFeature(words, 50)
+		posfeats.append(feature)
+
+
+
+
+	# print negids
+	# print posids
+	# print negfeats
+	# print posfeats
+	print len(negfeats)
+	print len(posfeats)
+	# raise
+
+
+	# negids = movie_reviews.fileids('neg')
+	# posids = movie_reviews.fileids('pos')
  
-	negfeats = [(feature(movie_reviews.words(fileids=[f])), 'neg') for f in negids]
-	posfeats = [(feature(movie_reviews.words(fileids=[f])), 'pos') for f in posids]
+	# negfeats = [(feature(movie_reviews.words(fileids=[f])), 'neg') for f in negids]
+	# posfeats = [(feature(movie_reviews.words(fileids=[f])), 'pos') for f in posids]
  
 	negcutoff = len(negfeats)*3/4
 	poscutoff = len(posfeats)*3/4
+	print negcutoff
+	print poscutoff
  
 	trainfeats = negfeats[:negcutoff] + posfeats[:poscutoff]
 	testfeats = negfeats[negcutoff:] + posfeats[poscutoff:]
@@ -102,8 +152,8 @@ def getFeature(words, count):
 	# bigrams = bcf.nbest(BigramAssocMeasures.likelihood_ratio, count)
 	bigrams = bcf.nbest(BigramAssocMeasures.chi_sq, count)
 	# return bigrams
-	print bigrams
-	print len(bigrams)
+	# print bigrams
+	# print len(bigrams)
 	feature = dict([(ngram, True) for ngram in itertools.chain(words, bigrams)])
 	return feature
 
