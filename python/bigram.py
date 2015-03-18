@@ -40,18 +40,14 @@ def getBigram():
 	for row in rows:
 		id = row[0]
 		content = row[1]
-		# content = content.decode('ascii', 'ignore')
-		content = content.encode('utf-8').strip().decode('ascii', 'ignore')
-		content = content.lower()
-		content = don.neat(content)
-		# content = content.split(' ')
-		# word_list = word_tokenize(content)
-		# http://stackoverflow.com/questions/5499702/stop-words-nltk-python-problem
-		# word_list2 = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
-		# lst = [w.strip() for w in content if w.strip() not in nltk.corpus.stopwords.words('english')]
-		# lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
+		# content = content.encode('utf-8').strip().decode('ascii', 'ignore')
+		# content = content.lower()
+		# content = don.neat(content)
 
-		lst = don.stopword(content)
+		lst = don.tokenize(content)
+		print lst
+		print len(lst)
+		raise
 
 		tokens = []
 		for s in lst:

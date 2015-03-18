@@ -19,12 +19,38 @@ import xlrd
 from xlrd import XLRDError
 import re
 
-# import nltk
+import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
 
+
+"""
+* @def name:		stopword(s)
+* @description:		This function tokenizes a string and removes stop words from it.
+* @related issues:	ITL-002
+* @param:			string s
+* @return:			list lst
+* @author:			Don Hsieh
+* @since:			03/17/2015
+* @last modified:	03/17/2015
+* @called by:		def getTokens()
+*					 in wd/python/tokens.py
+"""
+def tokenize(s):
+	s = s.encode('utf-8').strip().decode('ascii', 'ignore')
+	s = s.lower()
+	# s = don.neat(s)
+	lst = []
+
+	for sent in nltk.sent_tokenize(s):
+		for word in nltk.word_tokenize(sent):
+			word = neat(word)
+			if isinstance(word, (basestring, unicode)) and len(word) > 1:
+				word = stemming(word)
+				lst.append(word)
+	return lst
 
 
 """
@@ -38,6 +64,8 @@ from nltk.stem import WordNetLemmatizer
 * @last modified:	03/17/2015
 * @called by:		def getTokens()
 *					 in wd/python/tokens.py
+*					def tokenize(s)
+*					 in wd/python/don.py
 """
 def stemming(s):
 	snowball_stemmer = SnowballStemmer('english')

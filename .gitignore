@@ -1,6 +1,7 @@
 data
 sql
 .project
+python/.pyc
 
 # --------------------------------------
 # Byte-compiled / optimized / DLL files
