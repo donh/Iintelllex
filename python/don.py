@@ -25,6 +25,8 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
 from nltk.collocations import BigramAssocMeasures, BigramCollocationFinder
+import itertools
+
 
 
 """
@@ -40,14 +42,19 @@ from nltk.collocations import BigramAssocMeasures, BigramCollocationFinder
 * @called by:		def getBigram()
 *					 in wd/python/bigram.py
 """
-def getBigrams(words, count):
+# def getBigrams(words, count):
+def getFeature(words, count):
 	bcf = BigramCollocationFinder.from_words(words)
 	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 10)
 	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 50)
 	# print bcf.nbest(BigramAssocMeasures.chi_sq, 50)
 	# bigrams = bcf.nbest(BigramAssocMeasures.likelihood_ratio, count)
 	bigrams = bcf.nbest(BigramAssocMeasures.chi_sq, count)
-	return bigrams
+	# return bigrams
+	print bigrams
+	print len(bigrams)
+	feature = dict([(ngram, True) for ngram in itertools.chain(words, bigrams)])
+	return feature
 
 
 

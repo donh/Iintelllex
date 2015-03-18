@@ -51,8 +51,11 @@ def getBigram():
 		# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 50)
 		# print bcf.nbest(BigramAssocMeasures.chi_sq, 50)
 
-		bigrams = don.getBigrams(words, 50)
-		print bigrams
+		# bigrams = don.getBigrams(words, 50)
+		# print bigrams
+		feature = don.getFeature(words, 50)
+		print feature
+		print len(feature)
 		raise
 
 		tokens = []
