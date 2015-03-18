@@ -141,8 +141,8 @@ import don
 
 
 dbName = 'intelllex'
-# getContent()
-getTokens()
+getContent()
+# getTokens()
 
 # nltk.download()
 # raise

@@ -65,7 +65,9 @@ def evaluate_classifier():
 
 		content = row[2]
 		words = tokenize(content)
-		feature = getFeature(words, 50)
+		# words = words[:800]
+		# words = words[:300]
+		feature = getFeature(words, 50, 0)
 		negfeats.append(feature)
 		
 
@@ -80,8 +82,9 @@ def evaluate_classifier():
 		posids.append(posid)
 
 		content = row[2]
+		# words = tokenize(content)
 		words = tokenize(content)
-		feature = getFeature(words, 50)
+		feature = getFeature(words, 50, 1)
 		posfeats.append(feature)
 
 
@@ -102,15 +105,24 @@ def evaluate_classifier():
 	# negfeats = [(feature(movie_reviews.words(fileids=[f])), 'neg') for f in negids]
 	# posfeats = [(feature(movie_reviews.words(fileids=[f])), 'pos') for f in posids]
  
-	negcutoff = len(negfeats)*3/4
-	poscutoff = len(posfeats)*3/4
+	# negcutoff = int(floor(len(negfeats)*3/4))
+	# poscutoff = int(floor(len(posfeats)*3/4))
+	negcutoff = int(len(negfeats)*3/4)
+	poscutoff = int(len(posfeats)*3/4)
 	print negcutoff
 	print poscutoff
  
 	trainfeats = negfeats[:negcutoff] + posfeats[:poscutoff]
 	testfeats = negfeats[negcutoff:] + posfeats[poscutoff:]
+
+	# print trainfeats[0]
+	print trainfeats[-1]
+	print len(trainfeats)
+	print type(trainfeats)
+	print trainfeats[0]
  
 	classifier = NaiveBayesClassifier.train(trainfeats)
+	# classifier = NaiveBayesClassifier.train(trainfeats, 5)
 	refsets = collections.defaultdict(set)
 	testsets = collections.defaultdict(set)
  
@@ -143,8 +155,10 @@ def evaluate_classifier():
 * @called by:		def getBigram()
 *					 in wd/python/bigram.py
 """
-# def getBigrams(words, count):
-def getFeature(words, count):
+# http://www.nltk.org/api/nltk.classify.html
+# train_toks (list(tuple(dict, str))) – Training data, represented as a list of pairs, 
+# the first member of which is a feature dictionary, and the second of which is a classification label.
+def getFeature(words, count, label):
 	bcf = BigramCollocationFinder.from_words(words)
 	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 10)
 	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 50)
@@ -154,8 +168,52 @@ def getFeature(words, count):
 	# return bigrams
 	# print bigrams
 	# print len(bigrams)
-	feature = dict([(ngram, True) for ngram in itertools.chain(words, bigrams)])
-	return feature
+
+	features = []
+	# for bigram in bigrams:
+	# 	# feature = {'bigram':bigram[0] + ' ' + bigram[1]}
+	# 	feature = {'2':bigram[0] + ' ' + bigram[1]}
+	# 	features.append((feature, label))
+	# feature = {'2':bigrams}
+	# features.append((feature, label))
+
+	# http://www.nltk.org/book/ch06.html
+	words = stopword(words)
+	words = words[:10]
+	for word in words:
+		if not isNumber(word):
+		# feature = {'unigram':word}
+		# feature = {'1':word}
+			feature = {"has(%s)" % word: True}
+			features.append((feature, label))
+		# features.append(feature)
+	# feature = {'1':words}
+	# features.append((feature, label))
+
+	# http://stackoverflow.com/questions/1024847/add-to-a-dictionary-in-python
+	# data = {'a':1,'b':2,'c':3}
+
+	'''
+	for ngram in itertools.chain(words, bigrams):
+		# print ngram
+		if isinstance(ngram, tuple):
+			# feature = dict(0=ngram[0], 1=ngram[1])
+			# feature = {'0':ngram[0], '1':ngram[1]}
+			# feature = {'a':ngram[0], 'b':ngram[1]}
+			# s = 
+			feature = {'2':ngram[0] + ' ' + ngram[1]}
+		# else: feature = dict(0=ngram)
+		# else: feature = {'0':ngram}
+		# else: feature = {'a':ngram}
+		else: feature = {'1':ngram}
+		# features.append((feature, 'True'))
+		features.append((feature, label))
+	'''
+	# features = list(set(features))
+	# print features
+	# raise
+	# feature = dict([(ngram, True) for ngram in itertools.chain(words, bigrams)])
+	return features
 
 
 
@@ -187,6 +245,8 @@ def tokenize(s):
 				if s != "'s":
 					s = stemming(s)
 					lst.append(s)
+	# words = words[:800]
+	# lst = lst[:300]
 	return lst
 
 
@@ -227,14 +287,18 @@ def stemming(s):
 # http://streamhacker.com/2010/05/24/text-classification-sentiment-analysis-stopwords-collocations/
 # Accuracy went down .2%, and pos precision and neg recall dropped as well!
 # Apparently stopwords add information to sentiment analysis classification. 
-def stopword(s):
-	word_list = word_tokenize(s)
+def stopword(words):
+	words = list(set(words))
+	# word_list = word_tokenize(s)
 	stopset = set(stopwords.words('english'))
-	# lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
-	# lst = [w.strip() for w in word_list if w.strip() not in nltk.corpus.stopwords.words('english')]
-	lst = [w.strip() for w in word_list if w.strip() not in stopset]
+	# lst = [w.strip() for w in word_list if w.strip() not in stopset]
+	lst = [w.strip() for w in words if w.strip() not in stopset]
 	return lst
-	
+# def stopword(s):
+# 	word_list = word_tokenize(s)
+# 	stopset = set(stopwords.words('english'))
+# 	lst = [w.strip() for w in word_list if w.strip() not in stopset]
+# 	return lst
 
 
 
