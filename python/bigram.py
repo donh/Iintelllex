@@ -14,7 +14,7 @@
 * @last modified:	03/18/2015
 * @called by:
 """
-
+# from nltk.collocations import BigramAssocMeasures, BigramCollocationFinder
 
 """
 * @def name:		getBigram()
@@ -40,13 +40,19 @@ def getBigram():
 	for row in rows:
 		id = row[0]
 		content = row[1]
-		# content = content.encode('utf-8').strip().decode('ascii', 'ignore')
-		# content = content.lower()
-		# content = don.neat(content)
 
-		lst = don.tokenize(content)
-		print lst
-		print len(lst)
+		words = don.tokenize(content)
+		print words
+		print len(words)
+		# bcf = BigramCollocationFinder.from_words(words)
+		# bcf.apply_word_filter(filter_stopwords)
+		# bcf = BigramCollocationFinder.from_words(lst)
+		# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 10)
+		# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 50)
+		# print bcf.nbest(BigramAssocMeasures.chi_sq, 50)
+
+		bigrams = don.getBigrams(words, 50)
+		print bigrams
 		raise
 
 		tokens = []

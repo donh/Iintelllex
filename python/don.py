@@ -24,32 +24,61 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
+from nltk.collocations import BigramAssocMeasures, BigramCollocationFinder
 
 
 """
-* @def name:		stopword(s)
-* @description:		This function tokenizes a string and removes stop words from it.
+* @def name:		getBigrams(words, count)
+* @description:		This function returns bigrams.
+* @related issues:	ITL-002
+* @param:			list words
+* @param:			integer count
+* @return:			list bigrams
+* @author:			Don Hsieh
+* @since:			03/18/2015
+* @last modified:	03/18/2015
+* @called by:		def getBigram()
+*					 in wd/python/bigram.py
+"""
+def getBigrams(words, count):
+	bcf = BigramCollocationFinder.from_words(words)
+	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 10)
+	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 50)
+	# print bcf.nbest(BigramAssocMeasures.chi_sq, 50)
+	# bigrams = bcf.nbest(BigramAssocMeasures.likelihood_ratio, count)
+	bigrams = bcf.nbest(BigramAssocMeasures.chi_sq, count)
+	return bigrams
+
+
+
+
+
+"""
+* @def name:		tokenize(s)
+* @description:		This function tokenizes a string and stems it's tokens.
 * @related issues:	ITL-002
 * @param:			string s
 * @return:			list lst
 * @author:			Don Hsieh
-* @since:			03/17/2015
-* @last modified:	03/17/2015
-* @called by:		def getTokens()
-*					 in wd/python/tokens.py
+* @since:			03/18/2015
+* @last modified:	03/18/2015
+* @called by:		def getBigram()
+*					 in wd/python/bigram.py
 """
 def tokenize(s):
 	s = s.encode('utf-8').strip().decode('ascii', 'ignore')
-	s = s.lower()
+	text = s.lower()
 	# s = don.neat(s)
 	lst = []
 
-	for sent in nltk.sent_tokenize(s):
+	for sent in nltk.sent_tokenize(text):
 		for word in nltk.word_tokenize(sent):
-			word = neat(word)
-			if isinstance(word, (basestring, unicode)) and len(word) > 1:
-				word = stemming(word)
-				lst.append(word)
+			# s = neat(word)
+			s = word.strip(', _\t\n\r"()[]:/-.;`*')
+			if isinstance(s, (basestring, unicode)) and len(s) > 1 and '?' not in s and ')' not in s:
+				if s != "'s":
+					s = stemming(s)
+					lst.append(s)
 	return lst
 
 
