@@ -27,6 +27,57 @@ from nltk.stem import WordNetLemmatizer
 from nltk.collocations import BigramAssocMeasures, BigramCollocationFinder
 import itertools
 
+import collections
+import nltk.classify.util, nltk.metrics
+from nltk.classify import NaiveBayesClassifier
+# from nltk.corpus import movie_reviews
+
+
+"""
+* @def name:		getBigrams(words, count)
+* @description:		This function returns bigrams.
+* @related issues:	ITL-002
+* @param:			list words
+* @param:			integer count
+* @return:			list bigrams
+* @author:			Don Hsieh
+* @since:			03/18/2015
+* @last modified:	03/18/2015
+* @called by:		def getBigram()
+*					 in wd/python/bigram.py
+"""
+# http://streamhacker.com/2010/05/24/text-classification-sentiment-analysis-stopwords-collocations/
+def evaluate_classifier(feature):
+	negids = movie_reviews.fileids('neg')
+	posids = movie_reviews.fileids('pos')
+ 
+	negfeats = [(feature(movie_reviews.words(fileids=[f])), 'neg') for f in negids]
+	posfeats = [(feature(movie_reviews.words(fileids=[f])), 'pos') for f in posids]
+ 
+	negcutoff = len(negfeats)*3/4
+	poscutoff = len(posfeats)*3/4
+ 
+	trainfeats = negfeats[:negcutoff] + posfeats[:poscutoff]
+	testfeats = negfeats[negcutoff:] + posfeats[poscutoff:]
+ 
+	classifier = NaiveBayesClassifier.train(trainfeats)
+	refsets = collections.defaultdict(set)
+	testsets = collections.defaultdict(set)
+ 
+	for i, (feats, label) in enumerate(testfeats):
+			refsets[label].add(i)
+			observed = classifier.classify(feats)
+			testsets[observed].add(i)
+ 
+	print 'accuracy:', nltk.classify.util.accuracy(classifier, testfeats)
+	print 'pos precision:', nltk.metrics.precision(refsets['pos'], testsets['pos'])
+	print 'pos recall:', nltk.metrics.recall(refsets['pos'], testsets['pos'])
+	print 'neg precision:', nltk.metrics.precision(refsets['neg'], testsets['neg'])
+	print 'neg recall:', nltk.metrics.recall(refsets['neg'], testsets['neg'])
+	classifier.show_most_informative_features()
+
+
+
 
 
 """
