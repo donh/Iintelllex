@@ -94,8 +94,6 @@ def gender_features2(name):
 	return features
 
 
-
-
 """
 * @def name:		getNegativeFeatures()
 * @description:		This function removes stop words from content, handles stemming,
@@ -104,8 +102,8 @@ def gender_features2(name):
 * @param:			void
 * @return:			list negativeFeatures
 * @author:			Don Hsieh
-* @since:			03/18/2015
-* @last modified:	03/18/2015
+* @since:			03/19/2015
+* @last modified:	03/19/2015
 * @called by:		main
 *					 in python/bigram.py
 """
@@ -116,22 +114,55 @@ def getNegativeFeatures():
 	# where = None
 	where = '`useful` = 0 AND `content_len` > 5'
 	# where = '`useful` = 1'
-	rows = queryDB(dbName, table, fields, where)
-	negids = []
+	rows = don.queryDB(dbName, table, fields, where)
+	# negids = []
 	negativeFeatures = []
 	# raise
 	for row in rows:
-		negid = int(row[0])
-		negids.append(negid)
+		# negid = int(row[0])
+		# negids.append(negid)
 
 		content = row[2]
-		words = tokenize(content)
+		words = don.tokenize(content)
 		# words = words[:800]
 		# words = words[:300]
-		feature = getFeature(words, 'neg')
+		feature = don.getFeature(words, 'neg')
 		negativeFeatures.append(feature)
 	return negativeFeatures
 
+
+"""
+* @def name:		getPositiveFeatures()
+* @description:		This function removes stop words from content, handles stemming,
+*					 and writes to "tokens" column.
+* @related issues:	ITL-002
+* @param:			void
+* @return:			list positiveFeatures
+* @author:			Don Hsieh
+* @since:			03/19/2015
+* @last modified:	03/19/2015
+* @called by:		main
+*					 in python/bigram.py
+"""
+def getPositiveFeatures():
+	dbName = 'intelllex'
+	table = 'tokens'
+	fields = 'id, useful, content'
+	# where = None
+	where = '`useful` = 1 AND `content_len` > 5'
+	# where = '`useful` = 1'
+	rows = don.queryDB(dbName, table, fields, where)
+	# negids = []
+	positiveFeatures = []
+	# raise
+	for row in rows:
+		content = row[2]
+		words = don.tokenize(content)
+		# words = words[:800]
+		# words = words[:300]
+		feature = don.getFeature(words, 'pos')
+		positiveFeatures.append(feature)
+	return positiveFeatures
 
 
 
@@ -146,11 +177,11 @@ dbName = 'intelllex'
 timeStart = don.getNow()
 print "Start classifier: " + timeStart
 
+negativeFeatures = getNegativeFeatures()
+positiveFeatures = getPositiveFeatures()
 
-
-
-
-don.evaluate_classifier()
+# don.evaluate_classifier()
+don.evaluate_classifier(negativeFeatures, positiveFeatures)
 
 
 '''

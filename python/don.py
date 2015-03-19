@@ -49,42 +49,43 @@ import random
 *					 in wd/python/bigram.py
 """
 # http://streamhacker.com/2010/05/24/text-classification-sentiment-analysis-stopwords-collocations/
-def evaluate_classifier():
-	dbName = 'intelllex'
-	table = 'tokens'
-	fields = 'id, useful, content'
-	# where = None
-	where = '`useful` = 0 AND `content_len` > 5'
-	# where = '`useful` = 1'
-	rows = queryDB(dbName, table, fields, where)
-	negids = []
-	negativeFeatures = []
-	# raise
-	for row in rows:
-		negid = int(row[0])
-		negids.append(negid)
+# def evaluate_classifier():
+def evaluate_classifier(negativeFeatures, positiveFeatures):
+	# dbName = 'intelllex'
+	# table = 'tokens'
+	# fields = 'id, useful, content'
+	# # where = None
+	# where = '`useful` = 0 AND `content_len` > 5'
+	# # where = '`useful` = 1'
+	# rows = queryDB(dbName, table, fields, where)
+	# # negids = []
+	# negativeFeatures = []
+	# # raise
+	# for row in rows:
+	# 	# negid = int(row[0])
+	# 	negids.append(negid)
 
-		content = row[2]
-		words = tokenize(content)
-		# words = words[:800]
-		# words = words[:300]
-		feature = getFeature(words, 'neg')
-		negativeFeatures.append(feature)
+	# 	content = row[2]
+	# 	words = tokenize(content)
+	# 	# words = words[:800]
+	# 	# words = words[:300]
+	# 	feature = getFeature(words, 'neg')
+	# 	negativeFeatures.append(feature)
 
-	posids = []
-	positiveFeatures = []
-	where = '`useful` = 1 AND `content_len` > 5'
-	rows = queryDB(dbName, table, fields, where)
-	# print rows
-	# print len(rows)
-	for row in rows:
-		posid = int(row[0])
-		posids.append(posid)
+	# # posids = []
+	# positiveFeatures = []
+	# where = '`useful` = 1 AND `content_len` > 5'
+	# rows = queryDB(dbName, table, fields, where)
+	# # print rows
+	# # print len(rows)
+	# for row in rows:
+	# 	# posid = int(row[0])
+	# 	posids.append(posid)
 
-		content = row[2]
-		words = tokenize(content)
-		feature = getFeature(words, 'pos')
-		positiveFeatures.append(feature)
+	# 	content = row[2]
+	# 	words = tokenize(content)
+	# 	feature = getFeature(words, 'pos')
+	# 	positiveFeatures.append(feature)
 
 	# negCutoff = int(floor(len(negativeFeatures)*3/4))
 	# posCutoff = int(floor(len(positiveFeatures)*3/4))
