@@ -31,7 +31,7 @@ import collections
 import nltk.classify.util, nltk.metrics
 from nltk.classify import NaiveBayesClassifier
 # from nltk.corpus import movie_reviews
-
+from nltk.classify import MaxentClassifier
 
 """
 * @def name:		evaluate_classifier()
@@ -67,7 +67,9 @@ def evaluate_classifier():
 		words = tokenize(content)
 		# words = words[:800]
 		# words = words[:300]
-		feature = getFeature(words, 50, 0)
+		# feature = getFeature(words, 50, 0)
+		# feature = getFeature(words, 50, 'neg')
+		feature = getFeature(words, 'neg')
 		negfeats.append(feature)
 		
 
@@ -84,7 +86,9 @@ def evaluate_classifier():
 		content = row[2]
 		# words = tokenize(content)
 		words = tokenize(content)
-		feature = getFeature(words, 50, 1)
+		# feature = getFeature(words, 50, 1)
+		# feature = getFeature(words, 50, 'pos')
+		feature = getFeature(words, 'pos')
 		posfeats.append(feature)
 
 
@@ -101,17 +105,17 @@ def evaluate_classifier():
 
 	# negids = movie_reviews.fileids('neg')
 	# posids = movie_reviews.fileids('pos')
- 
+
 	# negfeats = [(feature(movie_reviews.words(fileids=[f])), 'neg') for f in negids]
 	# posfeats = [(feature(movie_reviews.words(fileids=[f])), 'pos') for f in posids]
- 
+
 	# negcutoff = int(floor(len(negfeats)*3/4))
 	# poscutoff = int(floor(len(posfeats)*3/4))
 	negcutoff = int(len(negfeats)*3/4)
 	poscutoff = int(len(posfeats)*3/4)
 	print negcutoff
 	print poscutoff
- 
+
 	trainfeats = negfeats[:negcutoff] + posfeats[:poscutoff]
 	testfeats = negfeats[negcutoff:] + posfeats[poscutoff:]
 
@@ -120,22 +124,44 @@ def evaluate_classifier():
 	print len(trainfeats)
 	print type(trainfeats)
 	print trainfeats[0]
- 
-	classifier = NaiveBayesClassifier.train(trainfeats)
+
+	print '\n\ntestfeats:'
+	print testfeats[-1]
+	print len(testfeats)
+	print type(testfeats)
+	print testfeats[0]
+
+	# classifier = NaiveBayesClassifier.train(trainfeats)
+	classifier = MaxentClassifier.train(trainfeats)
 	# classifier = NaiveBayesClassifier.train(trainfeats, 5)
 	refsets = collections.defaultdict(set)
 	testsets = collections.defaultdict(set)
- 
+	
 	for i, (feats, label) in enumerate(testfeats):
+			# print 'i = ' + str(i)
+			# print 'label = ' + str(label)
 			refsets[label].add(i)
 			observed = classifier.classify(feats)
+			# print observed
 			testsets[observed].add(i)
- 
+
+	# print '\n\nrefsets:'
+	# print refsets[-1]
+	# print len(refsets)
+	# print type(refsets)
+	# print refsets[0]
+
+	# print '\n\ntestsets:'
+	# print testsets[-1]
+	# print len(testsets)
+	# print type(testsets)
+	# print testsets[0]
+
 	print 'accuracy:', nltk.classify.util.accuracy(classifier, testfeats)
-	print 'pos precision:', nltk.metrics.precision(refsets['pos'], testsets['pos'])
-	print 'pos recall:', nltk.metrics.recall(refsets['pos'], testsets['pos'])
-	print 'neg precision:', nltk.metrics.precision(refsets['neg'], testsets['neg'])
-	print 'neg recall:', nltk.metrics.recall(refsets['neg'], testsets['neg'])
+	print 'positive precision:', nltk.metrics.precision(refsets['pos'], testsets['pos'])
+	print 'positive recall:', nltk.metrics.recall(refsets['pos'], testsets['pos'])
+	print 'negative precision:', nltk.metrics.precision(refsets['neg'], testsets['neg'])
+	print 'negative recall:', nltk.metrics.recall(refsets['neg'], testsets['neg'])
 	classifier.show_most_informative_features()
 
 
@@ -151,64 +177,47 @@ def evaluate_classifier():
 * @return:			list bigrams
 * @author:			Don Hsieh
 * @since:			03/18/2015
-* @last modified:	03/18/2015
+* @last modified:	03/19/2015
 * @called by:		def getBigram()
 *					 in wd/python/bigram.py
 """
 # http://www.nltk.org/api/nltk.classify.html
-# train_toks (list(tuple(dict, str))) – Training data, represented as a list of pairs, 
+# train_toks (list(tuple(dict, str))) – Training data, represented as a list of pairs,
 # the first member of which is a feature dictionary, and the second of which is a classification label.
-def getFeature(words, count, label):
+# def getFeature(words, count, label):
+def getFeature(words, label):
+	count = 100		# accuracy: 0.946859903382
+	# count = 150	# accuracy: 0.937198067633
+	# http://www.nltk.org/book/ch06.html
+	features = {}
+	# features = dict()
 	bcf = BigramCollocationFinder.from_words(words)
 	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 10)
 	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 50)
 	# print bcf.nbest(BigramAssocMeasures.chi_sq, 50)
-	# bigrams = bcf.nbest(BigramAssocMeasures.likelihood_ratio, count)
-	bigrams = bcf.nbest(BigramAssocMeasures.chi_sq, count)
-	# return bigrams
+	bigrams = bcf.nbest(BigramAssocMeasures.likelihood_ratio, count)	#accuracy: 0.946859903382
+	# bigrams = bcf.nbest(BigramAssocMeasures.chi_sq, count)			#accuracy: 0.642512077295
 	# print bigrams
 	# print len(bigrams)
-
-	features = []
-	# for bigram in bigrams:
-	# 	# feature = {'bigram':bigram[0] + ' ' + bigram[1]}
-	# 	feature = {'2':bigram[0] + ' ' + bigram[1]}
-	# 	features.append((feature, label))
-	# feature = {'2':bigrams}
-	# features.append((feature, label))
-
-	# http://www.nltk.org/book/ch06.html
+	
+	for bigram in bigrams:
+		# feature = {'bigram':bigram[0] + ' ' + bigram[1]}
+		s = bigram[0] + ' ' + bigram[1]
+		# features["has(%s)" % s] = True
+		features[s] = True
+	
 	words = stopword(words)
 	words = words[:10]
 	for word in words:
 		if not isNumber(word):
-		# feature = {'unigram':word}
-		# feature = {'1':word}
-			feature = {"has(%s)" % word: True}
-			features.append((feature, label))
-		# features.append(feature)
-	# feature = {'1':words}
-	# features.append((feature, label))
+			# features["has(%s)" % word] = True
+			features[word] = True
+
+	features = (features, label)
 
 	# http://stackoverflow.com/questions/1024847/add-to-a-dictionary-in-python
 	# data = {'a':1,'b':2,'c':3}
 
-	'''
-	for ngram in itertools.chain(words, bigrams):
-		# print ngram
-		if isinstance(ngram, tuple):
-			# feature = dict(0=ngram[0], 1=ngram[1])
-			# feature = {'0':ngram[0], '1':ngram[1]}
-			# feature = {'a':ngram[0], 'b':ngram[1]}
-			# s = 
-			feature = {'2':ngram[0] + ' ' + ngram[1]}
-		# else: feature = dict(0=ngram)
-		# else: feature = {'0':ngram}
-		# else: feature = {'a':ngram}
-		else: feature = {'1':ngram}
-		# features.append((feature, 'True'))
-		features.append((feature, label))
-	'''
 	# features = list(set(features))
 	# print features
 	# raise
@@ -286,7 +295,7 @@ def stemming(s):
 """
 # http://streamhacker.com/2010/05/24/text-classification-sentiment-analysis-stopwords-collocations/
 # Accuracy went down .2%, and pos precision and neg recall dropped as well!
-# Apparently stopwords add information to sentiment analysis classification. 
+# Apparently stopwords add information to sentiment analysis classification.
 def stopword(words):
 	words = list(set(words))
 	# word_list = word_tokenize(s)
@@ -350,8 +359,8 @@ def isNumber(s):
 """
 # http://stackoverflow.com/questions/18664712/split-function-add-xef-xbb-xbf-n-to-my-list
 # data = data.decode("utf-8-sig").encode("utf-8")
-# But better don't encode it back to utf-8, but work with unicoded text. 
-# There is a good rule - decode all your input text data to unicode as soon as possible, and work inside only with unicode, and encode the output data to required encoding as later as possible. 
+# But better don't encode it back to utf-8, but work with unicoded text.
+# There is a good rule - decode all your input text data to unicode as soon as possible, and work inside only with unicode, and encode the output data to required encoding as later as possible.
 # This will save you from many headaches.
 def neat(s):
 	if isinstance(s, float): s = str(int(s))

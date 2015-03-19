@@ -4,6 +4,7 @@
 
 #sudo apt-get install python-dev; sudo pip install -U numpy; sudo pip install -U nltk
 #python -m nltk.downloader stopwords; python -m nltk.downloader punkt; python -m nltk.downloader wordnet
+#python -m nltk.downloader names
 
 """
 * @python name:		python/bigram.py
@@ -84,10 +85,22 @@ def getBigram():
 		
 
 
+def gender_features(word):
+	return {'last_letter': word[-1]}
+# gender_features('Shrek')
+# {'last_letter': 'k'}
 
 
+  	
 
-
+def gender_features2(name):
+	features = {}
+	features["first_letter"] = name[0].lower()
+	features["last_letter"] = name[-1].lower()
+	for letter in 'abcdefghijklmnopqrstuvwxyz':
+		features["count(%s)" % letter] = name.lower().count(letter)
+		features["has(%s)" % letter] = (letter in name.lower())
+	return features
 
 
 
@@ -100,8 +113,27 @@ dbName = 'intelllex'
 
 
 don.evaluate_classifier()
-raise
 
+
+'''
+import nltk
+from nltk.corpus import names
+labeled_names = ([(name, 'male') for name in names.words('male.txt')] + [(name, 'female') for name in names.words('female.txt')])
+# print labeled_names
+import random
+random.shuffle(labeled_names)
+# print labeled_names
+
+# featuresets = [(gender_features(n), gender) for (n, gender) in labeled_names]
+featuresets = [(gender_features2(n), gender) for (n, gender) in labeled_names]
+print featuresets
+train_set, test_set = featuresets[500:], featuresets[:500]
+classifier = nltk.NaiveBayesClassifier.train(train_set)
+classifier.classify(gender_features('Neo'))
+print(nltk.classify.accuracy(classifier, test_set))
+# 0.758
+classifier.show_most_informative_features(5)
+'''
 
 # nltk.download()
 # raise
