@@ -44,7 +44,7 @@ import random
 * @return:			void
 * @author:			Don Hsieh
 * @since:			03/18/2015
-* @last modified:	03/18/2015
+* @last modified:	03/19/2015
 * @called by:		def getBigram()
 *					 in wd/python/bigram.py
 """
@@ -58,7 +58,7 @@ def evaluate_classifier():
 	# where = '`useful` = 1'
 	rows = queryDB(dbName, table, fields, where)
 	negids = []
-	negfeats = []
+	negativeFeatures = []
 	# raise
 	for row in rows:
 		negid = int(row[0])
@@ -69,10 +69,10 @@ def evaluate_classifier():
 		# words = words[:800]
 		# words = words[:300]
 		feature = getFeature(words, 'neg')
-		negfeats.append(feature)
+		negativeFeatures.append(feature)
 
 	posids = []
-	posfeats = []
+	positiveFeatures = []
 	where = '`useful` = 1 AND `content_len` > 5'
 	rows = queryDB(dbName, table, fields, where)
 	# print rows
@@ -84,40 +84,40 @@ def evaluate_classifier():
 		content = row[2]
 		words = tokenize(content)
 		feature = getFeature(words, 'pos')
-		posfeats.append(feature)
+		positiveFeatures.append(feature)
 
-	# negcutoff = int(floor(len(negfeats)*3/4))
-	# poscutoff = int(floor(len(posfeats)*3/4))
-	negcutoff = int(len(negfeats)*3/4)
-	poscutoff = int(len(posfeats)*3/4)
-	# print negcutoff
-	# print poscutoff
-	random.shuffle(negfeats)
-	random.shuffle(posfeats)
+	# negCutoff = int(floor(len(negativeFeatures)*3/4))
+	# posCutoff = int(floor(len(positiveFeatures)*3/4))
+	negCutoff = int(len(negativeFeatures)*3/4)
+	posCutoff = int(len(positiveFeatures)*3/4)
+	# print negCutoff
+	# print posCutoff
+	random.shuffle(negativeFeatures)
+	random.shuffle(positiveFeatures)
 
-	trainfeats = negfeats[:negcutoff] + posfeats[:poscutoff]
-	testfeats = negfeats[negcutoff:] + posfeats[poscutoff:]
+	trainFeatures = negativeFeatures[:negCutoff] + positiveFeatures[:posCutoff]
+	testFeatures = negativeFeatures[negCutoff:] + positiveFeatures[posCutoff:]
 
-	print trainfeats[0]
-	print trainfeats[-1]
-	print len(trainfeats)
-	print type(trainfeats)
-	print trainfeats[0]
+	print trainFeatures[0]
+	print trainFeatures[-1]
+	print len(trainFeatures)
+	print type(trainFeatures)
+	print trainFeatures[0]
 
-	# print '\n\ntestfeats:'
-	# print testfeats[-1]
-	# print len(testfeats)
-	# print type(testfeats)
-	# print testfeats[0]
+	# print '\n\ntestFeatures:'
+	# print testFeatures[-1]
+	# print len(testFeatures)
+	# print type(testFeatures)
+	# print testFeatures[0]
 
-	classifier = NaiveBayesClassifier.train(trainfeats)
-	# classifier = MaxentClassifier.train(trainfeats)
-	# classifier = DecisionTreeClassifier.train(trainfeats)
+	classifier = NaiveBayesClassifier.train(trainFeatures)
+	# classifier = MaxentClassifier.train(trainFeatures)
+	# classifier = DecisionTreeClassifier.train(trainFeatures)
 
 	refsets = collections.defaultdict(set)
 	testsets = collections.defaultdict(set)
 	
-	for i, (feats, label) in enumerate(testfeats):
+	for i, (feats, label) in enumerate(testFeatures):
 			# print 'i = ' + str(i)
 			# print 'label = ' + str(label)
 			refsets[label].add(i)
@@ -137,17 +137,12 @@ def evaluate_classifier():
 	# print type(testsets)
 	# print testsets[0]
 
-	print 'accuracy:', nltk.classify.util.accuracy(classifier, testfeats)
+	print 'accuracy:', nltk.classify.util.accuracy(classifier, testFeatures)
 	print 'positive precision:', nltk.metrics.precision(refsets['pos'], testsets['pos'])
 	print 'positive recall:', nltk.metrics.recall(refsets['pos'], testsets['pos'])
 	print 'negative precision:', nltk.metrics.precision(refsets['neg'], testsets['neg'])
 	print 'negative recall:', nltk.metrics.recall(refsets['neg'], testsets['neg'])
 	classifier.show_most_informative_features()
-
-
-
-
-
 
 
 """
@@ -187,6 +182,7 @@ def getFeature(words, label):
 
 	# not helpful
 	lst = ['facebook', 'vehicl', 'disclaim', 'cost', 'appli', 'direct', 'court']
+	lst = ['facebook', 'vehicl', 'disclaim', 'cost', 'appli', 'direct', 'high court']
 	for s in lst:
 		features["count(%s)" % s] = words.count(s)
 
@@ -209,7 +205,6 @@ def getFeature(words, label):
 	# print len(words)
 	# head = words[:50].extend(words[-50:])
 	# print words
-	
 	# raise
 	for word in words:
 		if not isNumber(word):
@@ -217,13 +212,6 @@ def getFeature(words, label):
 			features[word] = True
 
 	features = (features, label)
-
-	# http://stackoverflow.com/questions/1024847/add-to-a-dictionary-in-python
-	# data = {'a':1,'b':2,'c':3}
-
-	# features = list(set(features))
-	# print features
-	# feature = dict([(ngram, True) for ngram in itertools.chain(words, bigrams)])
 	return features
 
 

@@ -74,6 +74,8 @@ def getBigram():
 		
 
 
+
+
 def gender_features(word):
 	return {'last_letter': word[-1]}
 # gender_features('Shrek')
@@ -93,6 +95,48 @@ def gender_features2(name):
 
 
 
+
+"""
+* @def name:		getNegativeFeatures()
+* @description:		This function removes stop words from content, handles stemming,
+*					 and writes to "tokens" column.
+* @related issues:	ITL-002
+* @param:			void
+* @return:			list negativeFeatures
+* @author:			Don Hsieh
+* @since:			03/18/2015
+* @last modified:	03/18/2015
+* @called by:		main
+*					 in python/bigram.py
+"""
+def getNegativeFeatures():
+	dbName = 'intelllex'
+	table = 'tokens'
+	fields = 'id, useful, content'
+	# where = None
+	where = '`useful` = 0 AND `content_len` > 5'
+	# where = '`useful` = 1'
+	rows = queryDB(dbName, table, fields, where)
+	negids = []
+	negativeFeatures = []
+	# raise
+	for row in rows:
+		negid = int(row[0])
+		negids.append(negid)
+
+		content = row[2]
+		words = tokenize(content)
+		# words = words[:800]
+		# words = words[:300]
+		feature = getFeature(words, 'neg')
+		negativeFeatures.append(feature)
+	return negativeFeatures
+
+
+
+
+
+
 import don
 
 
@@ -101,6 +145,9 @@ dbName = 'intelllex'
 # getBigram()
 timeStart = don.getNow()
 print "Start classifier: " + timeStart
+
+
+
 
 
 don.evaluate_classifier()
@@ -133,4 +180,4 @@ timeEnd = don.getNow()
 duration = don.timeDiff(timeStart, timeEnd)
 # print "Done"
 print 'Done: ' + timeEnd
-print 'Duration: ' + duration
+print 'Duration: ' + str(duration)
