@@ -170,11 +170,10 @@ def getPositiveFeatures():
 
 """
 * @def name:		buildLabelTable()
-* @description:		This function removes stop words from content, handles stemming,
-*					 and writes to "tokens" column.
+* @description:		This function builds "label" table.
 * @related issues:	ITL-002
 * @param:			void
-* @return:			list positiveFeatures
+* @return:			void
 * @author:			Don Hsieh
 * @since:			03/19/2015
 * @last modified:	03/19/2015
@@ -206,24 +205,72 @@ def buildLabelTable():
 
 
 
+"""
+* @def name:		annotateLabelTable()
+* @description:		This function annotates "label" table.
+* @related issues:	ITL-002
+* @param:			void
+* @return:			void
+* @author:			Don Hsieh
+* @since:			03/19/2015
+* @last modified:	03/19/2015
+* @called by:		main
+*					 in python/bayes.py
+"""
+def annotateLabelTable():
+	xls = '/var/www/intelllex/data/ITL-002_URL_20150319.xlsx'
+	rows = don.readXls(xls)
+	cases = []
+	for row in rows:
+		isCase = row[1]
+		if isCase is not None:
+			url = row[0]
+			cases.append([url.strip(), int(isCase)])
+	# print cases
+	# print len(cases)
 
+	dbName = 'intelllex'
+	table = 'label'
+	# fields = 'id, annotated, content, content_len, title, jurisdiction, createdAt'
+	fields = 'id, url'
 
-
-
+	# for case in cases:
+	for i, case in enumerate(cases):
+		url = case[0]
+		if len(url) > 400:
+			print url
+			print len(url)
+			raise
+		isCase = case[1]
+		# table = 'document2'
+		# fields = 'url, content, title'
+		fields = 'id, url'
+		where = '`url` = "' + url + '" LIMIT 1'
+		rows = don.queryDB(dbName, table, fields, where)
+		row = rows[0]
+		id = row[0]
+		# print url
+		# print rows
+		if id > 0:
+			fields = 'annotated, is_case, updatedAt'
+			lstArgs = [1, isCase, don.getNow()]
+			where = '`id`="' + str(id) + '"'
+			don.updateDB(dbName, table, fields, where, lstArgs)
+		if i % 25 == 0:
+			print str(i) + ' / ' + str(len(cases)) + '\t' + str(round(100.0 * i / len(cases), 2)) + '%' + '\t' + don.getNow()
 
 
 import don
 
 
-dbName = 'intelllex'
-# getContent()
-# getBigram()
+# dbName = 'intelllex'
 timeStart = don.getNow()
 print "Start classifier: " + timeStart
 
 
 
-buildLabelTable()
+# buildLabelTable()
+annotateLabelTable()
 
 # negativeFeatures = getNegativeFeatures()
 # positiveFeatures = getPositiveFeatures()
