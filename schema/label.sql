@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   `title` text,
   `jurisdiction` char(8),
   `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `url` (`url`(255)),
   KEY `annotated` (`annotated`),
