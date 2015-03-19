@@ -46,17 +46,6 @@ def getBigram():
 		print words
 		print len(words)
 
-		# don.evaluate_classifier()
-		# raise
-		# bcf = BigramCollocationFinder.from_words(words)
-		# bcf.apply_word_filter(filter_stopwords)
-		# bcf = BigramCollocationFinder.from_words(lst)
-		# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 10)
-		# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 50)
-		# print bcf.nbest(BigramAssocMeasures.chi_sq, 50)
-
-		# bigrams = don.getBigrams(words, 50)
-		# print bigrams
 		feature = don.getFeature(words, 50)
 		print feature
 		print len(feature)
@@ -110,6 +99,8 @@ import don
 dbName = 'intelllex'
 # getContent()
 # getBigram()
+timeStart = don.getNow()
+print "Start classifier: " + timeStart
 
 
 don.evaluate_classifier()
@@ -138,4 +129,8 @@ classifier.show_most_informative_features(5)
 # nltk.download()
 # raise
 
-print "Done"
+timeEnd = don.getNow()
+duration = don.timeDiff(timeStart, timeEnd)
+# print "Done"
+print 'Done: ' + timeEnd
+print 'Duration: ' + duration

@@ -31,7 +31,10 @@ import collections
 import nltk.classify.util, nltk.metrics
 from nltk.classify import NaiveBayesClassifier
 # from nltk.corpus import movie_reviews
-from nltk.classify import MaxentClassifier
+# from nltk.classify import MaxentClassifier
+# from nltk.classify import DecisionTreeClassifier
+import random
+
 
 """
 * @def name:		evaluate_classifier()
@@ -54,8 +57,6 @@ def evaluate_classifier():
 	where = '`useful` = 0 AND `content_len` > 5'
 	# where = '`useful` = 1'
 	rows = queryDB(dbName, table, fields, where)
-	# print rows
-	# print len(rows)
 	negids = []
 	negfeats = []
 	# raise
@@ -67,11 +68,8 @@ def evaluate_classifier():
 		words = tokenize(content)
 		# words = words[:800]
 		# words = words[:300]
-		# feature = getFeature(words, 50, 0)
-		# feature = getFeature(words, 50, 'neg')
 		feature = getFeature(words, 'neg')
 		negfeats.append(feature)
-		
 
 	posids = []
 	posfeats = []
@@ -84,56 +82,38 @@ def evaluate_classifier():
 		posids.append(posid)
 
 		content = row[2]
-		# words = tokenize(content)
 		words = tokenize(content)
-		# feature = getFeature(words, 50, 1)
-		# feature = getFeature(words, 50, 'pos')
 		feature = getFeature(words, 'pos')
 		posfeats.append(feature)
-
-
-
-
-	# print negids
-	# print posids
-	# print negfeats
-	# print posfeats
-	print len(negfeats)
-	print len(posfeats)
-	# raise
-
-
-	# negids = movie_reviews.fileids('neg')
-	# posids = movie_reviews.fileids('pos')
-
-	# negfeats = [(feature(movie_reviews.words(fileids=[f])), 'neg') for f in negids]
-	# posfeats = [(feature(movie_reviews.words(fileids=[f])), 'pos') for f in posids]
 
 	# negcutoff = int(floor(len(negfeats)*3/4))
 	# poscutoff = int(floor(len(posfeats)*3/4))
 	negcutoff = int(len(negfeats)*3/4)
 	poscutoff = int(len(posfeats)*3/4)
-	print negcutoff
-	print poscutoff
+	# print negcutoff
+	# print poscutoff
+	random.shuffle(negfeats)
+	random.shuffle(posfeats)
 
 	trainfeats = negfeats[:negcutoff] + posfeats[:poscutoff]
 	testfeats = negfeats[negcutoff:] + posfeats[poscutoff:]
 
-	# print trainfeats[0]
+	print trainfeats[0]
 	print trainfeats[-1]
 	print len(trainfeats)
 	print type(trainfeats)
 	print trainfeats[0]
 
-	print '\n\ntestfeats:'
-	print testfeats[-1]
-	print len(testfeats)
-	print type(testfeats)
-	print testfeats[0]
+	# print '\n\ntestfeats:'
+	# print testfeats[-1]
+	# print len(testfeats)
+	# print type(testfeats)
+	# print testfeats[0]
 
-	# classifier = NaiveBayesClassifier.train(trainfeats)
-	classifier = MaxentClassifier.train(trainfeats)
-	# classifier = NaiveBayesClassifier.train(trainfeats, 5)
+	classifier = NaiveBayesClassifier.train(trainfeats)
+	# classifier = MaxentClassifier.train(trainfeats)
+	# classifier = DecisionTreeClassifier.train(trainfeats)
+
 	refsets = collections.defaultdict(set)
 	testsets = collections.defaultdict(set)
 	
@@ -168,13 +148,15 @@ def evaluate_classifier():
 
 
 
+
+
 """
-* @def name:		getBigrams(words, count)
-* @description:		This function returns bigrams.
+* @def name:		getFeature(words, label)
+* @description:		This function returns features.
 * @related issues:	ITL-002
 * @param:			list words
-* @param:			integer count
-* @return:			list bigrams
+* @param:			string label
+* @return:			tuple features
 * @author:			Don Hsieh
 * @since:			03/18/2015
 * @last modified:	03/19/2015
@@ -186,28 +168,49 @@ def evaluate_classifier():
 # the first member of which is a feature dictionary, and the second of which is a classification label.
 # def getFeature(words, count, label):
 def getFeature(words, label):
-	count = 100		# accuracy: 0.946859903382
+	count = 30		# accuracy: 0.966183574879
+	# count = 50		# accuracy: 0.95652173913
+	# count = 100		# accuracy: 0.946859903382
 	# count = 150	# accuracy: 0.937198067633
 	# http://www.nltk.org/book/ch06.html
 	features = {}
 	# features = dict()
 	bcf = BigramCollocationFinder.from_words(words)
-	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 10)
-	# print bcf.nbest(BigramAssocMeasures.likelihood_ratio, 50)
-	# print bcf.nbest(BigramAssocMeasures.chi_sq, 50)
 	bigrams = bcf.nbest(BigramAssocMeasures.likelihood_ratio, count)	#accuracy: 0.946859903382
 	# bigrams = bcf.nbest(BigramAssocMeasures.chi_sq, count)			#accuracy: 0.642512077295
 	# print bigrams
 	# print len(bigrams)
-	
+
 	for bigram in bigrams:
-		# feature = {'bigram':bigram[0] + ' ' + bigram[1]}
 		s = bigram[0] + ' ' + bigram[1]
-		# features["has(%s)" % s] = True
 		features[s] = True
-	
+
+	# not helpful
+	lst = ['facebook', 'vehicl', 'disclaim', 'cost', 'appli', 'direct', 'court']
+	for s in lst:
+		features["count(%s)" % s] = words.count(s)
+
 	words = stopword(words)
-	words = words[:10]
+	words = words[:50]	#accuracy: 0.966183574879
+	# words = words[:100]	#accuracy: 0.966183574879
+	# head = words[:50]		#accuracy: 0.80193236715
+	# tail = words[-50:]
+	# head = words[:30]		#accuracy: 0.80193236715
+	# tail = words[-30:]
+	# head.extend(tail)	#accuracy: 0.966183574879
+	# words = list(set(head))	#accuracy: 0.966183574879
+	# words = head	#accuracy: 0.966183574879
+	# # head = words[:50]
+	# # tail = words[-50:]
+	# # print head
+	# # print tail
+	# # words = words[:50].extend(words[50:])	#accuracy: 0.966183574879
+		
+	# print len(words)
+	# head = words[:50].extend(words[-50:])
+	# print words
+	
+	# raise
 	for word in words:
 		if not isNumber(word):
 			# features["has(%s)" % word] = True
@@ -220,11 +223,8 @@ def getFeature(words, label):
 
 	# features = list(set(features))
 	# print features
-	# raise
 	# feature = dict([(ngram, True) for ngram in itertools.chain(words, bigrams)])
 	return features
-
-
 
 
 
@@ -279,6 +279,30 @@ def stemming(s):
 	s = snowball_stemmer.stem(s)
 	s = wordnet_lemmatizer.lemmatize(s)
 	return s
+
+
+
+
+"""
+* @def name:		timeDiff(start, end, format)
+* @description:		This function returns an object "duration" for time difference.
+* @related issues:	ITL-002
+* @param:			string start
+* @param:			string end
+* @param:			string format
+* @return:			object duration
+* @author:			Don Hsieh
+* @since:			03/19/2015
+* @last modified:	03/19/2015
+* @called by:		main
+*					 in python/bigram.py
+"""
+def timeDiff(start, end, format=None):
+	if format is None: format = '%Y/%m/%d %a %H:%M:%S'
+	startDateStruct = datetime.strptime(start, format)
+	endDateStruct = datetime.strptime(end, format)
+	duration = endDateStruct - startDateStruct
+	return duration
 
 
 """
