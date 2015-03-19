@@ -41,7 +41,7 @@ import random
 * @description:		This function returns bigrams.
 * @related issues:	ITL-002
 * @param:			void
-* @return:			void
+* @return:			object classifier
 * @author:			Don Hsieh
 * @since:			03/18/2015
 * @last modified:	03/19/2015
@@ -144,6 +144,7 @@ def evaluate_classifier(negativeFeatures, positiveFeatures):
 	print 'negative precision:', nltk.metrics.precision(refsets['neg'], testsets['neg'])
 	print 'negative recall:', nltk.metrics.recall(refsets['neg'], testsets['neg'])
 	classifier.show_most_informative_features()
+	return classifier
 
 
 """

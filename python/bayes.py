@@ -94,79 +94,6 @@ def gender_features2(name):
 	return features
 
 
-"""
-* @def name:		getNegativeFeatures()
-* @description:		This function removes stop words from content, handles stemming,
-*					 and writes to "tokens" column.
-* @related issues:	ITL-002
-* @param:			void
-* @return:			list negativeFeatures
-* @author:			Don Hsieh
-* @since:			03/19/2015
-* @last modified:	03/19/2015
-* @called by:		main
-*					 in python/bayes.py
-"""
-def getNegativeFeatures():
-	dbName = 'intelllex'
-	table = 'tokens'
-	fields = 'id, useful, content'
-	# where = None
-	where = '`useful` = 0 AND `content_len` > 5'
-	# where = '`useful` = 1'
-	rows = don.queryDB(dbName, table, fields, where)
-	# negids = []
-	negativeFeatures = []
-	# raise
-	for row in rows:
-		# negid = int(row[0])
-		# negids.append(negid)
-
-		content = row[2]
-		words = don.tokenize(content)
-		# words = words[:800]
-		# words = words[:300]
-		feature = don.getFeature(words, 'neg')
-		negativeFeatures.append(feature)
-	return negativeFeatures
-
-
-"""
-* @def name:		getPositiveFeatures()
-* @description:		This function removes stop words from content, handles stemming,
-*					 and writes to "tokens" column.
-* @related issues:	ITL-002
-* @param:			void
-* @return:			list positiveFeatures
-* @author:			Don Hsieh
-* @since:			03/19/2015
-* @last modified:	03/19/2015
-* @called by:		main
-*					 in python/bayes.py
-"""
-def getPositiveFeatures():
-	dbName = 'intelllex'
-	table = 'tokens'
-	fields = 'id, useful, content'
-	# where = None
-	where = '`useful` = 1 AND `content_len` > 5'
-	# where = '`useful` = 1'
-	rows = don.queryDB(dbName, table, fields, where)
-	# negids = []
-	positiveFeatures = []
-	# raise
-	for row in rows:
-		content = row[2]
-		words = don.tokenize(content)
-		# words = words[:800]
-		# words = words[:300]
-		feature = don.getFeature(words, 'pos')
-		positiveFeatures.append(feature)
-	return positiveFeatures
-
-
-
-
 
 """
 * @def name:		buildLabelTable()
@@ -260,6 +187,76 @@ def annotateLabelTable():
 			print str(i) + ' / ' + str(len(cases)) + '\t' + str(round(100.0 * i / len(cases), 2)) + '%' + '\t' + don.getNow()
 
 
+
+
+
+"""
+* @def name:		getFeatures(where, label)
+* @description:		This function removes stop words from content, handles stemming,
+*					 and writes to "tokens" column.
+* @related issues:	ITL-002
+* @param:			string where
+* @param:			string label
+* @return:			list features
+* @author:			Don Hsieh
+* @since:			03/19/2015
+* @last modified:	03/19/2015
+* @called by:		def getPositiveAndNegativeFeatures()
+*					 in python/bayes.py
+"""
+def getFeatures(where, label):
+	dbName = 'intelllex'
+	table = 'label'
+	# fields = 'id, useful, content'
+	fields = 'content, title, jurisdiction'
+
+	# where = '`useful` = 1 AND `content_len` > 5'
+	rows = don.queryDB(dbName, table, fields, where)
+	# negids = []
+	# positiveFeatures = []
+	features = []
+	# raise
+	for row in rows:
+		# content = row[2]
+		content = row[0]
+		words = don.tokenize(content)
+		# words = words[:800]
+		# words = words[:300]
+		# feature = don.getFeature(words, 'pos')
+		feature = don.getFeature(words, label)
+		# positiveFeatures.append(feature)
+		features.append(feature)
+	# return positiveFeatures
+	return features
+
+
+"""
+* @def name:		getPositiveFeatures()
+* @description:		This function removes stop words from content, handles stemming,
+*					 and writes to "tokens" column.
+* @related issues:	ITL-002
+* @param:			string where
+* @param:			string label
+* @return:			list features
+* @author:			Don Hsieh
+* @since:			03/19/2015
+* @last modified:	03/19/2015
+* @called by:		main
+*					 in python/bayes.py
+"""
+def getPositiveAndNegativeFeatures():
+	where = '`annotated` = 1 AND `is_case` = 1 AND `content_len` > 5'
+	label = 'pos'
+	positiveFeatures = getFeatures(where, label)
+
+	where = '`annotated` = 1 AND `is_case` = 0 AND `content_len` > 5'
+	label = 'neg'
+	negativeFeatures = getFeatures(where, label)
+	return (negativeFeatures, positiveFeatures)
+	# return (positiveFeatures, negativeFeatures)
+
+
+
 import don
 
 
@@ -270,13 +267,19 @@ print "Start classifier: " + timeStart
 
 
 # buildLabelTable()
-annotateLabelTable()
+# annotateLabelTable()
+# positiveFeatures, negativeFeatures = getPositiveAndNegativeFeatures()
+negativeFeatures, positiveFeatures = getPositiveAndNegativeFeatures()
+print len(positiveFeatures)
+print len(negativeFeatures)
+
 
 # negativeFeatures = getNegativeFeatures()
 # positiveFeatures = getPositiveFeatures()
 
 ## don.evaluate_classifier()
 # don.evaluate_classifier(negativeFeatures, positiveFeatures)
+classifier = don.evaluate_classifier(negativeFeatures, positiveFeatures)
 
 
 '''
