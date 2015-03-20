@@ -36,6 +36,10 @@ from nltk.classify import NaiveBayesClassifier
 import random
 
 
+
+
+
+
 """
 * @def name:		evaluate_classifier()
 * @description:		This function returns bigrams.
@@ -51,44 +55,6 @@ import random
 # http://streamhacker.com/2010/05/24/text-classification-sentiment-analysis-stopwords-collocations/
 # def evaluate_classifier():
 def evaluate_classifier(negativeFeatures, positiveFeatures):
-	# dbName = 'intelllex'
-	# table = 'tokens'
-	# fields = 'id, useful, content'
-	# # where = None
-	# where = '`useful` = 0 AND `content_len` > 5'
-	# # where = '`useful` = 1'
-	# rows = queryDB(dbName, table, fields, where)
-	# # negids = []
-	# negativeFeatures = []
-	# # raise
-	# for row in rows:
-	# 	# negid = int(row[0])
-	# 	negids.append(negid)
-
-	# 	content = row[2]
-	# 	words = tokenize(content)
-	# 	# words = words[:800]
-	# 	# words = words[:300]
-	# 	feature = getFeature(words, 'neg')
-	# 	negativeFeatures.append(feature)
-
-	# # posids = []
-	# positiveFeatures = []
-	# where = '`useful` = 1 AND `content_len` > 5'
-	# rows = queryDB(dbName, table, fields, where)
-	# # print rows
-	# # print len(rows)
-	# for row in rows:
-	# 	# posid = int(row[0])
-	# 	posids.append(posid)
-
-	# 	content = row[2]
-	# 	words = tokenize(content)
-	# 	feature = getFeature(words, 'pos')
-	# 	positiveFeatures.append(feature)
-
-	# negCutoff = int(floor(len(negativeFeatures)*3/4))
-	# posCutoff = int(floor(len(positiveFeatures)*3/4))
 	negCutoff = int(len(negativeFeatures)*3/4)
 	posCutoff = int(len(positiveFeatures)*3/4)
 	# print negCutoff
@@ -419,6 +385,90 @@ def neat(s):
 		#http://stackoverflow.com/questions/10993612/python-removing-xa0-from-string
 		s = s.strip(', _\t\n\r')
 	return s
+
+
+
+
+"""
+* @def name:		setTimeFormat(time, formatOld, format)
+* @description:		This function converts a data to new format.
+* @related issues:	ITL-002
+* @param:			string time
+* @param:			string formatOld
+* @param:			string format
+* @return:			string date
+* @author:			Don Hsieh
+* @since:			03/20/2015
+* @last modified:	03/20/2015
+* @called by:		def getHeader(issueId, jiraAuth)
+*					 in python/summary.py
+"""
+def setTimeFormat(time, formatOld, format):
+	dateStruct = datetime.strptime(time, formatOld)
+	#print dateStruct
+	date = dateStruct.strftime(format)
+	return date
+
+
+
+"""
+* @def name:		writeXls(xls, table, fields, names=None)
+* @description:		This function exports data from table to xls file.
+* @related issues:	ITL-002
+* @param:			string xls
+* @param:			string table
+* @param:			list fields
+* @param:			list names		first row in Excel file (Display column names)
+* @return:			void
+* @author:			Don Hsieh
+* @since:			03/20/2015
+* @last modified:	03/20/2015
+* @called by:		main
+*					 in seo/python/excel.py
+"""
+def writeXls(xls, rows, fields, names=None):
+	if names is None: names = fields
+	if isinstance(names, (basestring, unicode)): names = names.split(', ')
+
+	workbook = xlwt.Workbook()
+	sheet = workbook.add_sheet('case')
+	rows = queryDB('seo', table, fields)
+	cntInputSites = len(rows)
+	#print rows
+
+	col = 0
+	for name in names:
+		sheet.write(0, col, name)
+		col += 1
+
+	key = 1
+	for row in rows:
+		col = 0
+		for cell in row:
+			#cell = cutString(cell, 3000)
+			sheet.write(key, col, cell)
+			col += 1
+		key += 1
+
+
+	xlsName = xls.split('/')[-1]
+	inputName = xlsName.split('_')[-1]
+	print inputName
+	#xlsNameNew = xlsName.replace(inputName, table + '.xls')
+	#date = getNow('%Y-%m-%d')
+	date = getNow('%y%m%d')
+	xlsNameNew = 'SEO-30_' + str(cntInputSites) + '_sites_' + date + '.xls'
+	print xlsName
+	xls = xls.replace(xlsName, '[Don] ' + xlsNameNew)
+	#xls = xls.replace('.xlsx', '.xls')
+	print xls
+	#raise
+	workbook.save(xls)
+
+
+
+
+
 
 
 

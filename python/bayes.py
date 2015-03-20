@@ -8,6 +8,7 @@
 
 
 import nltk
+import xlrd
 
 """
 * @python name:		python/bayes.py
@@ -259,14 +260,44 @@ print "Start classifier: " + timeStart
 
 # buildLabelTable()
 # annotateLabelTable()
-negativeFeatures, positiveFeatures = getPositiveAndNegativeFeatures()
-# print len(negativeFeatures)
-# print len(positiveFeatures)
+# negativeFeatures, positiveFeatures = getPositiveAndNegativeFeatures()
+# classifier = don.evaluate_classifier(negativeFeatures, positiveFeatures)
+# classifyTestFeatures(classifier)
 
-## don.evaluate_classifier()
-# don.evaluate_classifier(negativeFeatures, positiveFeatures)
-classifier = don.evaluate_classifier(negativeFeatures, positiveFeatures)
-classifyTestFeatures(classifier)
+
+
+# xls = '/var/www/intelllex/data/ITL-002_URL_20150319.xlsx'
+xls = '/var/www/intelllex/data/ITL-002_URL_20150320_Don.xlsx'
+rows = don.readXls(xls)
+# print rows
+print len(rows)
+print rows[0]
+print rows[4]
+
+book = xlrd.open_workbook(xls)
+# [u'http://laws.justice.gc.ca/eng/regulations/C.R.C.,_c._710/index.html', 0.0, None, None, None, u'JX', 42072.0]
+# [u'http://laws.justice.gc.ca/eng/regulations/C.R.C.,_c._987/page-1.html', 1.0, None, None, None, u'JX', 42072.0]
+ # [u'https://www.gov.uk/government/publications/hmcts-spend-over-25000-2014', None, None, None, None, None, None]
+for i, row in enumerate(rows):
+	url = row[0]
+	case = row[1]
+	author = row[5]
+	date = row[6]
+	date2 = xlrd.xldate_as_tuple(date, book.datemode)
+	print date
+	print date2
+	print type(date2)
+	raise
+
+	now = don.getNow()
+	args = (url, 0, content, content_len, title, jurisdiction, now)
+	don.insertDB(dbName, table, fields, args)
+	if i % 500 == 0:
+		print str(i) + ' / ' + str(len(rows)) + '\t' + str(round(100.0 * i / len(rows), 2)) + '%' + '\t' + don.getNow()
+
+
+# fields = 'url, content, title, jurisdiction'
+# fields = ['URL', 'Useful?', None, None, 'Checked By', 'Last Mod']
 
 timeEnd = don.getNow()
 duration = don.timeDiff(timeStart, timeEnd)
