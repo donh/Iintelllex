@@ -386,7 +386,30 @@ def neat(s):
 		s = s.strip(', _\t\n\r')
 	return s
 
-
+"""
+* @def name:		setTimeFormat(time, formatOld, format)
+* @description:		This function converts a data to new format.
+* @related issues:	ITL-002
+* @param:			string time
+* @param:			string formatOld
+* @param:			string format
+* @return:			string date
+* @author:			Don Hsieh
+* @since:			03/20/2015
+* @last modified:	03/20/2015
+* @called by:		main
+*					 in python/bayes.py
+"""
+def getXlrdDate(dateXlrd, xls):
+	book = xlrd.open_workbook(xls)
+	date = xlrd.xldate_as_tuple(dateXlrd, book.datemode)
+	# print date
+	date = datetime(*date)
+	# print date
+	date = setTimeFormat(str(date), '%Y-%m-%d %H:%M:%S', '%Y/%m/%d')
+	# print date
+	# raise
+	return date
 
 
 """
@@ -400,8 +423,8 @@ def neat(s):
 * @author:			Don Hsieh
 * @since:			03/20/2015
 * @last modified:	03/20/2015
-* @called by:		def getHeader(issueId, jiraAuth)
-*					 in python/summary.py
+* @called by:		def getXlrdDate(dateXlrd, xls)
+*					 in python/don.py
 """
 def setTimeFormat(time, formatOld, format):
 	dateStruct = datetime.strptime(time, formatOld)
