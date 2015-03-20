@@ -44,7 +44,7 @@ import random
 * @return:			object classifier
 * @author:			Don Hsieh
 * @since:			03/18/2015
-* @last modified:	03/19/2015
+* @last modified:	03/20/2015
 * @called by:		def getBigram()
 *					 in wd/python/bigram.py
 """
@@ -99,11 +99,11 @@ def evaluate_classifier(negativeFeatures, positiveFeatures):
 	trainFeatures = negativeFeatures[:negCutoff] + positiveFeatures[:posCutoff]
 	testFeatures = negativeFeatures[negCutoff:] + positiveFeatures[posCutoff:]
 
-	print trainFeatures[0]
-	print trainFeatures[-1]
-	print len(trainFeatures)
-	print type(trainFeatures)
-	print trainFeatures[0]
+	# print trainFeatures[0]
+	# print trainFeatures[-1]
+	# print len(trainFeatures)
+	# print type(trainFeatures)
+	# print trainFeatures[0]
 
 	# print '\n\ntestFeatures:'
 	# print testFeatures[-1]
@@ -139,38 +139,52 @@ def evaluate_classifier(negativeFeatures, positiveFeatures):
 	# print testsets[0]
 
 	print 'accuracy:', nltk.classify.util.accuracy(classifier, testFeatures)
-	print 'positive precision:', nltk.metrics.precision(refsets['pos'], testsets['pos'])
-	print 'positive recall:', nltk.metrics.recall(refsets['pos'], testsets['pos'])
-	print 'negative precision:', nltk.metrics.precision(refsets['neg'], testsets['neg'])
-	print 'negative recall:', nltk.metrics.recall(refsets['neg'], testsets['neg'])
+	# print 'positive precision:', nltk.metrics.precision(refsets['pos'], testsets['pos'])
+	# print 'positive recall:', nltk.metrics.recall(refsets['pos'], testsets['pos'])
+	# print 'negative precision:', nltk.metrics.precision(refsets['neg'], testsets['neg'])
+	# print 'negative recall:', nltk.metrics.recall(refsets['neg'], testsets['neg'])
+	print 'positive precision:', nltk.metrics.precision(refsets[1], testsets[1])
+	print 'positive recall:', nltk.metrics.recall(refsets[1], testsets[1])
+	print 'negative precision:', nltk.metrics.precision(refsets[0], testsets[0])
+	print 'negative recall:', nltk.metrics.recall(refsets[0], testsets[0])
 	classifier.show_most_informative_features()
 	return classifier
 
 
 """
-* @def name:		getFeature(words, label)
-* @description:		This function returns features.
+* @def name:		getFeature(words)
+* @description:		This function returns feature containing unigram and bigram.
 * @related issues:	ITL-002
 * @param:			list words
-* @param:			string label
-* @return:			tuple features
+* @return:			dict features
 * @author:			Don Hsieh
 * @since:			03/18/2015
-* @last modified:	03/19/2015
-* @called by:		def getBigram()
-*					 in wd/python/bigram.py
+* @last modified:	03/20/2015
+* @called by:		def getFeatures(where, label)
+*					 in wd/python/bayes.py
 """
 # http://www.nltk.org/api/nltk.classify.html
 # train_toks (list(tuple(dict, str))) – Training data, represented as a list of pairs,
 # the first member of which is a feature dictionary, and the second of which is a classification label.
 # def getFeature(words, count, label):
-def getFeature(words, label):
+# def getFeature(words, label):
+def getFeature(words):
+	# print len(words)
+	if len(words) > 6000:
+		print 'words count: ' + str(len(words))
+		# words = words[:4000]
+	# if len(words) > 3000:
+	# 	print len(words)
+	# 	words = words[:3000]
+	# if len(words) > 10000:
+	# 	words = words[:10000]
+
 	count = 30		# accuracy: 0.966183574879
 	# count = 50		# accuracy: 0.95652173913
 	# count = 100		# accuracy: 0.946859903382
 	# count = 150	# accuracy: 0.937198067633
 	# http://www.nltk.org/book/ch06.html
-	features = {}
+	feature = {}
 	# features = dict()
 	bcf = BigramCollocationFinder.from_words(words)
 	bigrams = bcf.nbest(BigramAssocMeasures.likelihood_ratio, count)	#accuracy: 0.946859903382
@@ -180,13 +194,13 @@ def getFeature(words, label):
 
 	for bigram in bigrams:
 		s = bigram[0] + ' ' + bigram[1]
-		features[s] = True
+		feature[s] = True
 
 	# not helpful
-	lst = ['facebook', 'vehicl', 'disclaim', 'cost', 'appli', 'direct', 'court']
+	# lst = ['facebook', 'vehicl', 'disclaim', 'cost', 'appli', 'direct', 'court']
 	lst = ['facebook', 'vehicl', 'disclaim', 'cost', 'appli', 'direct', 'high court']
 	for s in lst:
-		features["count(%s)" % s] = words.count(s)
+		feature["count(%s)" % s] = words.count(s)
 
 	words = stopword(words)
 	words = words[:50]	#accuracy: 0.966183574879
@@ -211,10 +225,10 @@ def getFeature(words, label):
 	for word in words:
 		if not isNumber(word):
 			# features["has(%s)" % word] = True
-			features[word] = True
+			feature[word] = True
 
-	features = (features, label)
-	return features
+	# features = (features, label)
+	return feature
 
 
 
@@ -231,6 +245,15 @@ def getFeature(words, label):
 *					 in wd/python/bigram.py
 """
 def tokenize(s):
+	# if len(s) > 80000:
+	# 	print len(s)
+	# 	s = s[:80000]
+	if len(s) > 100000:
+		# print 'words count: ' + str(len(words))
+		print 'string length: ' + str(len(s))
+		# print len(s)
+		s = s[:100000]
+		print 'string length: ' + str(len(s))
 	s = s.encode('utf-8').strip().decode('ascii', 'ignore')
 	text = s.lower()
 	# s = don.neat(s)
@@ -240,7 +263,7 @@ def tokenize(s):
 		for word in nltk.word_tokenize(sent):
 			# s = neat(word)
 			s = word.strip(', _\t\n\r"()[]:/-.;`*')
-			if isinstance(s, (basestring, unicode)) and len(s) > 1 and '?' not in s and ')' not in s:
+			if isinstance(s, (basestring, unicode)) and len(s) > 1 and len(s) < 30 and '?' not in s and ')' not in s:
 				if s != "'s":
 					s = stemming(s)
 					lst.append(s)
@@ -487,8 +510,8 @@ def updateDB(dbName, table, fields, where, args):
 	values = '(' + values + ')'
 
 	sql = 'UPDATE ' + table + ' SET ' + fields + ' WHERE ' + where
-	print sql
-	print args
+	# print sql
+	# print args
 	rows = doSQL(dbName, table, sql, args)
 
 
