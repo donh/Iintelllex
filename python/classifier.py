@@ -168,6 +168,7 @@ def getContent():
 	rows = don.readXls(xls)
 	cases = []
 	# for row in rows:
+	args = None
 	for key, row in enumerate(rows):
 		# print row
 		# if key > 3: raise
@@ -196,12 +197,15 @@ def getContent():
 	# table = 'document2'
 	# fields = 'url, content, title, jurisdiction'
 
-	for case in cases:
+	# for case in cases:
+	for i, case in enumerate(cases):
 		url = case[0]
-		if len(url) > 300:
+		if len(url) > 350:
 			print url
 			print len(url)
-			# len(url) = 243
+			# len(url) = 319
+			# https://www.ato.gov.au/rates/schedule-11---tax-table-for-employment-termination-payments/?phttps:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.ato.gov.au/rates/schedule-11---tax-table-for-employment-termination-payments/=&page=2
+319
 			raise
 		isCase = case[1]
 		annotated = 0
@@ -209,30 +213,50 @@ def getContent():
 		annotator = case[2]
 		date = case[3]
 
-		table = 'document2'
-		fields = 'url, content, title, jurisdiction'
+		table = 'classifier'
+		fields = 'url'
 		where = '`url` = "' + url + '" LIMIT 1'
 		rows = don.queryDB(dbName, table, fields, where)
-		table = 'classifier'
-		if len(rows) > 0:
-			row = rows[0]
-			# content = row[1]
-			content = row[1].encode('utf-8').strip().decode('ascii', 'ignore')
-			content_len = len(content)
-			title = row[2].encode('utf-8').strip().decode('ascii', 'ignore')
-			jurisdiction = None
-			if row[3] is not None:
-				jurisdiction = row[3].encode('utf-8').strip().decode('ascii', 'ignore')
+		if len(rows) == 0:
+			table = 'document2'
+			fields = 'url, content, title, jurisdiction'
+			where = '`url` = "' + url + '" LIMIT 1'
+			rows = don.queryDB(dbName, table, fields, where)
+			table = 'classifier'
+			if len(rows) > 0:
+				row = rows[0]
+				# content = row[1]
+				content_len = 0
+				if isinstance(row[1], (basestring, unicode)):
+					# content = row[1].encode('utf-8').strip().decode('ascii', 'ignore')
+					content_len = len(row[1].encode('utf-8').strip().decode('ascii', 'ignore'))
+
+				title = ''
+				if isinstance(row[2], (basestring, unicode)):
+					title = row[2].encode('utf-8').strip().decode('ascii', 'ignore')
+
+				jurisdiction = ''
+				if row[3] is not None:
+					jurisdiction = row[3].encode('utf-8').strip().decode('ascii', 'ignore')
+				now = don.getNow()
+				fields = 'url, annotated, is_case, content_len, title, jurisdiction, annotator, date, createdAt'
+				args = (url, annotated, isCase, content_len, title, jurisdiction, annotator, date, now)
+			else:
+				content_len = 0
+				fields = 'url, annotated, is_case, content_len, annotator, date, createdAt'
+				args = (url, annotated, isCase, content_len, annotator, date, now)
+			# print args
+			# raise
+			don.insertDB(dbName, table, fields, args)
+		if i % 500 == 0:
+			# print str(i) + ' / ' + str(len(rows)) + '\t' + str(round(100.0 * i / len(rows), 2)) + '%' + '\t' + don.getNow()
+			print str(i) + ' / ' + str(len(cases)) + '\t' + str(round(100.0 * i / len(cases), 2)) + '%' + '\t' + don.getNow()
 			now = don.getNow()
-			fields = 'url, annotated, is_case, content_len, title, jurisdiction, annotator, date, createdAt'
-			args = (url, annotated, isCase, content_len, title, jurisdiction, annotator, date, now)
-		else:
-			content_len = 0
-			fields = 'url, annotated, is_case, content_len, annotator, date, createdAt'
-			args = (url, annotated, isCase, content_len, annotator, date, now)
-		# print args
-		# raise
-		don.insertDB(dbName, table, fields, args)
+			duration = don.timeDiff(timeStart, now)
+			print now + '\t\t' + 'Elapsed: ' + str(duration)
+			if args is not None: print args
+
+
 
 
 

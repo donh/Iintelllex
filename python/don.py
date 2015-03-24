@@ -406,6 +406,10 @@ def getXlrdDate(dateXlrd):
 	else:
 		# book = xlrd.open_workbook(xls)
 		# date = xlrd.xldate_as_tuple(dateXlrd, book.datemode)
+		# print book.datemode	#0
+		# print xlrd.open_workbook('/var/www/intelllex/data/ITL-002_URL_20150319.xlsx').datemode
+		# raise
+		# date = xlrd.xldate_as_tuple(dateXlrd, book.datemode)
 		date = xlrd.xldate_as_tuple(dateXlrd, 0)
 		# print date
 		date = datetime(*date)
