@@ -15,140 +15,6 @@
 * @last modified:	03/18/2015
 * @called by:
 """
-# from nltk.collocations import BigramAssocMeasures, BigramCollocationFinder
-
-"""
-* @def name:		getBigram()
-* @description:		This function removes stop words from content, handles stemming,
-*					 and writes to "tokens" column.
-* @related issues:	ITL-002
-* @param:			void
-* @return:			void
-* @author:			Don Hsieh
-* @since:			03/18/2015
-* @last modified:	03/18/2015
-* @called by:		main
-*					 in python/classifier.py
-"""
-def getBigram():
-	table = 'tokens'
-	fields = 'id, content'
-	# where = '`url` = "' + url + '" LIMIT 1'
-	where = None
-	rows = don.queryDB(dbName, table, fields, where)
-	# print rows
-	print len(rows)
-	for row in rows:
-		id = row[0]
-		content = row[1]
-
-		words = don.tokenize(content)
-		print words
-		print len(words)
-
-		feature = don.getFeature(words, 50)
-		print feature
-		print len(feature)
-		raise
-
-		tokens = []
-		for s in lst:
-			if isinstance(s, (basestring, unicode)):
-				s = s.strip(', _\t\n\r"()[]:/-.;`*')
-				# if len(s) > 2 and '?' not in s and ')' not in s and '$' not in s:
-				if len(s) > 2 and '?' not in s and ')' not in s and not don.isNumber(s):
-					# s = snowball_stemmer.stem(s)
-					# s = wordnet_lemmatizer.lemmatize(s)
-					s = don.stemming(s)
-					tokens.append(s)
-		tokens = list(set(tokens))
-		tokens.sort()
-		tokens = ' '.join(tokens)
-		tokens_len = len(tokens)
-
-		fields = 'tokens, tokens_len, updatedAt'
-		# args = (stop, token_len, don.getNow())
-		lstArgs = [tokens, tokens_len, don.getNow()]
-		where = '`id`="' + str(id) + '"'
-		don.updateDB(dbName, table, fields, where, lstArgs)
-		
-
-
-
-
-
-"""
-* @def name:		getNegativeFeatures()
-* @description:		This function removes stop words from content, handles stemming,
-*					 and writes to "tokens" column.
-* @related issues:	ITL-002
-* @param:			void
-* @return:			list negativeFeatures
-* @author:			Don Hsieh
-* @since:			03/19/2015
-* @last modified:	03/19/2015
-* @called by:		main
-*					 in python/classifier.py
-"""
-def getNegativeFeatures():
-	dbName = 'intelllex'
-	table = 'tokens'
-	fields = 'id, useful, content'
-	# where = None
-	where = '`useful` = 0 AND `content_len` > 5'
-	# where = '`useful` = 1'
-	rows = don.queryDB(dbName, table, fields, where)
-	# negids = []
-	negativeFeatures = []
-	# raise
-	for row in rows:
-		# negid = int(row[0])
-		# negids.append(negid)
-
-		content = row[2]
-		words = don.tokenize(content)
-		# words = words[:800]
-		# words = words[:300]
-		feature = don.getFeature(words, 'neg')
-		negativeFeatures.append(feature)
-	return negativeFeatures
-
-
-"""
-* @def name:		getPositiveFeatures()
-* @description:		This function removes stop words from content, handles stemming,
-*					 and writes to "tokens" column.
-* @related issues:	ITL-002
-* @param:			void
-* @return:			list positiveFeatures
-* @author:			Don Hsieh
-* @since:			03/19/2015
-* @last modified:	03/19/2015
-* @called by:		main
-*					 in python/classifier.py
-"""
-def getPositiveFeatures():
-	dbName = 'intelllex'
-	table = 'tokens'
-	fields = 'id, useful, content'
-	# where = None
-	where = '`useful` = 1 AND `content_len` > 5'
-	# where = '`useful` = 1'
-	rows = don.queryDB(dbName, table, fields, where)
-	# negids = []
-	positiveFeatures = []
-	# raise
-	for row in rows:
-		content = row[2]
-		words = don.tokenize(content)
-		# words = words[:800]
-		# words = words[:300]
-		feature = don.getFeature(words, 'pos')
-		positiveFeatures.append(feature)
-	return positiveFeatures
-
-
-
 
 
 """
@@ -261,6 +127,130 @@ def getContent():
 
 
 
+"""
+* @def name:		getFeatures(where, label)
+* @description:		This function removes stop words from content, handles stemming,
+*					 and writes to "tokens" column.
+* @related issues:	ITL-002
+* @param:			string where
+* @param:			string label
+* @return:			list features
+* @author:			Don Hsieh
+* @since:			03/19/2015
+* @last modified:	03/20/2015
+* @called by:		def getPositiveAndNegativeFeatures()
+*					 in python/classifier.py
+"""
+def getFeatures(where, label):
+	dbName = 'intelllex'
+	# table = 'label'
+	table = 'classifier'
+	# fields = 'id, useful, content'
+	# fields = 'content, title, jurisdiction'
+	# fields = 'url, content_len, title, jurisdiction'
+	fields = 'url, title, jurisdiction'
+
+	# where = '`useful` = 1 AND `content_len` > 5'
+	rows = don.queryDB(dbName, table, fields, where)
+	# negids = []
+	# positiveFeatures = []
+	features = []
+	# raise
+	for row in rows:
+		# content = row[2]
+		url = row[0]
+		table = 'document2'
+		fields = 'content'
+		where = '`url` = "' + url + '" LIMIT 1'
+		rows = don.queryDB(dbName, table, fields, where)
+		if len(rows) > 0:
+			row = rows[0]
+			content = row[0]
+			# content_len = row[1]
+			words = don.tokenize(content)
+			# words = words[:800]
+			# words = words[:300]
+			# feature = don.getFeature(words, label)
+			feature = don.getFeature(words)
+			# positiveFeatures.append(feature)
+			# features.append(feature)
+			features.append((feature, label))
+	# return positiveFeatures
+	return features
+
+
+"""
+* @def name:		getPositiveAndNegativeFeatures()
+* @description:		This function gets annotated positive and negative features for training classifier.
+* @related issues:	ITL-002
+* @param:			void
+* @return:			tuple (negativeFeatures, positiveFeatures)
+* @author:			Don Hsieh
+* @since:			03/19/2015
+* @last modified:	03/19/2015
+* @called by:		main
+*					 in python/classifier.py
+"""
+def getPositiveAndNegativeFeatures():
+	where = '`annotated` = 1 AND `is_case` = 1 AND `content_len` > 5'
+	label = 1
+	positiveFeatures = getFeatures(where, label)
+
+	where = '`annotated` = 1 AND `is_case` = 0 AND `content_len` > 5'
+	label = 0
+	negativeFeatures = getFeatures(where, label)
+	return (negativeFeatures, positiveFeatures)
+
+
+
+
+
+
+"""
+* @def name:		classifyTestFeatures(classifier)
+* @description:		This function gets unlabeled features for testing.
+* @related issues:	ITL-002
+* @param:			object classifier
+* @return:			void
+* @author:			Don Hsieh
+* @since:			03/20/2015
+* @last modified:	03/20/2015
+* @called by:		main
+*					 in python/classifier.py
+"""
+def classifyTestFeatures(classifier):
+	dbName = 'intelllex'
+	# table = 'label'
+	table = 'classifier'
+	fields = 'id, content, title, jurisdiction'
+	where = '`annotated` = 0 AND `is_case` IS NULL AND `content_len` > 5'
+	rows = don.queryDB(dbName, table, fields, where)
+	print len(rows)
+	# for row in rows:
+	fields = 'annotated, is_case, updatedAt'
+	for key, row in enumerate(rows):
+		id = row[0]
+		content = row[1]
+		words = don.tokenize(content)
+		feature = don.getFeature(words)
+		# print feature
+		observed = classifier.classify(feature)
+		# print observed
+		# print(nltk.classify.accuracy(classifier, feature))
+		# # 0.758
+		# classifier.show_most_informative_features(5)
+	
+		lstArgs = [0, observed, don.getNow()]
+		where = '`id`="' + str(id) + '"'
+		don.updateDB(dbName, table, fields, where, lstArgs)
+
+		if key % 500 == 0:
+			print str(key) + ' / ' + str(len(rows)) + '\t' + str(round(100.0 * key / len(rows), 2)) + '%'
+			print feature
+			print observed
+			now = don.getNow()
+			duration = don.timeDiff(timeStart, now)
+			print now + '\t\t' + 'Elapsed: ' + str(duration)
 
 
 
@@ -272,16 +262,12 @@ import don
 
 dbName = 'intelllex'
 timeStart = don.getNow()
-getContent()
-# getBigram()
-
 print "Start classifier: " + timeStart
+# getContent()
 
-# negativeFeatures = getNegativeFeatures()
-# positiveFeatures = getPositiveFeatures()
-
-
-# don.evaluate_classifier(negativeFeatures, positiveFeatures)
+negativeFeatures, positiveFeatures = getPositiveAndNegativeFeatures()
+classifier = don.evaluate_classifier(negativeFeatures, positiveFeatures)
+# classifyTestFeatures(classifier)
 
 
 timeEnd = don.getNow()
