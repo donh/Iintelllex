@@ -173,6 +173,8 @@ def getContent():
 		# print row
 		# if key > 3: raise
 		url = row[0].strip()
+		# lst = url.split('http')
+		# url = 'http' + lst[-1]
 		annotator = None
 		# annotator = row[4].strip()
 		isCase = None
@@ -201,11 +203,11 @@ def getContent():
 	for i, case in enumerate(cases):
 		url = case[0]
 		if len(url) > 350:
+		# if len(url) > 50:
 			print url
 			print len(url)
 			# len(url) = 319
 			# https://www.ato.gov.au/rates/schedule-11---tax-table-for-employment-termination-payments/?phttps:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.https:/www.ato.gov.au/rates/schedule-11---tax-table-for-employment-termination-payments/=&page=2
-319
 			raise
 		isCase = case[1]
 		annotated = 0
