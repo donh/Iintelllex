@@ -36,16 +36,40 @@ from nltk.classify import NaiveBayesClassifier
 import random
 
 
-
-
+"""
+* @def name:		getClassifier(negativeFeatures, positiveFeatures)
+* @description:		This function returns bigrams.
+* @related issues:	ITL-002
+* @param:			list negativeFeatures
+* @param:			list positiveFeatures
+* @return:			object classifier
+* @author:			Don Hsieh
+* @since:			03/24/2015
+* @last modified:	03/24/2015
+* @called by:		main
+*					 in wd/python/classifier.py
+"""
+# http://streamhacker.com/2010/05/24/text-classification-sentiment-analysis-stopwords-collocations/
+# def evaluate_classifier():
+def getClassifier(negativeFeatures, positiveFeatures):
+	# negCutoff = int(len(negativeFeatures)*3/4)
+	# posCutoff = int(len(positiveFeatures)*3/4)
+	# random.shuffle(negativeFeatures)
+	# random.shuffle(positiveFeatures)
+	# trainFeatures = negativeFeatures[:negCutoff] + positiveFeatures[:posCutoff]
+	# testFeatures = negativeFeatures[negCutoff:] + positiveFeatures[posCutoff:]
+	trainFeatures = negativeFeatures + positiveFeatures
+	classifier = NaiveBayesClassifier.train(trainFeatures)
+	return classifier
 
 
 """
-* @def name:		evaluate_classifier()
+* @def name:		evaluate_classifier(negativeFeatures, positiveFeatures)
 * @description:		This function returns bigrams.
 * @related issues:	ITL-002
-* @param:			void
-* @return:			object classifier
+* @param:			list negativeFeatures
+* @param:			list positiveFeatures
+* @return:			void
 * @author:			Don Hsieh
 * @since:			03/18/2015
 * @last modified:	03/20/2015
@@ -114,7 +138,7 @@ def evaluate_classifier(negativeFeatures, positiveFeatures):
 	print 'negative precision:', nltk.metrics.precision(refsets[0], testsets[0])
 	print 'negative recall:', nltk.metrics.recall(refsets[0], testsets[0])
 	classifier.show_most_informative_features()
-	return classifier
+	# return classifier
 
 
 """

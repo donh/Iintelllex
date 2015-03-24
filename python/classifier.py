@@ -222,38 +222,44 @@ def classifyTestFeatures(classifier):
 	dbName = 'intelllex'
 	# table = 'label'
 	table = 'classifier'
-	fields = 'id, content, title, jurisdiction'
+	# fields = 'id, content, title, jurisdiction'
+	fields = 'id, url, title, jurisdiction'
 	where = '`annotated` = 0 AND `is_case` IS NULL AND `content_len` > 5'
 	rows = don.queryDB(dbName, table, fields, where)
 	print len(rows)
 	# for row in rows:
-	fields = 'annotated, is_case, updatedAt'
 	for key, row in enumerate(rows):
 		id = row[0]
-		content = row[1]
-		words = don.tokenize(content)
-		feature = don.getFeature(words)
-		# print feature
-		observed = classifier.classify(feature)
-		# print observed
-		# print(nltk.classify.accuracy(classifier, feature))
-		# # 0.758
-		# classifier.show_most_informative_features(5)
-	
-		lstArgs = [0, observed, don.getNow()]
-		where = '`id`="' + str(id) + '"'
-		don.updateDB(dbName, table, fields, where, lstArgs)
+		url = row[1]
+		table = 'document2'
+		fields = 'content'
+		where = '`url` = "' + url + '" LIMIT 1'
+		results = don.queryDB(dbName, table, fields, where)
+		if len(results) > 0:
+			result = results[0]
+			content = result[0]
+			words = don.tokenize(content)
+			feature = don.getFeature(words)
+			# print feature
+			observed = classifier.classify(feature)
+			# print observed
+			# print(nltk.classify.accuracy(classifier, feature))
+			# # 0.758
+			# classifier.show_most_informative_features(5)
+		
+			lstArgs = [0, observed, don.getNow()]
+			table = 'classifier'
+			fields = 'annotated, is_case, updatedAt'
+			where = '`id`="' + str(id) + '"'
+			don.updateDB(dbName, table, fields, where, lstArgs)
 
-		if key % 500 == 0:
-			print str(key) + ' / ' + str(len(rows)) + '\t' + str(round(100.0 * key / len(rows), 2)) + '%'
-			print feature
-			print observed
-			now = don.getNow()
-			duration = don.timeDiff(timeStart, now)
-			print now + '\t\t' + 'Elapsed: ' + str(duration)
-
-
-
+			if key % 500 == 0:
+				print str(key) + ' / ' + str(len(rows)) + '\t' + str(round(100.0 * key / len(rows), 2)) + '%'
+				print feature
+				print observed
+				now = don.getNow()
+				duration = don.timeDiff(timeStart, now)
+				print now + '\t\t' + 'Elapsed: ' + str(duration)
 
 
 
@@ -266,8 +272,13 @@ print "Start classifier: " + timeStart
 # getContent()
 
 negativeFeatures, positiveFeatures = getPositiveAndNegativeFeatures()
-classifier = don.evaluate_classifier(negativeFeatures, positiveFeatures)
-# classifyTestFeatures(classifier)
+don.evaluate_classifier(negativeFeatures, positiveFeatures)
+classifier = don.getClassifier(negativeFeatures, positiveFeatures)
+now = don.getNow()
+duration = don.timeDiff(timeStart, now)
+print now + '\t\t' + 'Elapsed: ' + str(duration)
+
+classifyTestFeatures(classifier)
 
 
 timeEnd = don.getNow()
