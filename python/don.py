@@ -17,6 +17,7 @@ import MySQLdb
 from datetime import datetime
 import xlrd
 from xlrd import XLRDError
+import xlwt
 import re
 
 import nltk
@@ -465,7 +466,6 @@ def setTimeFormat(time, formatOld, format):
 	return date
 
 
-
 """
 * @def name:		writeXls(xls, table, fields, names=None)
 * @description:		This function exports data from table to xls file.
@@ -477,23 +477,22 @@ def setTimeFormat(time, formatOld, format):
 * @return:			void
 * @author:			Don Hsieh
 * @since:			03/20/2015
-* @last modified:	03/20/2015
+* @last modified:	03/25/2015
 * @called by:		main
-*					 in seo/python/excel.py
+*					 in python/excel.py
 """
-def writeXls(xls, rows, fields, names=None):
-	if names is None: names = fields
-	if isinstance(names, (basestring, unicode)): names = names.split(', ')
+def writeXls(xls, rows, fields):
+	if isinstance(fields, (basestring, unicode)): fields = fields.split(', ')
 
 	workbook = xlwt.Workbook()
 	sheet = workbook.add_sheet('case')
-	rows = queryDB('seo', table, fields)
-	cntInputSites = len(rows)
+	# rows = queryDB('seo', table, fields)
+	# cntInputSites = len(rows)
 	#print rows
 
 	col = 0
-	for name in names:
-		sheet.write(0, col, name)
+	for field in fields:
+		sheet.write(0, col, field)
 		col += 1
 
 	key = 1
@@ -506,17 +505,18 @@ def writeXls(xls, rows, fields, names=None):
 		key += 1
 
 
-	xlsName = xls.split('/')[-1]
-	inputName = xlsName.split('_')[-1]
-	print inputName
-	#xlsNameNew = xlsName.replace(inputName, table + '.xls')
-	#date = getNow('%Y-%m-%d')
-	date = getNow('%y%m%d')
-	xlsNameNew = 'SEO-30_' + str(cntInputSites) + '_sites_' + date + '.xls'
-	print xlsName
-	xls = xls.replace(xlsName, '[Don] ' + xlsNameNew)
-	#xls = xls.replace('.xlsx', '.xls')
-	print xls
+	# xlsName = xls.split('/')[-1]
+	# inputName = xlsName.split('_')[-1]
+	# print inputName
+	# #xlsNameNew = xlsName.replace(inputName, table + '.xls')
+	# #date = getNow('%Y-%m-%d')
+	# date = getNow('%y%m%d')
+	# # xlsNameNew = 'ITL-002_URL_' + str(cntInputSites) + '_cases_' + date + '.xls'
+	# xlsNameNew = 'ITL-002_URL_' + date + '_Don.xls'
+	# print xlsName
+	# xls = xls.replace(xlsName, '[Don] ' + xlsNameNew)
+	# #xls = xls.replace('.xlsx', '.xls')
+	# print xls
 	#raise
 	workbook.save(xls)
 

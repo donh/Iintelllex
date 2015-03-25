@@ -262,24 +262,82 @@ def classifyTestFeatures(classifier):
 				print now + '\t\t' + 'Elapsed: ' + str(duration)
 
 
+"""
+* @def name:		exportToExcel()
+* @description:		This function gets unlabeled features for testing.
+* @related issues:	ITL-002
+* @param:			object classifier
+* @return:			void
+* @author:			Don Hsieh
+* @since:			03/20/2015
+* @last modified:	03/20/2015
+* @called by:		main
+*					 in python/classifier.py
+"""
+def exportToExcel():
+	# xls = '/var/www/intelllex/data/ITL-002_URL_20150325_Don.xlsx'
+	dbName = 'intelllex'
+	table = 'classifier'
+	fields = 'url, is_case, content_len, jurisdiction, annotator, date'
+	# where = '`annotated` = 0 AND `is_case` IS NULL AND `content_len` > 5'
+	where = None
+	rows = don.queryDB(dbName, table, fields, where)
+	# print rows
+	# print len(rows)
+	# raise
+
+	args = []
+	today = don.getNow('%Y/%m/%d')
+	for i, row in enumerate(rows):
+		url = row[0]
+		case = 'no_content'
+		if row[1] is not None: case = row[1]
+		content_len = int(row[2])
+		# content_len = str(int(row[2]))
+		jurisdiction = row[3]
+		annotator = 'Don'
+		if row[4] is not None: annotator = row[4]
+		date = today
+		if row[5] is not None: date = row[5]
+		arg = (url, case, content_len, jurisdiction, annotator, date)
+		args.append(arg)
+		# don.insertDB(dbName, table, fields, args)
+		# if i % 500 == 0:
+		# 	print str(i) + ' / ' + str(len(rows)) + '\t' + str(round(100.0 * i / len(rows), 2)) + '%' + '\t' + don.getNow()
+
+	# print rows
+	print rows[0]
+	print rows[-1]
+	print len(rows)
+	# raise
+
+	date = don.getNow('%Y%m%d')
+	# xls = '/var/www/intelllex/data/ITL-002_URL_' + date + '_Don.xls'
+	xls = '/var/www/intelllex/data/URL_' + date + '_Don.xls'
+	fields = ['URL', 'Case', 'Content Length', 'Jurisdiction', 'Annotator', 'Last Mod']
+	don.writeXls(xls, args, fields)
+
+
+
+
+
+
 
 import don
-
-
 dbName = 'intelllex'
 timeStart = don.getNow()
 print "Start classifier: " + timeStart
 # getContent()
 
-negativeFeatures, positiveFeatures = getPositiveAndNegativeFeatures()
-don.evaluate_classifier(negativeFeatures, positiveFeatures)
-classifier = don.getClassifier(negativeFeatures, positiveFeatures)
-now = don.getNow()
-duration = don.timeDiff(timeStart, now)
-print now + '\t\t' + 'Elapsed: ' + str(duration)
+# negativeFeatures, positiveFeatures = getPositiveAndNegativeFeatures()
+# don.evaluate_classifier(negativeFeatures, positiveFeatures)
+# classifier = don.getClassifier(negativeFeatures, positiveFeatures)
+# now = don.getNow()
+# duration = don.timeDiff(timeStart, now)
+# print now + '\t\t' + 'Elapsed: ' + str(duration)
 
-classifyTestFeatures(classifier)
-
+# classifyTestFeatures(classifier)
+exportToExcel()
 
 timeEnd = don.getNow()
 duration = don.timeDiff(timeStart, timeEnd)
