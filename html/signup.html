@@ -6,15 +6,19 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<!-- <link rel="stylesheet" href="./css/styles.css"/> -->
 	<!-- <link rel="stylesheet" href="/css/style.css"/> -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script> -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular-route.min.js"></script>
 </head>
 <body ng-controller="AppController">
 	<div class="form-horizontal">
 		<div class="form-group">
 			<label for="inputType" class="col-md-2 control-label">User</label>
 			<div class="col-md-3 btn-group" role="group" aria-label="...">
-				<button id="form-choice-student" type="button" class="btn btn-success">Student</button>
-				<button id="form-choice-practictioner" type="button" class="btn btn-success">Practictioner</button>
+				<!-- <button id="form-choice-student" type="button" class="btn btn-success" ng-click="setStudent()">Student</button> -->
+				<button id="form-choice-student" type="button" class="btn btn-success" ng-click="setUserType('student')">Student</button>
+				<!-- <button id="form-choice-practictioner" type="button" class="btn btn-success">Practictioner</button> -->
+				<button id="form-choice-practictioner" type="button" class="btn btn-success" ng-click="setUserType('practictioner')">Practictioner</button>
 			</div>
 		</div>
 		<form class="form-horizontal" role="form" id="student-form">

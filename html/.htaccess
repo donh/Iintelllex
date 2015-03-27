@@ -1,8 +1,8 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-RewriteRule  ^/js/(.*)\.js$ assets/js/$1
-RewriteRule  ^/css/(.*)\.css$ assets/css/$1
+#RewriteRule  ^/js/(.*)\.js$ assets/js/$1
+#RewriteRule  ^/css/(.*)\.css$ assets/css/$1
 
 #RewriteCond   %{HTTP_HOST}  \.intelllex\.com$
 #RewriteRule  ^/css/(.*)$ assets/css/$1
