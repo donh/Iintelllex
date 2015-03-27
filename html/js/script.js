@@ -81,13 +81,16 @@ $(function() {
 
 jQuery(function() {
     var yearDropdownHtml = "<li role='resentation'><a role='menuitem' tabindex='-1' value='-'>-</a></li>";
-    for(var i=1900;i<=2020;i++){
+    // for(var i=1900;i<=2020;i++){
+    for(var i=1990;i<=2020;i++){
+        // yearDropdownHtml+="<li role='resentation'><a ng-click='setYear(" + i + ")' role='menuitem' tabindex='-1' value='"+i+"'>"+i+"</a></li>"
         yearDropdownHtml+="<li role='resentation'><a role='menuitem' tabindex='-1' value='"+i+"'>"+i+"</a></li>"
     }
     jQuery(".year-dropdown-menu").html(yearDropdownHtml);
     var monthDropdownHtml = "<li role='resentation'><a role='menuitem' tabindex='-1' value='-'>-</a></li>";
     var months =["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     for(var i=1;i<=12;i++){
+        // monthDropdownHtml+="<li role='resentation'><a ng-click='setMonth(" + i + ")' role='menuitem' tabindex='-1' value='"+i+"'>"+months[i-1]+"</a></li>"
         monthDropdownHtml+="<li role='resentation'><a role='menuitem' tabindex='-1' value='"+i+"'>"+months[i-1]+"</a></li>"
     }
     jQuery(".month-dropdown-menu").html(monthDropdownHtml);

@@ -45,7 +45,28 @@ var itApp = angular.module('itApp', ['ngRoute']);
 itApp.controller('AppController', function ($scope, $routeParams, $http, $window, $document, $compile, $location) {
 	$scope.$location = $location;
 	$scope.$path = $location.$$path;
-	$scope.userType = false;
+	$scope.studentShow = false;
+	$scope.practictionerShow = false;
+
+	$scope.user = {
+		// firstName: '',
+		// lastName: '',
+		// username: '',
+		// password: '',
+		// password_confirmation: '',
+		// email: '',
+		photo: '',
+		institution: '',
+		graduationYear: '',
+		company: '',
+		supervisor: '',
+		competition: '',
+		result: '',
+		publicationName: '',
+		publicationType: '',
+		publicationUrl: '',
+		publicationCitation: '',
+	};
 
 	/**
 	 * @function name:	$scope.setUserType = function(userType)
@@ -81,4 +102,73 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			// $scope.PractictionerShow = false;
 		}
 	};
+
+
+	/**
+	 * @function name:	signup = function (user)
+	 * @description:	This function submits user password reset request.
+	 * @related issues:	ITL-003
+	 * @param:			object user
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/27/2015
+	 * @last modified: 	03/27/2015
+	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
+	 *					 in php/public/index.html
+	 *					 in php/public/templates/signup.html
+	 */
+	$scope.signup = function (user)
+	{
+		console.log('user =', user);
+		// if (user.noweddingdate) user.weddingDate = '';
+		// // console.log('user.weddingDate =', user.weddingDate);
+		// user.url = $location.url();
+		// $http.post('/api/signup', user)
+		// 	.success(function(data, status, headers, config) {
+		// 		// console.log('data =', data);
+		// 		$scope.setMessages(data.messages);
+		// 	})
+		// 	.error(function(data, status, headers, config) {
+		// 		$scope.status = status;
+		// 	});
+	};
+
+
+
+	/**
+	 * @function name:	signup = function (user)
+	 * @description:	This function submits user password reset request.
+	 * @related issues:	ITL-003
+	 * @param:			object user
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/27/2015
+	 * @last modified: 	03/27/2015
+	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
+	 *					 in php/public/index.html
+	 *					 in php/public/templates/signup.html
+	 */
+	// $scope.setYear = function (year)
+	// {
+	// 	console.log('year =', year);
+	// };
+
+	/**
+	 * @function name:	signup = function (user)
+	 * @description:	This function submits user password reset request.
+	 * @related issues:	ITL-003
+	 * @param:			object user
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/27/2015
+	 * @last modified: 	03/27/2015
+	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
+	 *					 in php/public/index.html
+	 *					 in php/public/templates/signup.html
+	 */
+	// $scope.setMonth = function (month)
+	// {
+	// 	console.log('month =', month);
+	// };
+
 });
