@@ -1,4 +1,3 @@
-<div>test 2015</div>
-<?
+<?php
 phpinfo();
 ?>
