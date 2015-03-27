@@ -101,14 +101,14 @@ jQuery(function() {
             );
     });
 
-    jQuery("#form-choice-practictioner").click(function(){
-        jQuery("#practictioner-form").show();
-        jQuery("#student-form").hide();
-    });
-    jQuery("#form-choice-student").click(function(){
-        jQuery("#student-form").show();
-        jQuery("#practictioner-form").hide();
-    });
+    // jQuery("#form-choice-practictioner").click(function(){
+    //     jQuery("#practictioner-form").show();
+    //     jQuery("#student-form").hide();
+    // });
+    // jQuery("#form-choice-student").click(function(){
+    //     jQuery("#student-form").show();
+    //     jQuery("#practictioner-form").hide();
+    // });
 
     jQuery("#jurisdiction-btn-all").click(function() {
         jQuery('.jurisdiction-btn').prop('checked', true);
@@ -132,12 +132,12 @@ jQuery(function() {
             }
         });
     });
-    jQuery(".chosen-select").chosen({
-        no_results_text: "Oops, nothing found!",
-        width: "100%"
-    }).change(function(){
-        updateSubmitButton();
-    });
+    // jQuery(".chosen-select").chosen({
+    //     no_results_text: "Oops, nothing found!",
+    //     width: "100%"
+    // }).change(function(){
+    //     updateSubmitButton();
+    // });
     jQuery("#signup-form input").keyup(function() {
         updateSubmitButton();
     });

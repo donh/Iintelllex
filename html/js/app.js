@@ -63,7 +63,22 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 */
 	$scope.setUserType = function(userType)
 	{
-		console.log('userType =', userType);
-		$scope.userType = userType;
+		$scope.studentShow = false;
+		$scope.practictionerShow = false;
+		// console.log('userType =', userType);
+		if (userType === 'student') {
+			$scope.studentShow = !$scope.studentShow;
+			// $scope.studentShow = true;
+			$scope.PractictionerShow = false;
+		} else if (userType === 'practictioner') {
+			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
+			$scope.practictionerShow = !$scope.practictionerShow;
+			// $scope.practictionerShow = true;
+			$scope.studentShow = false;
+			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
+		} else {
+			// $scope.studentShow = false;
+			// $scope.PractictionerShow = false;
+		}
 	};
 });
