@@ -45,7 +45,8 @@ var itApp = angular.module('itApp', ['ngRoute']);
 itApp.controller('AppController', function ($scope, $routeParams, $http, $window, $document, $compile, $location) {
 	$scope.$location = $location;
 	$scope.$path = $location.$$path;
-	$scope.studentShow = false;
+	// $scope.studentShow = false;
+	$scope.studentShow = true;
 	$scope.practictionerShow = false;
 
 	$scope.user = {
