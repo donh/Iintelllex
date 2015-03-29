@@ -1,6 +1,52 @@
 'use strict';
-var itApp = angular.module('itApp', ['ngRoute']);
+var itApp = angular.module('itApp', ['flow', 'ngRoute']);
+// var itApp = angular.module('itApp', ['flow']);
 // var itApp = angular.module('itApp');
+
+/**
+ * @config:			itApp.config(['$routeProvider', '$locationProvider'])
+ * @description:	This config sets routing.
+ * @related issues:	ITL-003
+ * @param:			void
+ * @return:			void
+ * @author:			Don Hsieh
+ * @since:			03/29/2015
+ * @last modified: 	03/29/2015
+ * @called by:		URL
+ */
+// http://viralpatel.net/blogs/angularjs-routing-and-views-tutorial-with-example/
+// https://docs.angularjs.org/api/ngRoute/service/$route#example
+itApp.config(['flowFactoryProvider', '$routeProvider', '$locationProvider', function(flowFactoryProvider, $routeProvider, $locationProvider) {
+// itApp.config(['flowFactoryProvider', function(flowFactoryProvider) {
+	flowFactoryProvider.defaults = {
+			target: '',
+			permanentErrors: [500, 501],
+			maxChunkRetries: 1,
+			chunkRetryInterval: 5000,
+			simultaneousUploads: 1
+		};
+		flowFactoryProvider.on('catchAll', function (event) {
+			console.log('catchAll', arguments);
+		});
+		// Can be used with different implementations of Flow.js
+		// flowFactoryProvider.factory = fustyFlowFactory;
+	}
+	// $routeProvider
+	// 	.when('/login', {
+	// 		templateUrl: '/templates/login.html',
+	// 		controller: 'LoginController',
+	// 	})
+	// 	.when('/signup', {
+	// 		templateUrl: '/templates/signup.html',
+	// 		controller: 'SignupController',
+	// 	})
+	// 	.otherwise({
+	// 		redirectTo: '/'
+	// 	});
+	// 	$locationProvider.html5Mode(true);
+	// }
+]);
+
 
 
 // itApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
