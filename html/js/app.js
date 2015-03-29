@@ -91,10 +91,27 @@ itApp.config(['flowFactoryProvider', '$routeProvider', '$locationProvider', func
 itApp.controller('AppController', function ($scope, $routeParams, $http, $window, $document, $compile, $location) {
 	$scope.$location = $location;
 	$scope.$path = $location.$$path;
+	$scope.userType = false;
 	// $scope.studentShow = false;
 	$scope.studentShow = true;
 	$scope.practictionerShow = false;
 
+
+	var years = [];
+	for (var i=1990 ; i<=2020; i++) {
+		years.push(i);
+	}
+	$scope.years = years;
+
+	// var months = [];
+	// for (var i=1 ; i<=12; i++) {
+	// 	months.push(i);
+	// }
+	// $scope.months = months;
+	$scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	$scope.types = ['Journal', 'Online Article'];
+	$scope.qualifications = ['CFA Level 1', 'CFA Level 2', 'CFA Level 3', 'CPA', 'MBBS', 'Others'];
+	
 	$scope.user = {
 		// firstName: '',
 		// lastName: '',
@@ -102,18 +119,279 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// password: '',
 		// password_confirmation: '',
 		// email: '',
-		photo: '',
+		// photo: '',
+		userType = '';
 		institution: '',
 		graduationYear: '',
 		company: '',
+		monthFrom: '',
+		yearFrom: '',
+		monthTo: '',
+		yearTo: '',
 		supervisor: '',
-		competition: '',
-		result: '',
+		competitionName: '',
+		competitionResult: '',
 		publicationName: '',
 		publicationType: '',
 		publicationUrl: '',
 		publicationCitation: '',
+		qualification: '',
+		otherQualification: '',
+		// otherOthers: '',
+		otherYear: '',
 	};
+
+	$scope.graduationYear = 'Year';
+	$scope.monthFrom = 'Month';
+	$scope.monthTo = 'Month';
+	$scope.yearFrom = 'Year';
+	$scope.yearTo = 'Year';
+	$scope.publicationType = 'Type';
+	$scope.qualification = 'Qualification';
+	$scope.otherYear = 'Year';
+
+	/**
+	 * @function name:	signup = function (user)
+	 * @description:	This function submits user password reset request.
+	 * @related issues:	ITL-003
+	 * @param:			object user
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/27/2015
+	 * @last modified: 	03/27/2015
+	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
+	 *					 in php/public/index.html
+	 *					 in php/public/templates/signup.html
+	 */
+	// $scope.signup = function (user, $flow)
+	$scope.signup = function (user)
+	{
+		console.log('user =', user);
+		// var graduationYear = angular.element(document.querySelector('#graduationYear')).val();
+		// console.log('graduationYear =', graduationYear);
+
+		// var monthFrom = angular.element(document.querySelector('#monthFrom')).val();
+		// console.log('monthFrom =', monthFrom);
+		// var yearFrom = angular.element(document.querySelector('#yearFrom')).val();
+		// console.log('yearFrom =', yearFrom);
+		// var monthTo = angular.element(document.querySelector('#monthTo')).val();
+		// console.log('monthTo =', monthTo);
+		// var yearTo = angular.element(document.querySelector('#yearTo')).val();
+		// console.log('yearTo =', yearTo);
+		// var publicationType = angular.element(document.querySelector('#publicationType')).val();
+		// console.log('publicationType =', publicationType);
+
+		// user.graduationYear = graduationYear;
+		// user.monthFrom = monthFrom;
+		// user.yearFrom = yearFrom;
+		// user.monthTo = monthTo;
+		// user.yearTo = yearTo;
+		user.userType = $scope.userType;
+		user.graduationYear = $scope.graduationYear;
+		user.monthFrom = $scope.monthFrom;
+		user.yearFrom = $scope.yearFrom;
+		user.monthTo = $scope.monthTo;
+		user.yearTo = $scope.yearTo;
+		// user.publicationType = publicationType;
+		user.publicationType = $scope.publicationType;
+		// user.otherQualification = angular.element(document.querySelector('#otherQualification')).val();
+		// user.otherOthers = angular.element(document.querySelector('#otherOthers')).val();
+		// user.otherYear = angular.element(document.querySelector('#otherYear')).val();
+		user.qualification = $scope.qualification;
+		// user.otherQualification = $scope.otherQualification;
+		// user.otherOthers = $scope.otherOthers;
+		user.otherYear = $scope.otherYear;
+		console.log('user =', user);
+
+		// user.url = $location.url();
+		// $http.post('/api/signup', user)
+		// 	.success(function(data, status, headers, config) {
+		// 		// console.log('data =', data);
+		// 		$scope.setMessages(data.messages);
+		// 	})
+		// 	.error(function(data, status, headers, config) {
+		// 		$scope.status = status;
+		// 	});
+	};
+
+
+
+	/**
+	 * @function name:	setGraduationYear = function(graduationYear)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string graduationYear
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setGraduationYear = function(graduationYear)
+	{
+		console.log('graduationYear =', graduationYear);
+		$scope.graduationYear = graduationYear;
+	};
+
+	/**
+	 * @function name:	setMonthFrom = function(monthFrom)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string userType
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setMonthFrom = function(monthFrom)
+	{
+		console.log('monthFrom =', monthFrom);
+		$scope.monthFrom = monthFrom;
+	};
+
+
+	/**
+	 * @function name:	setMonthFrom = function(monthFrom)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string userType
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setMonthTo = function(monthTo)
+	{
+		console.log('monthTo =', monthTo);
+		$scope.monthTo = monthTo;
+	};
+
+
+
+	/**
+	 * @function name:	setYearFrom = function(yearFrom)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string userType
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setYearFrom = function(yearFrom)
+	{
+		console.log('yearFrom =', yearFrom);
+		$scope.yearFrom = yearFrom;
+	};
+
+
+	/**
+	 * @function name:	setYearFrom = function(yearFrom)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string userType
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setYearTo = function(yearTo)
+	{
+		console.log('yearTo =', yearTo);
+		$scope.yearTo = yearTo;
+	};
+	
+	
+
+	/**
+	 * @function name:	$scope.setUserType = function(userType)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string userType
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/27/2015
+	 * @last modified: 	03/27/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setPublicationType = function(publicationType)
+	{
+		console.log('publicationType =', publicationType);
+		$scope.publicationType = publicationType;
+	};
+
+
+
+	/**
+	 * @function name:	setYearFrom = function(yearFrom)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string userType
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setQualification = function(qualification)
+	{
+		console.log('qualification =', qualification);
+		$scope.qualification = qualification;
+	};
+
+
+	/**
+	 * @function name:	setOtherYear = function(yearFrom)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string userType
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setOtherYear = function(otherYear)
+	{
+		console.log('otherYear =', otherYear);
+		$scope.otherYear = otherYear;
+	};
+
+
+
+
+
+
+
+
 
 	/**
 	 * @function name:	$scope.setUserType = function(userType)
@@ -131,6 +409,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 */
 	$scope.setUserType = function(userType)
 	{
+		$scope.userType = userType;
 		$scope.studentShow = false;
 		$scope.practictionerShow = false;
 		// console.log('userType =', userType);
@@ -145,42 +424,12 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			$scope.studentShow = false;
 			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
 		} else {
+			$scope.userType = false;
 			// $scope.studentShow = false;
 			// $scope.PractictionerShow = false;
 		}
 	};
 
-
-	/**
-	 * @function name:	signup = function (user)
-	 * @description:	This function submits user password reset request.
-	 * @related issues:	ITL-003
-	 * @param:			object user
-	 * @return:			void
-	 * @author:			Don Hsieh
-	 * @since:			03/27/2015
-	 * @last modified: 	03/27/2015
-	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
-	 *					 in php/public/index.html
-	 *					 in php/public/templates/signup.html
-	 */
-	$scope.signup = function (user, $flow)
-	{
-		console.log('user =', user);
-		console.log('$flow =', $flow);
-		console.log('$scope.$flow =', $scope.$flow);
-		// if (user.noweddingdate) user.weddingDate = '';
-		// // console.log('user.weddingDate =', user.weddingDate);
-		// user.url = $location.url();
-		// $http.post('/api/signup', user)
-		// 	.success(function(data, status, headers, config) {
-		// 		// console.log('data =', data);
-		// 		$scope.setMessages(data.messages);
-		// 	})
-		// 	.error(function(data, status, headers, config) {
-		// 		$scope.status = status;
-		// 	});
-	};
 
 
 

@@ -39,7 +39,7 @@ button.disable{ background: #bdc3c7 !important; border:1px solid #bdc3c7 !import
 #signup-count{ color: #ffd700;font-size: 115px;line-height:90px; }
 #signup-splash h3, #signup-splash h2 { margin-top: 0; padding-top: 0; }
 #signup-splash form {padding-bottom: 0; margin-bottom: 0; }
-@media(min-width:992px){
+@media(min-width:992px) {
 	.form-50-left { width:49%; float:left;}
 	.form-50-right { width:49%; float:right;}
 	.form-33-left { width:32%; float:left;}
@@ -48,8 +48,10 @@ button.disable{ background: #bdc3c7 !important; border:1px solid #bdc3c7 !import
 	.form-66-left { width:66%; float:left;}
 	#signup-splash>div {max-width: 750px;width: 750px;margin: 0 auto;}
 }
-@media(max-width:1199px){
+
+@media(max-width:1199px) {
 }
-@media(max-width:991px){
+
+@media(max-width:991px) {
 	#signup-form-submit{ min-width: 150px; width: 100%; }
 }
