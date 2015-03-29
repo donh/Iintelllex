@@ -92,9 +92,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.$location = $location;
 	$scope.$path = $location.$$path;
 	$scope.userType = false;
-	// $scope.studentShow = false;
-	$scope.studentShow = true;
-	$scope.practictionerShow = false;
+	// $scope.studentShow = true;
+	// $scope.practictionerShow = false;
+	$scope.studentShow = false;
+	$scope.practictionerShow = true;
 
 
 	var years = [];
@@ -112,7 +113,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.types = ['Journal', 'Online Article'];
 	$scope.qualifications = ['CFA Level 1', 'CFA Level 2', 'CFA Level 3', 'CPA', 'MBBS', 'Others'];
 	
-	$scope.user = {
+	$scope.student = {
 		// firstName: '',
 		// lastName: '',
 		// username: '',
@@ -150,15 +151,127 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.qualification = 'Qualification';
 	$scope.otherYear = 'Year';
 
+
+	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
+	$scope.jurisdiction = 'Jurisdiction';
+	$scope.admissionYear = 'Year';
+
+	$scope.practictioner = {
+		jurisdiction: '',
+		otherJurisdiction: '',
+		admissionYear: '',
+		area: '',
+		industry: '',
+		awardName: '',
+		yearTo: '',
+		supervisor: '',
+		competitionName: '',
+		competitionResult: '',
+		publicationName: '',
+		publicationType: '',
+		publicationUrl: '',
+		publicationCitation: '',
+		qualification: '',
+		otherQualification: '',
+		otherYear: '',
+	};
+
+
 	/**
-	 * @function name:	signup = function (user)
+	 * @function name:	setGraduationYear = function(graduationYear)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string graduationYear
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setJurisdiction = function(jurisdiction)
+	{
+		console.log('jurisdiction =', jurisdiction);
+		$scope.jurisdiction = jurisdiction;
+	};
+
+
+	/**
+	 * @function name:	setGraduationYear = function(admissionYear)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string admissionYear
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setAdmissionYear = function(admissionYear)
+	{
+		console.log('admissionYear =', admissionYear);
+		$scope.admissionYear = admissionYear;
+	};
+
+
+
+	/**
+	 * @function name:	editStudent = function (student)
 	 * @description:	This function submits user password reset request.
 	 * @related issues:	ITL-003
 	 * @param:			object user
 	 * @return:			void
 	 * @author:			Don Hsieh
-	 * @since:			03/27/2015
-	 * @last modified: 	03/27/2015
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
+	 *					 in php/public/index.html
+	 *					 in php/public/templates/signup.html
+	 */
+	$scope.editPractictioner = function (practictioner)
+	{
+		// console.log('practictioner =', practictioner);
+		practictioner.graduationYear = $scope.graduationYear;
+		practictioner.monthFrom = $scope.monthFrom;
+		practictioner.yearFrom = $scope.yearFrom;
+		practictioner.monthTo = $scope.monthTo;
+		practictioner.yearTo = $scope.yearTo;
+		// practictioner.publicationType = publicationType;
+		practictioner.publicationType = $scope.publicationType;
+		practictioner.qualification = $scope.qualification;
+		practictioner.otherYear = $scope.otherYear;
+		console.log('practictioner =', practictioner);
+
+		// practictioner.url = $location.url();
+		// $http.post('/api/signup', user)
+		// 	.success(function(data, status, headers, config) {
+		// 		// console.log('data =', data);
+		// 		$scope.setMessages(data.messages);
+		// 	})
+		// 	.error(function(data, status, headers, config) {
+		// 		$scope.status = status;
+		// 	});
+	};
+
+
+
+
+
+
+	/**
+	 * @function name:	editStudent = function (student)
+	 * @description:	This function submits user password reset request.
+	 * @related issues:	ITL-003
+	 * @param:			object user
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
 	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
 	 *					 in php/public/index.html
 	 *					 in php/public/templates/signup.html

@@ -278,7 +278,7 @@
 				</form>
 
 				<!-- <form id="practictioner-form" ng-show="practictionerShow" class="form-horizontal" role="form" style="display:none;"> -->
-				<form id="practictioner-form" ng-show="practictionerShow" class="form-horizontal" role="form" ng-submit="signup(user)">
+				<form id="practictioner-form" ng-show="practictionerShow" class="form-horizontal" role="form" ng-submit="editPractictioner(practictioner)">
 					<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Practitioner</span>
 					<!-- <div class="form-group">
 						<label for="inputType" class="col-md-2 control-label">Upload Recent Photo</label>
@@ -295,11 +295,15 @@
 							<label for="inputType" class="col-md-2 control-label">Jurisdiction</label>
 							<div class="col-md-3 dropdown">
 								<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false">
-									Jurisdiction
+									<!-- Jurisdiction -->
+									{{jurisdiction}}
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-									<li role="presentation"><a role="menuitem" tabindex="-1" value="AUS">Australia</a></li>
+									<li ng-repeat="jurisdiction in jurisdictions track by $index" role="presentation">
+										<a ng-click="setJurisdiction(jurisdiction)" role="menuitem">{{jurisdiction}}</a>
+									</li>
+									<!-- <li role="presentation"><a role="menuitem" tabindex="-1" value="AUS">Australia</a></li>
 									<li role="presentation"><a role="menuitem" tabindex="-1" value="CAN">Canada</a></li>
 									<li role="presentation"><a role="menuitem" tabindex="-1" value="EUR">Europe</a></li>
 									<li role="presentation"><a role="menuitem" tabindex="-1" value="HK">Hong Kong</a></li>
@@ -308,24 +312,28 @@
 									<li role="presentation"><a role="menuitem" tabindex="-1" value="NZ">New Zealand</a></li>
 									<li role="presentation"><a role="menuitem" tabindex="-1" value="SG">Singapore</a></li>
 									<li role="presentation"><a role="menuitem" tabindex="-1" value="UK">United Kingdom</a></li>
-									<li role="presentation"><a role="menuitem" tabindex="-1" value="Others">Others</a></li>
+									<li role="presentation"><a role="menuitem" tabindex="-1" value="Others">Others</a></li> -->
 								</ul>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Other Jurisdiction</label>
 							<div class="col-md-3">
-								<input type="text" class="form-control" id="inputType" placeholder="Other Jurisdiction">
+								<input ng-model="practictioner.otherJurisdiction" type="text" class="form-control" id="inputType" placeholder="Other Jurisdiction">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Year of Admission</label>
 							<div class="col-md-3 dropdown">
 								<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false">
-									Year
+									<!-- Year -->
+									{{admissionYear}}
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+									<li ng-repeat="year in years track by $index" role="presentation">
+										<a ng-click="setAdmissionYear(year)" role="menuitem">{{year}}</a>
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -336,7 +344,7 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Areas</label>
 							<div class="col-md-3">
-								<input type="text" class="form-control" id="inputType" placeholder="Areas">
+								<input ng-model="practictioner.area" type="text" class="form-control" id="inputType" placeholder="Areas">
 							</div>
 						</div>
 					</div>
@@ -345,7 +353,7 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Industries</label>
 							<div class="col-md-3">
-								<input type="text" class="form-control" id="inputType" placeholder="Industries">
+								<input ng-model="practictioner.industry" type="text" class="form-control" id="inputType" placeholder="Industries">
 							</div>
 						</div>
 					</div>
@@ -358,7 +366,7 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Award Name</label>
 							<div class="col-md-3">
-								<input type="text" class="form-control" id="inputType" placeholder="Award Name">
+								<input ng-model="practictioner.awardName" type="text" class="form-control" id="inputType" placeholder="Award Name">
 							</div>
 						</div>
 						<div class="form-group">
