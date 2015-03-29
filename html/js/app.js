@@ -120,7 +120,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// password_confirmation: '',
 		// email: '',
 		// photo: '',
-		userType = '';
+		// userType: '',
 		institution: '',
 		graduationYear: '',
 		company: '',
@@ -164,9 +164,9 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 *					 in php/public/templates/signup.html
 	 */
 	// $scope.signup = function (user, $flow)
-	$scope.signup = function (user)
+	$scope.editStudent = function (student)
 	{
-		console.log('user =', user);
+		// console.log('student =', student);
 		// var graduationYear = angular.element(document.querySelector('#graduationYear')).val();
 		// console.log('graduationYear =', graduationYear);
 
@@ -181,29 +181,29 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// var publicationType = angular.element(document.querySelector('#publicationType')).val();
 		// console.log('publicationType =', publicationType);
 
-		// user.graduationYear = graduationYear;
-		// user.monthFrom = monthFrom;
-		// user.yearFrom = yearFrom;
-		// user.monthTo = monthTo;
-		// user.yearTo = yearTo;
-		user.userType = $scope.userType;
-		user.graduationYear = $scope.graduationYear;
-		user.monthFrom = $scope.monthFrom;
-		user.yearFrom = $scope.yearFrom;
-		user.monthTo = $scope.monthTo;
-		user.yearTo = $scope.yearTo;
-		// user.publicationType = publicationType;
-		user.publicationType = $scope.publicationType;
-		// user.otherQualification = angular.element(document.querySelector('#otherQualification')).val();
-		// user.otherOthers = angular.element(document.querySelector('#otherOthers')).val();
-		// user.otherYear = angular.element(document.querySelector('#otherYear')).val();
-		user.qualification = $scope.qualification;
-		// user.otherQualification = $scope.otherQualification;
-		// user.otherOthers = $scope.otherOthers;
-		user.otherYear = $scope.otherYear;
-		console.log('user =', user);
+		// student.graduationYear = graduationYear;
+		// student.monthFrom = monthFrom;
+		// student.yearFrom = yearFrom;
+		// student.monthTo = monthTo;
+		// student.yearTo = yearTo;
+		// student.userType = $scope.userType;
+		student.graduationYear = $scope.graduationYear;
+		student.monthFrom = $scope.monthFrom;
+		student.yearFrom = $scope.yearFrom;
+		student.monthTo = $scope.monthTo;
+		student.yearTo = $scope.yearTo;
+		// student.publicationType = publicationType;
+		student.publicationType = $scope.publicationType;
+		// student.otherQualification = angular.element(document.querySelector('#otherQualification')).val();
+		// student.otherOthers = angular.element(document.querySelector('#otherOthers')).val();
+		// student.otherYear = angular.element(document.querySelector('#otherYear')).val();
+		student.qualification = $scope.qualification;
+		// student.otherQualification = $scope.otherQualification;
+		// student.otherOthers = $scope.otherOthers;
+		student.otherYear = $scope.otherYear;
+		console.log('student =', student);
 
-		// user.url = $location.url();
+		// student.url = $location.url();
 		// $http.post('/api/signup', user)
 		// 	.success(function(data, status, headers, config) {
 		// 		// console.log('data =', data);
@@ -409,7 +409,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 */
 	$scope.setUserType = function(userType)
 	{
-		$scope.userType = userType;
+		// $scope.userType = userType;
 		$scope.studentShow = false;
 		$scope.practictionerShow = false;
 		// console.log('userType =', userType);
@@ -424,7 +424,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			$scope.studentShow = false;
 			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
 		} else {
-			$scope.userType = false;
+			// $scope.userType = false;
 			// $scope.studentShow = false;
 			// $scope.PractictionerShow = false;
 		}

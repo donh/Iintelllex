@@ -38,7 +38,7 @@
 						<!-- <button id="form-choice-practictioner" type="button" class="btn btn-success" ng-click="PractictionerShow = !PractictionerShow">Practictioner</button> -->
 					</div>
 				</div>
-				<form id="student-form" ng-show="studentShow" class="form-horizontal" role="form" ng-submit="signup(user)">
+				<form id="student-form" ng-show="studentShow" class="form-horizontal" role="form" ng-submit="editStudent(student)">
 					<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Student</span>
 					<!-- <div class="form-group">
 						<label id="student-photo-label" for="inputType" class="col-md-2 control-label">Upload Recent Photo</label>
@@ -66,13 +66,13 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Institution</label>
 							<div class="col-md-3">
-								<input type="text" ng-model="user.institution" class="form-control" id="inputType" placeholder="Institution">
+								<input type="text" ng-model="student.institution" class="form-control" id="inputType" placeholder="Institution">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Graduation Year</label>
 							<div class="col-md-3 dropdown">
-								<!-- <button ng-model="user.graduationYear" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false"> -->
+								<!-- <button ng-model="student.graduationYear" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false"> -->
 								<button class="btn btn-primary dropdown-toggle" type="button" id="graduationYear" data-toggle="dropdown" aria-expanded="false">
 									<!-- Year -->
 									{{graduationYear}}
@@ -88,7 +88,7 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Degree Earned</label>
 							<div class="col-md-3">
-								<input ng-model="user.degree" type="text" class="form-control" id="inputType" placeholder="Degree Earned">
+								<input ng-model="student.degree" type="text" class="form-control" id="inputType" placeholder="Degree Earned">
 							</div>
 						</div>
 					</div>
@@ -100,7 +100,7 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Company</label>
 							<div class="col-md-3">
-								<input ng-model="user.company" type="text" class="form-control" id="inputType" placeholder="Company">
+								<input ng-model="student.company" type="text" class="form-control" id="inputType" placeholder="Company">
 							</div>
 						</div>
 						<div class="form-group">
@@ -161,7 +161,7 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Supervisor Name</label>
 							<div class="col-md-3">
-								<input ng-model="user.supervisor" type="text" class="form-control" id="inputType" placeholder="Supervisor">
+								<input ng-model="student.supervisor" type="text" class="form-control" id="inputType" placeholder="Supervisor">
 							</div>
 						</div>
 					</div>
@@ -173,13 +173,13 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Competition Name</label>
 							<div class="col-md-3">
-								<input ng-model="user.competitionName" type="text" class="form-control" id="inputType" placeholder="Mooting Competition Name">
+								<input ng-model="student.competitionName" type="text" class="form-control" id="inputType" placeholder="Mooting Competition Name">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Result</label>
 							<div class="col-md-3">
-								<input ng-model="user.competitionResult" type="text" class="form-control" id="inputType" placeholder="Result">
+								<input ng-model="student.competitionResult" type="text" class="form-control" id="inputType" placeholder="Result">
 							</div>
 						</div>
 					</div>
@@ -191,13 +191,13 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Publication Name</label>
 							<div class="col-md-3">
-								<input ng-model="user.publicationName" type="text" class="form-control" id="inputType" placeholder="Publication Name">
+								<input ng-model="student.publicationName" type="text" class="form-control" id="inputType" placeholder="Publication Name">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Publication Type</label>
 							<div class="col-md-3 dropdown">
-								<!-- <button ng-model="user.publicationType" class="btn btn-primary dropdown-toggle" type="button" id="publicationType" data-toggle="dropdown" aria-expanded="false"> -->
+								<!-- <button ng-model="student.publicationType" class="btn btn-primary dropdown-toggle" type="button" id="publicationType" data-toggle="dropdown" aria-expanded="false"> -->
 								<button class="btn btn-primary dropdown-toggle" type="button" id="publicationType" data-toggle="dropdown" aria-expanded="false">
 									<!-- Type -->
 									{{publicationType}}
@@ -215,13 +215,13 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">URL (if any)</label>
 							<div class="col-md-3">
-								<input ng-model="user.publicationUrl" type="text" class="form-control" id="inputType" placeholder="">
+								<input ng-model="student.publicationUrl" type="text" class="form-control" id="inputType" placeholder="">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Citation (if any)</label>
 							<div class="col-md-3">
-								<textarea ng-model="user.publicationCitation" type="text" class="form-control" id="inputType" placeholder="" cols="50" rows="4"></textarea>
+								<textarea ng-model="student.publicationCitation" type="text" class="form-control" id="inputType" placeholder="" cols="50" rows="4"></textarea>
 							</div>
 						</div>
 					</div>
@@ -254,7 +254,7 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Qualification (Others)</label>
 							<div class="col-md-3">
-								<input ng-model="user.otherQualification" type="text" class="form-control" id="inputType" placeholder="Other Qualification">
+								<input ng-model="student.otherQualification" type="text" class="form-control" id="inputType" placeholder="Other Qualification">
 							</div>
 						</div>
 						<div class="form-group">
@@ -280,12 +280,12 @@
 				<!-- <form id="practictioner-form" ng-show="practictionerShow" class="form-horizontal" role="form" style="display:none;"> -->
 				<form id="practictioner-form" ng-show="practictionerShow" class="form-horizontal" role="form" ng-submit="signup(user)">
 					<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Practitioner</span>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<label for="inputType" class="col-md-2 control-label">Upload Recent Photo</label>
 						<div class="col-md-3">
 							<input type="file" name="fileToUpload" id="signup-photo-upload" class="form-control">
 						</div>
-					</div>
+					</div> -->
 					<div class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Admissions</span>
 						<!-- <button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
@@ -382,13 +382,13 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Publication Name</label>
 							<div class="col-md-3">
-								<input ng-model="user.publicationName" type="text" class="form-control" id="inputType" placeholder="Publication Name">
+								<input ng-model="student.publicationName" type="text" class="form-control" id="inputType" placeholder="Publication Name">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Publication Type</label>
 							<div class="col-md-3 dropdown">
-								<button ng-model="user.publicationType" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false">
+								<button ng-model="student.publicationType" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false">
 									Type
 									<span class="caret"></span>
 								</button>
@@ -401,13 +401,13 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">URL (if any)</label>
 							<div class="col-md-3">
-								<input ng-model="user.publicationUrl" type="text" class="form-control" id="inputType" placeholder="">
+								<input ng-model="student.publicationUrl" type="text" class="form-control" id="inputType" placeholder="">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Citation (if any)</label>
 							<div class="col-md-3">
-								<textarea ng-model="user.publicationCitation" type="text" class="form-control" id="inputType" placeholder="" cols="50" rows="4"></textarea>
+								<textarea ng-model="student.publicationCitation" type="text" class="form-control" id="inputType" placeholder="" cols="50" rows="4"></textarea>
 							</div>
 						</div>
 					</div>
