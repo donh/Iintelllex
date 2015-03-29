@@ -164,9 +164,11 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 *					 in php/public/index.html
 	 *					 in php/public/templates/signup.html
 	 */
-	$scope.signup = function (user)
+	$scope.signup = function (user, $flow)
 	{
 		console.log('user =', user);
+		console.log('$flow =', $flow);
+		console.log('$scope.$flow =', $scope.$flow);
 		// if (user.noweddingdate) user.weddingDate = '';
 		// // console.log('user.weddingDate =', user.weddingDate);
 		// user.url = $location.url();
