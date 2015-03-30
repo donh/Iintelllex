@@ -13,7 +13,7 @@
 error_reporting(E_ALL);
 
 use Phalcon\Mvc\Micro,
-	Phalcon\Db\Adapter\Pdo\Mysql as MysqlAdapter,
+	Phalcon\Db\Adapter\Pdo\Mysql as MysqlAdapter;
 
 try {
 

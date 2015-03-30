@@ -287,11 +287,12 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			publicationUrl: 'url',
 			publicationCitation: 'citation',
 		};
+		console.log('practictioner =', practictioner);
 
 		practictioner.url = $location.url();
 		$http.post('/api/practictioner', user)
 			.success(function(data, status, headers, config) {
-				// console.log('data =', data);
+				console.log('data =', data);
 				$scope.setMessages(data.messages);
 			})
 			.error(function(data, status, headers, config) {
