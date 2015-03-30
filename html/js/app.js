@@ -150,7 +150,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.publicationType = 'Type';
 	$scope.qualification = 'Qualification';
 	$scope.otherYear = 'Year';
-	$scope.yearAwarded = 'Year';
+	$scope.awardYear = 'Year';
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
 	$scope.jurisdiction = 'Jurisdiction';
@@ -163,7 +163,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		area: '',
 		industry: '',
 		awardName: '',
-		yearAwarded: '',
+		awardYear: '',
 		publicationName: '',
 		publicationType: '',
 		publicationUrl: '',
@@ -227,10 +227,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 *					itApp.controller('FavoritesController')
 	 *					 in php/public/js/app.js
 	 */
-	$scope.setYearAwarded = function(yearAwarded)
+	$scope.setYearAwarded = function(awardYear)
 	{
-		console.log('yearAwarded =', yearAwarded);
-		$scope.yearAwarded = yearAwarded;
+		console.log('awardYear =', awardYear);
+		$scope.awardYear = awardYear;
 	};
 
 
@@ -253,7 +253,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// console.log('practictioner =', practictioner);
 		practictioner.jurisdiction = $scope.jurisdiction;
 		practictioner.admissionYear = $scope.admissionYear;
-		practictioner.yearAwarded = $scope.yearAwarded;
+		practictioner.awardYear = $scope.awardYear;
 		// practictioner.publicationType = publicationType;
 		practictioner.publicationType = $scope.publicationType;
 		console.log('practictioner =', practictioner);
@@ -267,7 +267,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// 	area: '',
 		// 	industry: '',
 		// 	awardName: '',
-		// 	yearAwarded: '',
+		// 	awardYear: '',
 		// 	publicationName: '',
 		// 	publicationType: '',
 		// 	publicationUrl: '',
@@ -281,7 +281,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			area: 'Patent',
 			industry: 'IT',
 			awardName: 'Oscar',
-			yearAwarded: '1994',
+			awardYear: '1994',
 			publicationName: 'GPS',
 			publicationType: 'Online Article',
 			publicationUrl: 'url',
