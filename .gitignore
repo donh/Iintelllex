@@ -4,6 +4,8 @@ sql
 python/*.pyc
 
 # Phalcon
+php/app/config/config.php
+
 
 
 
