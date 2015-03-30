@@ -61,26 +61,8 @@ try {
 		$postdata = file_get_contents("php://input");
 		$post = json_decode($postdata);
 		$url = $post->url;
-		$tags = '';
-		$scroll = '';
-		$pinCount = 0;
-		$dressIds = '';
-		$designerKey = '';
-		$collectionKey = '';
-
-		$dressId = $post->dressId;
-		$img = $post->img;
-		$url = $post->url;
-		$position = $post->position;
-		$pin = $post->pin;
-		$scroll = $post->scroll;
-
-		$request = new \Phalcon\Http\Request();
-		$lang = $request->getBestLanguage();
-		if (isset($lang) && is_string($lang) && strlen($lang) > 0) {	// exclude Googlebot
-			Click::addClick($dressId, $img, $url, $position, $pin, $scroll, $app);
-		}
-		return $dressId;
+		$arr = Practictioner::addPractictioner($post, $app);
+		return $arr;
 	});
 
 
