@@ -150,7 +150,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.publicationType = 'Type';
 	$scope.qualification = 'Qualification';
 	$scope.otherYear = 'Year';
-
+	$scope.yearAwarded = 'Year';
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
 	$scope.jurisdiction = 'Jurisdiction';
@@ -163,22 +163,16 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		area: '',
 		industry: '',
 		awardName: '',
-		yearTo: '',
-		supervisor: '',
-		competitionName: '',
-		competitionResult: '',
+		yearAwarded: '',
 		publicationName: '',
 		publicationType: '',
 		publicationUrl: '',
 		publicationCitation: '',
-		qualification: '',
-		otherQualification: '',
-		otherYear: '',
 	};
 
 
 	/**
-	 * @function name:	setGraduationYear = function(graduationYear)
+	 * @function name:	setJurisdiction = function(jurisdiction)
 	 * @description:	This function gets content of infinite scroll.
 	 * @related issues:	ITL-003
 	 * @param:			string graduationYear
@@ -199,7 +193,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 
 
 	/**
-	 * @function name:	setGraduationYear = function(admissionYear)
+	 * @function name:	setAdmissionYear = function(admissionYear)
 	 * @description:	This function gets content of infinite scroll.
 	 * @related issues:	ITL-003
 	 * @param:			string admissionYear
@@ -216,6 +210,27 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	{
 		console.log('admissionYear =', admissionYear);
 		$scope.admissionYear = admissionYear;
+	};
+
+
+	/**
+	 * @function name:	setAdmissionYear = function(admissionYear)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string admissionYear
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/29/2015
+	 * @last modified: 	03/29/2015
+	 * @called by:		itApp.controller('HomeController')
+	 *					itApp.controller('FavoritesController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setYearAwarded = function(yearAwarded)
+	{
+		console.log('yearAwarded =', yearAwarded);
+		$scope.yearAwarded = yearAwarded;
 	};
 
 
@@ -236,15 +251,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.editPractictioner = function (practictioner)
 	{
 		// console.log('practictioner =', practictioner);
-		practictioner.graduationYear = $scope.graduationYear;
-		practictioner.monthFrom = $scope.monthFrom;
-		practictioner.yearFrom = $scope.yearFrom;
-		practictioner.monthTo = $scope.monthTo;
-		practictioner.yearTo = $scope.yearTo;
+		practictioner.jurisdiction = jurisdiction;
+		practictioner.yearAwarded = yearAwarded;
 		// practictioner.publicationType = publicationType;
 		practictioner.publicationType = $scope.publicationType;
-		practictioner.qualification = $scope.qualification;
-		practictioner.otherYear = $scope.otherYear;
 		console.log('practictioner =', practictioner);
 
 		// practictioner.url = $location.url();
