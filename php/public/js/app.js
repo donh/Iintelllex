@@ -1,7 +1,8 @@
 'use strict';
-var itApp = angular.module('itApp', ['flow', 'ngRoute']);
+// var itApp = angular.module('itApp', ['flow', 'ngRoute']);
 // var itApp = angular.module('itApp', ['flow']);
 // var itApp = angular.module('itApp');
+var itApp = angular.module('itApp', ['ngRoute']);
 
 /**
  * @config:			itApp.config(['$routeProvider', '$locationProvider'])
@@ -16,36 +17,36 @@ var itApp = angular.module('itApp', ['flow', 'ngRoute']);
  */
 // http://viralpatel.net/blogs/angularjs-routing-and-views-tutorial-with-example/
 // https://docs.angularjs.org/api/ngRoute/service/$route#example
-itApp.config(['flowFactoryProvider', '$routeProvider', '$locationProvider', function(flowFactoryProvider, $routeProvider, $locationProvider) {
-// itApp.config(['flowFactoryProvider', function(flowFactoryProvider) {
-	flowFactoryProvider.defaults = {
-			target: '',
-			permanentErrors: [500, 501],
-			maxChunkRetries: 1,
-			chunkRetryInterval: 5000,
-			simultaneousUploads: 1
-		};
-		flowFactoryProvider.on('catchAll', function (event) {
-			console.log('catchAll', arguments);
-		});
-		// Can be used with different implementations of Flow.js
-		// flowFactoryProvider.factory = fustyFlowFactory;
-	}
-	// $routeProvider
-	// 	.when('/login', {
-	// 		templateUrl: '/templates/login.html',
-	// 		controller: 'LoginController',
-	// 	})
-	// 	.when('/signup', {
-	// 		templateUrl: '/templates/signup.html',
-	// 		controller: 'SignupController',
-	// 	})
-	// 	.otherwise({
-	// 		redirectTo: '/'
-	// 	});
-	// 	$locationProvider.html5Mode(true);
-	// }
-]);
+// itApp.config(['flowFactoryProvider', '$routeProvider', '$locationProvider', function(flowFactoryProvider, $routeProvider, $locationProvider) {
+// // itApp.config(['flowFactoryProvider', function(flowFactoryProvider) {
+// 	flowFactoryProvider.defaults = {
+// 			target: '',
+// 			permanentErrors: [500, 501],
+// 			maxChunkRetries: 1,
+// 			chunkRetryInterval: 5000,
+// 			simultaneousUploads: 1
+// 		};
+// 		flowFactoryProvider.on('catchAll', function (event) {
+// 			console.log('catchAll', arguments);
+// 		});
+// 		// Can be used with different implementations of Flow.js
+// 		// flowFactoryProvider.factory = fustyFlowFactory;
+// 	}
+// 	// $routeProvider
+// 	// 	.when('/login', {
+// 	// 		templateUrl: '/templates/login.html',
+// 	// 		controller: 'LoginController',
+// 	// 	})
+// 	// 	.when('/signup', {
+// 	// 		templateUrl: '/templates/signup.html',
+// 	// 		controller: 'SignupController',
+// 	// 	})
+// 	// 	.otherwise({
+// 	// 		redirectTo: '/'
+// 	// 	});
+// 	// 	$locationProvider.html5Mode(true);
+// 	// }
+// ]);
 
 
 
@@ -289,15 +290,30 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		};
 
 
-		// practictioner.url = $location.url();
-		// $http.post('/api/signup', user)
-		// 	.success(function(data, status, headers, config) {
-		// 		// console.log('data =', data);
-		// 		$scope.setMessages(data.messages);
-		// 	})
-		// 	.error(function(data, status, headers, config) {
-		// 		$scope.status = status;
-		// 	});
+		practictioner.url = $location.url();
+		var headers = {
+			'Access-Control-Allow-Origin' : '*',
+			'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		};
+
+		// $http.post('/api/practictioner', practictioner)
+		// $http.post('http://intelllex.com\\:3000/api/practictioner', practictioner)
+		// $http.post('http://intelllex.com\:3000/api/practictioner', practictioner)
+		// $http.post('http://intelllex.com:3000/api/practictioner', practictioner)
+		// $http.post('http://intelllex.com\\:3000/api/practictioner', {
+		$http.post('http://intelllex.com:3000/api/practictioner', {
+				headers: headers,
+				data: practictioner
+			})
+			.success(function(data, status, headers, config) {
+				console.log('data =', data);
+				$scope.setMessages(data.messages);
+			})
+			.error(function(data, status, headers, config) {
+				$scope.status = status;
+			});
 	};
 
 

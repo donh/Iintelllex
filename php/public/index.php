@@ -12,6 +12,8 @@
  */
 error_reporting(E_ALL);
 
+// header('Access-Control-Allow-Origin: *');
+
 use Phalcon\Mvc\Micro,
 	Phalcon\Db\Adapter\Pdo\Mysql as MysqlAdapter;
 
@@ -78,6 +80,19 @@ try {
 		$postdata = file_get_contents("php://input");
 		$post = json_decode($postdata);
 		$url = $post->url;
+		// return $post;
+
+		$response = $app->response;
+		$status_header = 'HTTP/1.1 ' . $status . ' ' . $description;
+		// $response->setRawHeader($status_header);
+		// $response->setStatusCode($status, $description);
+		$response->setContentType($content_type, 'UTF-8');
+		$response->setHeader('Access-Control-Allow-Origin', '*');
+		$response->setHeader('Access-Control-Allow-Headers', 'X-Requested-With');
+		$response->setHeader("Access-Control-Allow-Headers: Authorization");
+		$response->setHeader('Content-type: ' . $content_type);
+		$response->sendHeaders();
+
 		$arr = Practictioner::addPractictioner($post, $app);
 		return $arr;
 	});

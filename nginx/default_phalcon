@@ -1,0 +1,78 @@
+# @site name:		nginx/default_phalcon
+#					/etc/nginx/sites-available/default
+# @description:		This site file sets default configuration for nginx.
+# @related issues:	ITL-003
+# @param:			void
+# @return:			void
+# @author:			Don Hsieh
+# @since:			03/30/2015
+# @last modified:	03/30/2015
+# @called by:		/etc/nginx
+#
+# Usage:
+#sudo ln -sf /var/www/php/nginx/default_phalcon /etc/nginx/sites-available/default; sudo ln -sf /var/www/php/nginx/nginx.conf /etc/nginx/nginx.conf; sudo nginx -s reload; sudo nginx -t
+#
+#sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf_$(date -d "today" +"%Y%m%d"); sudo rm /etc/nginx/nginx.conf; sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default_$(date -d "today" +"%Y%m%d"); sudo rm /etc/nginx/sites-available/default
+#
+#sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf_$(date -d "today" +"%Y%m%d%H%M"); sudo rm /etc/nginx/nginx.conf; sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default_$(date -d "today" +"%Y%m%d%H%M"); sudo rm /etc/nginx/sites-available/default
+########################################
+#sudo ln -sf /var/www/php/nginx/default /etc/nginx/sites-available/default; sudo ln -sf /var/www/php/nginx/nginx.conf /etc/nginx/nginx.conf; sudo nginx -s reload
+#sudo ln -sf /etc/phpmyadmin /usr/share/phpmyadmin
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+# http://stackoverflow.com/questions/10294481/how-to-redirect-a-url-in-nginx
+# http://codex.wordpress.org/Nginx
+
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+server {
+	listen 3000;
+	#server_name localhost.dev;
+	server_name localhost;
+
+	charset utf-8;
+	large_client_header_buffers 8 32k;
+
+	index index.html index.htm index.php;
+	set $root_path '/var/www/php/public';
+	root $root_path;
+
+	location /api {
+		add_header Access-Control-Allow-Origin *;
+		try_files $uri $uri/ @rewrite;
+	}
+
+	location ~ \.php$ {
+		try_files $uri =404;
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		fastcgi_pass unix:/var/run/php5-fpm.sock;
+		#fastcgi_pass 127.0.0.1:9000;
+		fastcgi_index index.php;
+		fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+		include fastcgi_params;
+	}
+
+	location ~ /\.ht {
+		deny all;
+	}
+
+	# location / {
+	# 	try_files $uri$args $uri$args/ /index.html;
+	# }
+
+	location @rewrite {
+		rewrite ^/(.*)$ /index.php?_url=/$1;
+	}
+}
