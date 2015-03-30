@@ -19,6 +19,10 @@ RewriteEngine On
 
 # BEGIN WordPress
 RewriteBase /
+
+# Phalcon API
+RewriteRule ^api/(.*)$ /index.php?_url=$1
+
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

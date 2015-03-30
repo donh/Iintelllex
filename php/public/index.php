@@ -57,6 +57,23 @@ try {
 	 * @called by:		$scope.reset = function (user)
 	 *					  in wdApp.controller('ResetController') in php/public/js/app.js
 	 */
+	$app->get('/api/test', function () use ($app) {
+		echo 'test test';
+	});
+
+
+	/**
+	 * @api name:		$app->post('/api/pin')
+	 * @description:	This API adds pin click event to "click" table.
+	 * @related issues:	ITL-003
+	 * @param:			POST ($user->email)
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/30/2015
+	 * @last modified:	03/30/2015
+	 * @called by:		$scope.reset = function (user)
+	 *					  in wdApp.controller('ResetController') in php/public/js/app.js
+	 */
 	$app->post('/api/practictioner', function () use ($app) {
 		$postdata = file_get_contents("php://input");
 		$post = json_decode($postdata);
@@ -64,7 +81,6 @@ try {
 		$arr = Practictioner::addPractictioner($post, $app);
 		return $arr;
 	});
-
 
 	/**
 	 * @api name:		$app->after()
