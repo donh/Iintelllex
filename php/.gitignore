@@ -1,0 +1,10 @@
+########################
+# phalcon cache
+########################
+app/cache/
+
+########################
+# phalcon config
+########################
+app/config/
+app/config/config.php
