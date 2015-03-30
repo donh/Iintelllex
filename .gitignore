@@ -1,7 +1,11 @@
 data
 sql
 .project
-python/.pyc
+python/*.pyc
+
+# Phalcon
+
+
 
 # --------------------------------------
 # Byte-compiled / optimized / DLL files

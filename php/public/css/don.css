@@ -1,0 +1,22 @@
+/**
+ * @css name:		#wrapper
+ * @description:	This css sets wrapper format.
+ * @related issues:	ITL-003
+ * @author:			Don Hsieh
+ * @since:			03/29/2015
+ * @last modified: 	03/29/2015
+ * @called by:		<div id="wrapper">
+ *					 in html/signup.html
+ */
+#wrapper {
+	position: relative;
+	margin: 0 auto 30px auto !important;
+	background: #f9f9f9;
+	box-shadow: 0 0 3px rgba(0,0,0,.2);
+}
+
+@media (min-width: 1220px)
+.container, #wrapper {
+	width: 1200px!important;
+}
+

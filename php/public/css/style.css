@@ -1,0 +1,57 @@
+/*
+ Theme Name:   Intelllex Evolve - Beta
+ Theme URI:    http://www.intelllex.com
+ Description:  Intelllex Evolve Theme
+ Author:       John Goh
+ Author URI:   http://johngoh.org
+ Template:     evolve
+ Version:      1.1.5
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Text Domain:  intelllex-evolve-child
+*/
+
+
+/*@import url("http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css");*/
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css");
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css");
+@import url("../intelllex-evolve/css/chosen.min.css");
+@import url("../evolve/style.css");
+
+/*html,body { min-width: 1024px !important; }*/
+form a{cursor: pointer;}
+#wpadminbar{ display: none; }
+#wrapper >.menu-container >.menu-header{ display: none; }
+.bodyHeight { height: 100vh; }
+.full-image { width: 100%; }
+.jur-cbx-align { margin-left: 10px; }
+.btn-default{ color: black !important;}
+#header { padding: 1em 0; height: auto; }
+#wrapper>.alert { margin-bottom: 0; z-index: 1000; }
+button.disable{ background: #bdc3c7 !important; border:1px solid #bdc3c7 !important; }
+#signup-form .chosen-choices {
+	padding: 3px 8px 2px 8px;border: 1px solid #ddd;
+	-webkit-box-shadow:0 0 4px rgba(0,0,0,.15) inset;-moz-box-shadow:0 0 4px rgba(0,0,0,.15) inset;-box-shadow:0 0 4px rgba(0,0,0,.15) inset;box-shadow:0 0 4px rgba(0,0,0,.15) inset;-moz-border-radius: 3px;-webkit-border-radius: 3px;-border-radius: 3px;border-radius: 3px;
+}
+#signup-form .chosen-choices input{ color: #999 !important; }
+.invalid-input{ border: 2px solid #fb4c2f !important; }
+#signup-splash>div { position: relative;padding-top: 4em;padding-bottom: 4em;padding-left: 30px;padding-right: 30px;}
+#signup-count{ color: #ffd700;font-size: 115px;line-height:90px; }
+#signup-splash h3, #signup-splash h2 { margin-top: 0; padding-top: 0; }
+#signup-splash form {padding-bottom: 0; margin-bottom: 0; }
+@media(min-width:992px) {
+	.form-50-left { width:49%; float:left;}
+	.form-50-right { width:49%; float:right;}
+	.form-33-left { width:32%; float:left;}
+	.form-33-mid { width:32%; float:left; margin-left: 2%;}
+	.form-33-right { width:32%; float:right;}
+	.form-66-left { width:66%; float:left;}
+	#signup-splash>div {max-width: 750px;width: 750px;margin: 0 auto;}
+}
+
+@media(max-width:1199px) {
+}
+
+@media(max-width:991px) {
+	#signup-form-submit{ min-width: 150px; width: 100%; }
+}
