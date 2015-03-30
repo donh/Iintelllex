@@ -139,7 +139,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		qualification: '',
 		otherQualification: '',
 		// otherOthers: '',
-		otherYear: '',
+		qualificationYear: '',
 	};
 
 	$scope.graduationYear = 'Year';
@@ -149,7 +149,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.yearTo = 'Year';
 	$scope.publicationType = 'Type';
 	$scope.qualification = 'Qualification';
-	$scope.otherYear = 'Year';
+	$scope.qualificationYear = 'Year';
 	$scope.awardYear = 'Year';
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
@@ -351,11 +351,11 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		student.publicationType = $scope.publicationType;
 		// student.otherQualification = angular.element(document.querySelector('#otherQualification')).val();
 		// student.otherOthers = angular.element(document.querySelector('#otherOthers')).val();
-		// student.otherYear = angular.element(document.querySelector('#otherYear')).val();
+		// student.qualificationYear = angular.element(document.querySelector('#qualificationYear')).val();
 		student.qualification = $scope.qualification;
 		// student.otherQualification = $scope.otherQualification;
 		// student.otherOthers = $scope.otherOthers;
-		student.otherYear = $scope.otherYear;
+		student.qualificationYear = $scope.qualificationYear;
 		console.log('student =', student);
 
 		// student.url = $location.url();
@@ -534,10 +534,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 *					itApp.controller('FavoritesController')
 	 *					 in php/public/js/app.js
 	 */
-	$scope.setOtherYear = function(otherYear)
+	$scope.setOtherYear = function(qualificationYear)
 	{
-		console.log('otherYear =', otherYear);
-		$scope.otherYear = otherYear;
+		console.log('qualificationYear =', qualificationYear);
+		$scope.qualificationYear = qualificationYear;
 	};
 
 
