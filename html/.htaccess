@@ -1,6 +1,17 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
+
+Alias /api/ "e:/Softwares/"
+<Directory "e:/Softwares/">
+	Options Indexes FollowSymLinks MultiViews
+	AllowOverride None
+	Allow from all
+	Order allow,deny
+	RewriteRule ^api/(.*)$ /index.php?_url=$1
+</Directory>
+
+
 #RewriteRule  ^/js/(.*)\.js$ assets/js/$1
 #RewriteRule  ^/css/(.*)\.css$ assets/css/$1
 
