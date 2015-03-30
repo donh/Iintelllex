@@ -288,16 +288,15 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			publicationCitation: 'citation',
 		};
 
-
-		// practictioner.url = $location.url();
-		// $http.post('/api/signup', user)
-		// 	.success(function(data, status, headers, config) {
-		// 		// console.log('data =', data);
-		// 		$scope.setMessages(data.messages);
-		// 	})
-		// 	.error(function(data, status, headers, config) {
-		// 		$scope.status = status;
-		// 	});
+		practictioner.url = $location.url();
+		$http.post('/api/practictioner', user)
+			.success(function(data, status, headers, config) {
+				// console.log('data =', data);
+				$scope.setMessages(data.messages);
+			})
+			.error(function(data, status, headers, config) {
+				$scope.status = status;
+			});
 	};
 
 
