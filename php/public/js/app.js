@@ -336,14 +336,13 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 * @function name:	editStudent = function (student)
 	 * @description:	This function submits user password reset request.
 	 * @related issues:	ITL-003
-	 * @param:			object user
+	 * @param:			object student
 	 * @return:			void
 	 * @author:			Don Hsieh
 	 * @since:			03/29/2015
 	 * @last modified: 	03/31/2015
-	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
-	 *					 in php/public/index.html
-	 *					 in php/public/templates/signup.html
+	 * @called by:		<form ng-show="practictionerShow" ng-submit="editPractictioner(practictioner)">
+	 *					 in php/public/profile_edit.html
 	 */
 	// $scope.signup = function (user, $flow)
 	$scope.editStudent = function (student)
@@ -383,7 +382,20 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// student.otherQualification = $scope.otherQualification;
 		// student.otherOthers = $scope.otherOthers;
 		student.otherYear = $scope.otherYear;
+
+		if (student.qualification === 'Others' && student.otherQualification.length > 0) {
+			student.qualification = student.otherQualification;
+		}
 		console.log('student =', student);
+
+		$http.post('http://intelllex.com:3000/api/student', student)
+			.success(function(data, status, headers, config) {
+				console.log('data =', data);
+				$scope.setMessages(data.messages);
+			})
+			.error(function(data, status, headers, config) {
+				$scope.status = status;
+			});
 
 		// student.url = $location.url();
 		// $http.post('/api/signup', user)
@@ -403,7 +415,6 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 * @description:	This function gets content of infinite scroll.
 	 * @related issues:	ITL-003
 	 * @param:			string graduationYear
-	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
 	 * @return:			void
 	 * @author:			Don Hsieh
 	 * @since:			03/29/2015

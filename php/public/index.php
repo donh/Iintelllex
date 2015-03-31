@@ -12,6 +12,12 @@
  */
 error_reporting(E_ALL);
 
+header("Cache-Control: private, max-age=10800, pre-check=10800");
+header("Pragma: private");
+header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
+header("Content-Transfer-Encoding: binary");
+header('Access-Control-Allow-Origin: *');
+
 // header('Access-Control-Allow-Origin: *');
 
 use Phalcon\Mvc\Micro,
@@ -68,22 +74,23 @@ try {
 
 
 	/**
-	 * @api name:		$app->post('/api/pin')
-	 * @description:	This API adds pin click event to "click" table.
+	 * @api name:		$app->post('/api/practictioner')
+	 * @description:	This API adds a record to "practictioner" table.
 	 * @related issues:	ITL-003
-	 * @param:			POST ($user->email)
+	 * @param:			JSON $postdata
 	 * @return:			void
 	 * @author:			Don Hsieh
 	 * @since:			03/30/2015
-	 * @last modified:	03/30/2015
-	 * @called by:		$scope.reset = function (user)
-	 *					  in wdApp.controller('ResetController') in php/public/js/app.js
+	 * @last modified:	03/31/2015
+	 * @called by:		$http.post('http://intelllex.com:3000/api/practictioner', practictioner)
+	 *					  in $scope.editPractictioner = function (practictioner)
+	 *					  in itApp.controller('AppController') in php/public/js/app.js
 	 */
 	$app->post('/api/practictioner', function () use ($app) {
 	// $app->options('/api/practictioner', function () use ($app) {
-		$request = new Phalcon\Http\Request();
-		// echo $request->getHeaders();
-		$header = $request->getHeaders();
+		// $request = new Phalcon\Http\Request();
+		// // echo $request->getHeaders();
+		// $header = $request->getHeaders();
 		// echo print_r($header);
 		$postdata = file_get_contents("php://input");
 		$post = json_decode($postdata);
@@ -91,15 +98,15 @@ try {
 		// return $post;
 		$arr = Practictioner::addPractictioner($post, $app);
 
-		header("Cache-Control: private, max-age=10800, pre-check=10800");
-		header("Pragma: private");
-		header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
+		// header("Cache-Control: private, max-age=10800, pre-check=10800");
+		// header("Pragma: private");
+		// header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
 
-		// header('Content-type: '.$IKnowMime );
-		header("Content-Transfer-Encoding: binary");
-		// header('Content-Length: '.filesize(FONT_FOLDER.$f));
-		// header('Content-Disposition: attachment; filename="'.$f.'";');
-		header('Access-Control-Allow-Origin: *');
+		// // header('Content-type: '.$IKnowMime );
+		// header("Content-Transfer-Encoding: binary");
+		// // header('Content-Length: '.filesize(FONT_FOLDER.$f));
+		// // header('Content-Disposition: attachment; filename="'.$f.'";');
+		// header('Access-Control-Allow-Origin: *');
 		// header('Access-Control-Allow-Origin: http://intelllex.com/');
 		// header('Access-Control-Allow-Origin: http://intelllex.com/profile_edit');
 		// header('Access-Control-Allow-Origin: http://intelllex.com:3000');
@@ -120,6 +127,28 @@ try {
 		// $arr = Practictioner::addPractictioner($post, $app);
 		return $arr;
 	});
+
+
+	/**
+	 * @api name:		$app->post('/api/student')
+	 * @description:	This API adds a record to "student" table.
+	 * @related issues:	ITL-003
+	 * @param:			JSON $postdata
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/31/2015
+	 * @last modified:	03/31/2015
+	 * @called by:		$http.post('http://intelllex.com:3000/api/student', student)
+	 *					  in $scope.editStudent = function (student)
+	 *					  in itApp.controller('AppController') in php/public/js/app.js
+	 */
+	$app->post('/api/student', function () use ($app) {
+		$postdata = file_get_contents("php://input");
+		$post = json_decode($postdata);
+		$arr = Practictioner::addPractictioner($post, $app);
+		return $arr;
+	});
+
 
 	/**
 	 * @api name:		$app->after()
