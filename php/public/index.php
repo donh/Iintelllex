@@ -60,6 +60,9 @@ try {
 	 *					  in wdApp.controller('ResetController') in php/public/js/app.js
 	 */
 	$app->get('/api/test', function () use ($app) {
+		$request = new Phalcon\Http\Request();
+		$header = $request->getHeaders();
+		echo print_r($header);
 		echo 'test test';
 	});
 
@@ -77,23 +80,44 @@ try {
 	 *					  in wdApp.controller('ResetController') in php/public/js/app.js
 	 */
 	$app->post('/api/practictioner', function () use ($app) {
+	// $app->options('/api/practictioner', function () use ($app) {
+		$request = new Phalcon\Http\Request();
+		// echo $request->getHeaders();
+		$header = $request->getHeaders();
+		// echo print_r($header);
 		$postdata = file_get_contents("php://input");
 		$post = json_decode($postdata);
-		$url = $post->url;
+		// $url = $post->url;
 		// return $post;
-
-		$response = $app->response;
-		$status_header = 'HTTP/1.1 ' . $status . ' ' . $description;
-		// $response->setRawHeader($status_header);
-		// $response->setStatusCode($status, $description);
-		$response->setContentType($content_type, 'UTF-8');
-		$response->setHeader('Access-Control-Allow-Origin', '*');
-		$response->setHeader('Access-Control-Allow-Headers', 'X-Requested-With');
-		$response->setHeader("Access-Control-Allow-Headers: Authorization");
-		$response->setHeader('Content-type: ' . $content_type);
-		$response->sendHeaders();
-
 		$arr = Practictioner::addPractictioner($post, $app);
+
+		header("Cache-Control: private, max-age=10800, pre-check=10800");
+		header("Pragma: private");
+		header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
+
+		// header('Content-type: '.$IKnowMime );
+		header("Content-Transfer-Encoding: binary");
+		// header('Content-Length: '.filesize(FONT_FOLDER.$f));
+		// header('Content-Disposition: attachment; filename="'.$f.'";');
+		header('Access-Control-Allow-Origin: *');
+		// header('Access-Control-Allow-Origin: http://intelllex.com/');
+		// header('Access-Control-Allow-Origin: http://intelllex.com/profile_edit');
+		// header('Access-Control-Allow-Origin: http://intelllex.com:3000');
+		// header('Access-Control-Allow-Origin: localhost');
+		// header('Access-Control-Allow-Origin: intelllex.com/profile_edit');
+		// header('Access-Control-Allow-Origin: http://localhost');
+		// $response = $app->response;
+		// $status_header = 'HTTP/1.1 ' . $status . ' ' . $description;
+		// // $response->setRawHeader($status_header);
+		// // $response->setStatusCode($status, $description);
+		// $response->setContentType($content_type, 'UTF-8');
+		// $response->setHeader('Access-Control-Allow-Origin', '*');
+		// $response->setHeader('Access-Control-Allow-Headers', 'X-Requested-With');
+		// $response->setHeader("Access-Control-Allow-Headers: Authorization");
+		// $response->setHeader('Content-type: ' . $content_type);
+		// $response->sendHeaders();
+
+		// $arr = Practictioner::addPractictioner($post, $app);
 		return $arr;
 	});
 

@@ -171,8 +171,9 @@ class Practictioner extends \Phalcon\Mvc\Model
 
 		// $user['agent'] = $request->getUserAgent();
 		// $user['lang'] = $request->getBestLanguage();
-
-		$result = $row->update($user, array(
+		$row = new Practictioner();
+		// $result = $row->update($user, array(
+		$result = $row->save($user, array(
 			'jurisdiction', 'admissionYear', 'area', 'industry',
 			'awardName', 'awardYear', 'publicationName', 'publicationType',
 			'publicationUrl', 'publicationCitation', 'createdAt', 'updatedAt'

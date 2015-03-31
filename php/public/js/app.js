@@ -291,25 +291,25 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 
 
 		practictioner.url = $location.url();
-		var headers = {
-			'Access-Control-Allow-Origin' : '*',
-			'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
-			'Content-Type': 'application/json',
-			'Accept': 'application/json'
-		};
+		// var headers = {
+		// 	'Access-Control-Allow-Origin' : '*',
+		// 	'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
+		// 	'Content-Type': 'application/json',
+		// 	'Accept': 'application/json'
+		// };
 
 		// $http.post('/api/practictioner', practictioner)
 		// $http.post('http://intelllex.com\\:3000/api/practictioner', practictioner)
 		// $http.post('http://intelllex.com\:3000/api/practictioner', practictioner)
-		// $http.post('http://intelllex.com:3000/api/practictioner', practictioner)
+		$http.post('http://intelllex.com:3000/api/practictioner', practictioner)
 		// $http.post('http://intelllex.com\\:3000/api/practictioner', {
-		$http.post('http://intelllex.com:3000/api/practictioner', {
-				headers: headers,
-				data: practictioner
-			})
+		// $http.post('http://intelllex.com:3000/api/practictioner', {
+		// 		headers: headers,
+		// 		data: practictioner
+		// 	})
 			.success(function(data, status, headers, config) {
 				console.log('data =', data);
-				$scope.setMessages(data.messages);
+				// $scope.setMessages(data.messages);
 			})
 			.error(function(data, status, headers, config) {
 				$scope.status = status;
