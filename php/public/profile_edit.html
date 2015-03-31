@@ -266,12 +266,12 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Year Attained</label>
 							<div class="col-md-3 dropdown">
-								<button ng-bind="otherYear" class="btn btn-primary dropdown-toggle" type="button" id="qualificationYear" data-toggle="dropdown" aria-expanded="false">
+								<button ng-bind="qualificationYear" class="btn btn-primary dropdown-toggle" type="button" id="qualificationYear" data-toggle="dropdown" aria-expanded="false">
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 									<li ng-repeat="year in years track by $index" role="presentation">
-										<a ng-click="setOtherYear(year)" role="menuitem">{{year}}</a>
+										<a ng-click="setQualificationYear(year)" role="menuitem">{{year}}</a>
 									</li>
 								</ul>
 							</div>

@@ -145,7 +145,7 @@ try {
 	$app->post('/api/student', function () use ($app) {
 		$postdata = file_get_contents("php://input");
 		$post = json_decode($postdata);
-		$arr = Student::Student($post, $app);
+		$arr = Student::addStudent($post, $app);
 		return $arr;
 	});
 

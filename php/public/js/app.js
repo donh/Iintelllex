@@ -92,6 +92,7 @@ var itApp = angular.module('itApp', ['ngRoute']);
 itApp.controller('AppController', function ($scope, $routeParams, $http, $window, $document, $compile, $location) {
 	$scope.$location = $location;
 	$scope.$path = $location.$$path;
+	$scope.messages = null;
 	$scope.userType = false;
 	$scope.studentShow = true;
 	$scope.practictionerShow = false;
@@ -141,7 +142,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		qualification: '',
 		otherQualification: '',
 		// otherOthers: '',
-		otherYear: '',
+		qualificationYear: '',
 	};
 
 	$scope.graduationYear = 'Year';
@@ -151,7 +152,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.yearTo = 'Year';
 	$scope.publicationType = 'Type';
 	$scope.qualification = 'Qualification';
-	$scope.otherYear = 'Year';
+	$scope.qualificationYear = 'Year';
 	$scope.yearAwarded = 'Year';
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
@@ -348,70 +349,40 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	// $scope.signup = function (user, $flow)
 	$scope.editStudent = function (student)
 	{
-		// console.log('student =', student);
-		// var graduationYear = angular.element(document.querySelector('#graduationYear')).val();
-		// console.log('graduationYear =', graduationYear);
-
 		// var monthFrom = angular.element(document.querySelector('#monthFrom')).val();
 		// console.log('monthFrom =', monthFrom);
 		// var yearFrom = angular.element(document.querySelector('#yearFrom')).val();
 		// console.log('yearFrom =', yearFrom);
-		// var monthTo = angular.element(document.querySelector('#monthTo')).val();
-		// console.log('monthTo =', monthTo);
-		// var yearTo = angular.element(document.querySelector('#yearTo')).val();
-		// console.log('yearTo =', yearTo);
-		// var publicationType = angular.element(document.querySelector('#publicationType')).val();
-		// console.log('publicationType =', publicationType);
-
-		// student.graduationYear = graduationYear;
-		// student.monthFrom = monthFrom;
-		// student.yearFrom = yearFrom;
-		// student.monthTo = monthTo;
-		// student.yearTo = yearTo;
-		// student.userType = $scope.userType;
 		student.graduationYear = $scope.graduationYear;
 		student.monthFrom = $scope.monthFrom;
 		student.yearFrom = $scope.yearFrom;
 		student.monthTo = $scope.monthTo;
 		student.yearTo = $scope.yearTo;
-		// student.publicationType = publicationType;
 		student.publicationType = $scope.publicationType;
-		// student.otherQualification = angular.element(document.querySelector('#otherQualification')).val();
-		// student.otherOthers = angular.element(document.querySelector('#otherOthers')).val();
-		// student.otherYear = angular.element(document.querySelector('#otherYear')).val();
 		student.qualification = $scope.qualification;
-		// student.otherQualification = $scope.otherQualification;
-		// student.otherOthers = $scope.otherOthers;
-		student.otherYear = $scope.otherYear;
+		student.qualificationYear = $scope.qualificationYear;
 
 
-		student = {
-			institution: 'NTU',
-			graduationYear: '1991',
-			degree: 'PhD',
-			company: 'Citi',
-			monthFrom: 'Feb',
-			yearFrom: '1993',
-			monthTo: 'Jul',
-			yearTo: '2008',
-			supervisor: 'Don',
-			competitionName: 'MUN',
-			competitionResult: 'BD',
-			publicationName: 'GPS',
-			publicationType: 'Online Article',
-			publicationUrl: 'url3',
-			publicationCitation: 'citation5',
-			qualification: 'Others',
-			otherQualification: 'CFA Level 5',
-			otherYear: '2014',
-		};
-		// student = Object {institution: "NTU", graduationYear: 1991, company: "Citi", 
-		// monthFrom: "Feb", yearFrom: 1993…}
-		// company: "Citi"competitionName: "MUN"competitionResult: "BD"degree: "PhD"
-		// graduationYear: 1991institution: "NTU"monthFrom: "Feb"monthTo: "Jul"
-		// otherQualification: "CFA Level 5"otherYear: 2014publicationCitation: "citation5"
-		// publicationName: "GPS"publicationType: "Online Article"publicationUrl: "url3"
-		// qualification: "CFA Level 5"supervisor: "Don"yearFrom: 1993yearTo: 2008
+		// student = {
+		// 	institution: 'NTU',
+		// 	graduationYear: '1991',
+		// 	degree: 'PhD',
+		// 	company: 'Citi',
+		// 	monthFrom: 'Feb',
+		// 	yearFrom: '1993',
+		// 	monthTo: 'Jul',
+		// 	yearTo: '2008',
+		// 	supervisor: 'Don',
+		// 	competitionName: 'MUN',
+		// 	competitionResult: 'BD',
+		// 	publicationName: 'GPS',
+		// 	publicationType: 'Online Article',
+		// 	publicationUrl: 'url3',
+		// 	publicationCitation: 'citation5',
+		// 	qualification: 'Others',
+		// 	otherQualification: 'CFA Level 5',
+		// 	qualificationYear: '2014',
+		// };
 
 		if (student.qualification === 'Others' && student.otherQualification.length > 0) {
 			student.qualification = student.otherQualification;
@@ -589,7 +560,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 
 
 	/**
-	 * @function name:	setOtherYear = function(yearFrom)
+	 * @function name:	setQualificationYear = function(yearFrom)
 	 * @description:	This function gets content of infinite scroll.
 	 * @related issues:	ITL-003
 	 * @param:			string userType
@@ -602,10 +573,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 *					itApp.controller('FavoritesController')
 	 *					 in php/public/js/app.js
 	 */
-	$scope.setOtherYear = function(otherYear)
+	$scope.setQualificationYear = function(qualificationYear)
 	{
-		console.log('otherYear =', otherYear);
-		$scope.otherYear = otherYear;
+		console.log('qualificationYear =', qualificationYear);
+		$scope.qualificationYear = qualificationYear;
 	};
 
 

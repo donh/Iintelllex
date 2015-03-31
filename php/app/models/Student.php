@@ -31,6 +31,12 @@ class Student extends \Phalcon\Mvc\Model
 	 *
 	 * @var string
 	 */
+	public $degree;
+
+	/**
+	 *
+	 * @var string
+	 */
 	public $company;
 
 	/**
@@ -133,6 +139,7 @@ class Student extends \Phalcon\Mvc\Model
 			'userId' => 'userId', 
 			'institution' => 'institution', 
 			'graduationYear' => 'graduationYear', 
+			'degree' => 'degree', 
 			'company' => 'company', 
 			'monthFrom' => 'monthFrom', 
 			'yearFrom' => 'yearFrom', 
@@ -223,7 +230,7 @@ class Student extends \Phalcon\Mvc\Model
 		$row = new Student();
 		// $result = $row->update($user, array(
 		$result = $row->save($user, array(
-			'institution', 'graduationYear', 'company', 'monthFrom', 'yearFrom', 'monthTo',
+			'institution', 'graduationYear', 'degree', 'company', 'monthFrom', 'yearFrom', 'monthTo',
 			'yearTo', 'supervisor', 'competitionName', 'competitionResult',
 			'publicationName', 'publicationType', 'publicationUrl', 'publicationCitation',
 			'qualification', 'qualificationYear', 'createdAt', 'updatedAt'
