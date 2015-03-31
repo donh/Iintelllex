@@ -2,8 +2,8 @@
 RewriteEngine On
 
 
-Alias /api/ "e:/Softwares/"
-<Directory "e:/Softwares/">
+Alias /api/ "/var/www/php/public/"
+<Directory "/var/www/php/public/">
 	Options Indexes FollowSymLinks MultiViews
 	AllowOverride None
 	Allow from all

@@ -24,6 +24,12 @@
 			</div>
 		</div>
 
+		<div id="messageBox" ng-show="messages" class="container hide" style="width:330px;">
+			<div ng-if="messages.error" ng-bind="messages.error" class="alert alert-danger"></div>
+			<div ng-if="messages.info" ng-bind="messages.info" class="alert alert-info"></div>
+			<div ng-if="messages.success" ng-bind="messages.success" class="alert alert-success"></div>
+		</div>
+
 		<div class="container container-center row">
 			<div class="form-horizontal">
 				<div class="form-group">

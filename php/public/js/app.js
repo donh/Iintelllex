@@ -309,11 +309,35 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// 	})
 			.success(function(data, status, headers, config) {
 				console.log('data =', data);
-				// $scope.setMessages(data.messages);
+				$scope.setMessages(data.messages);
 			})
 			.error(function(data, status, headers, config) {
 				$scope.status = status;
 			});
+	};
+
+
+	/**
+	 * @function name:	setMessages = function (messages)
+	 * @description:	This function opens URL in a new window.
+	 * @related issues:	ITL-003
+	 * @param:			object messages
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/31/2015
+	 * @last modified: 	03/31/2015
+	 * @called by:		itApp.controller('EditController')
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setMessages = function (messages)
+	{
+		if (messages) {
+			var messageBox = angular.element(document.querySelector('#messageBox'));
+			if (messageBox.hasClass('hide')) {
+				messageBox.removeClass('hide');
+			} else {}
+			$scope.messages = messages;
+		} else $scope.messages = null;
 	};
 
 
