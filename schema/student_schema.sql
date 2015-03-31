@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `userId` varchar(11) DEFAULT NULL,
   `institution` varchar(50) DEFAULT NULL,
   `graduationYear` int(4) DEFAULT NULL,
+  `degree` varchar(20) DEFAULT NULL,
   `company` varchar(50) DEFAULT NULL,
   `monthFrom` char(3) DEFAULT NULL,
   `yearFrom` int(4) DEFAULT NULL,
