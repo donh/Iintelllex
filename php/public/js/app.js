@@ -85,7 +85,7 @@ var itApp = angular.module('itApp', ['ngRoute']);
  * @return:			void
  * @author:			Don Hsieh
  * @since:			03/27/2015
- * @last modified: 	03/27/2015
+ * @last modified: 	03/31/2015
  * @called by:		<body ng-controller="AppController">
  *					 in php/public/index.html
  */
@@ -93,10 +93,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.$location = $location;
 	$scope.$path = $location.$$path;
 	$scope.userType = false;
-	// $scope.studentShow = true;
-	// $scope.practictionerShow = false;
-	$scope.studentShow = false;
-	$scope.practictionerShow = true;
+	$scope.studentShow = true;
+	$scope.practictionerShow = false;
+	// $scope.studentShow = false;
+	// $scope.practictionerShow = true;
 
 
 	var years = [];
@@ -218,7 +218,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 * @function name:	setAdmissionYear = function(admissionYear)
 	 * @description:	This function gets content of infinite scroll.
 	 * @related issues:	ITL-003
-	 * @param:			string admissionYear
+	 * @param:			string yearAwarded
 	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
 	 * @return:			void
 	 * @author:			Don Hsieh
@@ -230,67 +230,54 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 */
 	$scope.setYearAwarded = function(yearAwarded)
 	{
-		console.log('yearAwarded =', yearAwarded);
+		// console.log('yearAwarded =', yearAwarded);
 		$scope.yearAwarded = yearAwarded;
 	};
 
 
 
 	/**
-	 * @function name:	editStudent = function (student)
-	 * @description:	This function submits user password reset request.
+	 * @function name:	editPractictioner = function (practictioner)
+	 * @description:	This function submits edit request to "practictioner" table.
 	 * @related issues:	ITL-003
-	 * @param:			object user
+	 * @param:			object practictioner
 	 * @return:			void
 	 * @author:			Don Hsieh
 	 * @since:			03/29/2015
-	 * @last modified: 	03/29/2015
-	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
-	 *					 in php/public/index.html
-	 *					 in php/public/templates/signup.html
+	 * @last modified: 	03/31/2015
+	 * @called by:		<form ng-show="practictionerShow" ng-submit="editPractictioner(practictioner)">
+	 *					 in php/public/profile_edit.html
 	 */
 	$scope.editPractictioner = function (practictioner)
 	{
-		// console.log('practictioner =', practictioner);
 		practictioner.jurisdiction = $scope.jurisdiction;
 		practictioner.admissionYear = $scope.admissionYear;
 		practictioner.yearAwarded = $scope.yearAwarded;
 		// practictioner.publicationType = publicationType;
 		practictioner.publicationType = $scope.publicationType;
-		console.log('practictioner =', practictioner);
+
+		if (practictioner.jurisdiction === 'Others' && practictioner.otherJurisdiction.length > 0) {
+			practictioner.jurisdiction = practictioner.otherJurisdiction;
+		}
+		// console.log('practictioner =', practictioner);
 
 
-
-		// $scope.practictioner = {
-		// 	jurisdiction: '',
-		// 	otherJurisdiction: '',
-		// 	admissionYear: '',
-		// 	area: '',
-		// 	industry: '',
-		// 	awardName: '',
-		// 	yearAwarded: '',
-		// 	publicationName: '',
-		// 	publicationType: '',
-		// 	publicationUrl: '',
-		// 	publicationCitation: '',
+		// practictioner = {
+		// 	jurisdiction: 'Europe',
+		// 	otherJurisdiction: 'otherother',
+		// 	admissionYear: '1998',
+		// 	area: 'Patent',
+		// 	industry: 'IT',
+		// 	awardName: 'Oscar',
+		// 	yearAwarded: '1994',
+		// 	publicationName: 'GPS',
+		// 	publicationType: 'Online Article',
+		// 	publicationUrl: 'url',
+		// 	publicationCitation: 'citation',
 		// };
 
-		practictioner = {
-			jurisdiction: 'Europe',
-			otherJurisdiction: 'otherother',
-			admissionYear: '1998',
-			area: 'Patent',
-			industry: 'IT',
-			awardName: 'Oscar',
-			yearAwarded: '1994',
-			publicationName: 'GPS',
-			publicationType: 'Online Article',
-			publicationUrl: 'url',
-			publicationCitation: 'citation',
-		};
 
-
-		practictioner.url = $location.url();
+		// practictioner.url = $location.url();
 		// var headers = {
 		// 	'Access-Control-Allow-Origin' : '*',
 		// 	'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
@@ -353,7 +340,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 * @return:			void
 	 * @author:			Don Hsieh
 	 * @since:			03/29/2015
-	 * @last modified: 	03/29/2015
+	 * @last modified: 	03/31/2015
 	 * @called by:		<form id="signupForm" ng-controller="SignupController" ng-submit="signup(user)">
 	 *					 in php/public/index.html
 	 *					 in php/public/templates/signup.html
