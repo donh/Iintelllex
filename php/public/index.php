@@ -65,12 +65,12 @@ try {
 	 * @called by:		$scope.reset = function (user)
 	 *					  in wdApp.controller('ResetController') in php/public/js/app.js
 	 */
-	$app->get('/api/test', function () use ($app) {
-		$request = new Phalcon\Http\Request();
-		$header = $request->getHeaders();
-		echo print_r($header);
-		echo 'test test';
-	});
+	// $app->get('/api/test', function () use ($app) {
+	// 	$request = new Phalcon\Http\Request();
+	// 	$header = $request->getHeaders();
+	// 	echo print_r($header);
+	// 	echo 'test test';
+	// });
 
 
 	/**
@@ -145,7 +145,7 @@ try {
 	$app->post('/api/student', function () use ($app) {
 		$postdata = file_get_contents("php://input");
 		$post = json_decode($postdata);
-		$arr = Practictioner::addPractictioner($post, $app);
+		$arr = Student::Student($post, $app);
 		return $arr;
 	});
 

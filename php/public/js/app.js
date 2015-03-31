@@ -125,6 +125,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// userType: '',
 		institution: '',
 		graduationYear: '',
+		degree: '',
 		company: '',
 		monthFrom: '',
 		yearFrom: '',
@@ -382,6 +383,35 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// student.otherQualification = $scope.otherQualification;
 		// student.otherOthers = $scope.otherOthers;
 		student.otherYear = $scope.otherYear;
+
+
+		student = {
+			institution: 'NTU',
+			graduationYear: '1991',
+			degree: 'PhD',
+			company: 'Citi',
+			monthFrom: 'Feb',
+			yearFrom: '1993',
+			monthTo: 'Jul',
+			yearTo: '2008',
+			supervisor: 'Don',
+			competitionName: 'MUN',
+			competitionResult: 'BD',
+			publicationName: 'GPS',
+			publicationType: 'Online Article',
+			publicationUrl: 'url3',
+			publicationCitation: 'citation5',
+			qualification: 'Others',
+			otherQualification: 'CFA Level 5',
+			otherYear: '2014',
+		};
+		// student = Object {institution: "NTU", graduationYear: 1991, company: "Citi", 
+		// monthFrom: "Feb", yearFrom: 1993…}
+		// company: "Citi"competitionName: "MUN"competitionResult: "BD"degree: "PhD"
+		// graduationYear: 1991institution: "NTU"monthFrom: "Feb"monthTo: "Jul"
+		// otherQualification: "CFA Level 5"otherYear: 2014publicationCitation: "citation5"
+		// publicationName: "GPS"publicationType: "Online Article"publicationUrl: "url3"
+		// qualification: "CFA Level 5"supervisor: "Don"yearFrom: 1993yearTo: 2008
 
 		if (student.qualification === 'Others' && student.otherQualification.length > 0) {
 			student.qualification = student.otherQualification;

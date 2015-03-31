@@ -112,7 +112,7 @@ class Practictioner extends \Phalcon\Mvc\Model
 
 
 	/**
-	 * @function name:	public static function addUser($post, $app)
+	 * @function name:	public static function addPractictioner($post, $app)
 	 * @description:	This function creates an user account by content of $post.
 	 * @related issues: ITL-003
 	 * @param:			object $post
@@ -121,8 +121,8 @@ class Practictioner extends \Phalcon\Mvc\Model
 	 * @author:			Don Hsieh
 	 * @since:			03/30/2015
 	 * @last modified:	03/30/2015
-	 * @called by:		$app->post('/api/signup')
-	 *					 in /var/www/wd/php/public/index.php
+	 * @called by:		$app->post('/api/practictioner')
+	 *					 in php/public/index.php
 	 */
 	public static function addPractictioner($post, $app)
 	{
@@ -206,8 +206,6 @@ class Practictioner extends \Phalcon\Mvc\Model
 			return $arr;
 		}
 	}
-
-
 
 	/**
 	 * @function name:	public static function getNow()
