@@ -35,38 +35,12 @@
 				<div class="form-group">
 					<label for="inputType" class="col-md-2 control-label">User</label>
 					<div class="col-md-3 btn-group" role="group" aria-label="...">
-						<!-- <button id="form-choice-student" type="button" class="btn btn-success" ng-click="setStudent()">Student</button> -->
-						<!-- <button id="form-choice-student" type="button" class="btn btn-success" ng-click="setUserType('student, $flow')">Student</button> -->
 						<button id="form-choice-student" type="button" class="btn btn-success" ng-click="setUserType('student')">Student</button>
-						<!-- <button id="form-choice-student" type="button" class="btn btn-success" ng-click="studentShow = !studentShow">Student</button> -->
-						<!-- <button id="form-choice-practictioner" type="button" class="btn btn-success">Practictioner</button> -->
 						<button id="form-choice-practictioner" type="button" class="btn btn-success" ng-click="setUserType('practictioner')">Practictioner</button>
-						<!-- <button id="form-choice-practictioner" type="button" class="btn btn-success" ng-click="PractictionerShow = !PractictionerShow">Practictioner</button> -->
 					</div>
 				</div>
 				<form id="student-form" ng-show="studentShow" class="form-horizontal" role="form" ng-submit="editStudent(student)">
 					<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Student</span>
-					<!-- <div class="form-group">
-						<label id="student-photo-label" for="inputType" class="col-md-2 control-label">Upload Recent Photo</label>
-
-						<div flow-init="{singleFile:true}" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" class="col-md-3">
-							<div class="thumbnail" ng-show="!$flow.files.length">
-								<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" />
-							</div>
-							<div class="thumbnail" ng-show="$flow.files.length">
-								<img flow-img="$flow.files[0]" />
-							</div>
-							<div>
-								<span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn>Select image</span>
-								<span class="btn btn-info" ng-show="$flow.files.length" flow-btn>Change</span>
-								<span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">
-									Remove
-								</span>
-							</div>
-							<p>Only PNG,GIF,JPG,JEPG files allowed.</p>
-						</div>
-					</div> -->
-
 					<div class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Education</span>
 						<div class="form-group">
@@ -80,8 +54,6 @@
 							<div class="col-md-3 dropdown">
 								<!-- <button ng-model="student.graduationYear" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false"> -->
 								<button ng-bind="graduationYear" class="btn btn-primary dropdown-toggle" type="button" id="graduationYear" data-toggle="dropdown" aria-expanded="false">
-									<!-- Year -->
-									<!-- {{graduationYear}} -->
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -100,9 +72,6 @@
 					</div>
 					<div class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Work Experience</span>
-						<!-- <button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
-						</button> -->
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Company</label>
 							<div class="col-md-3">
@@ -119,15 +88,12 @@
 								</button>
 								<ul class="dropdown-menu month-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 									<li ng-repeat="month in months track by $index" role="presentation">
-										<!-- <a ng-click="setMonthFrom($index)" role="menuitem" tabindex="-1" value="$index">{{month}}</a> -->
 										<a ng-click="setMonthFrom(month)" role="menuitem">{{month}}</a>
 									</li>
 								</ul>
 							</div>
 							<div class="col-md-3 dropdown">
 								<button ng-bind="yearFrom" class="btn btn-primary dropdown-toggle" type="button" id="yearFrom" data-toggle="dropdown" aria-expanded="false">
-									<!-- Year -->
-									<!-- {{yearFrom}} -->
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
