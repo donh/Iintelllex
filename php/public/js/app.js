@@ -79,13 +79,10 @@ var itApp = angular.module('itApp', ['ngRoute']);
  * @param:			object $document
  * @param:			object $compile
  * @param:			object $location
- * @param:			object AUTH_EVENTS
- * @param:			object AuthService
- * @param:			object Session
  * @return:			void
  * @author:			Don Hsieh
  * @since:			03/27/2015
- * @last modified: 	03/31/2015
+ * @last modified: 	04/07/2015
  * @called by:		<body ng-controller="AppController">
  *					 in php/public/index.html
  */
@@ -111,6 +108,9 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	// 	months.push(i);
 	// }
 	// $scope.months = months;
+	$scope.userTypes = ['student', 'practictioner'];
+	$scope.userType = 'User Type';
+
 	$scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	$scope.types = ['Journal', 'Online Article'];
 	$scope.qualifications = ['CFA Level 1', 'CFA Level 2', 'CFA Level 3', 'CPA', 'MBBS', 'Others'];
@@ -171,6 +171,86 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		publicationType: '',
 		publicationUrl: '',
 		publicationCitation: '',
+	};
+
+	/**
+	 * @function name:	$scope.setUserType = function(userType)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string userType
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/27/2015
+	 * @last modified: 	04/07/2015
+	 * @called by:		<a ng-click="setUserType(type)" role="menuitem">{{type}}</a>
+	 *					 in php/public/profile_edit.html
+	 */
+	$scope.setUserType = function(userType)
+	{
+		$scope.userType = userType;
+		$scope.studentShow = false;
+		$scope.practictionerShow = false;
+		console.log('userType =', userType);
+		if (userType === 'student') {
+			$scope.studentShow = !$scope.studentShow;
+			// $scope.studentShow = true;
+			$scope.PractictionerShow = false;
+		} else if (userType === 'practictioner') {
+			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
+			$scope.practictionerShow = !$scope.practictionerShow;
+			// $scope.practictionerShow = true;
+			$scope.studentShow = false;
+			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
+		} else {
+		}
+	};
+
+
+
+	/**
+	 * @function name:	editStudent = function (student)
+	 * @description:	This function submits user password reset request.
+	 * @related issues:	ITL-003
+	 * @param:			object student
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			04/07/2015
+	 * @last modified: 	04/07/2015
+	 * @called by:		<form ng-show="practictionerShow" ng-submit="editPractictioner(practictioner)">
+	 *					 in php/public/profile_edit.html
+	 */
+	// $scope.signup = function (user, $flow)
+	$scope.signup = function (user)
+	{
+		// var monthFrom = angular.element(document.querySelector('#monthFrom')).val();
+		// console.log('monthFrom =', monthFrom);
+		// var yearFrom = angular.element(document.querySelector('#yearFrom')).val();
+		// console.log('yearFrom =', yearFrom);
+		user.graduationYear = $scope.graduationYear;
+		user.monthFrom = $scope.monthFrom;
+		user.yearFrom = $scope.yearFrom;
+		user.monthTo = $scope.monthTo;
+		user.yearTo = $scope.yearTo;
+		user.publicationType = $scope.publicationType;
+		user.qualification = $scope.qualification;
+		user.qualificationYear = $scope.qualificationYear;
+
+
+		if (user.qualification === 'Others' && user.otherQualification.length > 0) {
+			user.qualification = user.otherQualification;
+		}
+		console.log('user =', user);
+
+		$http.post('http://intelllex.com:3000/api/user', user)
+			.success(function(data, status, headers, config) {
+				console.log('data =', data);
+				$scope.setMessages(data.messages);
+			})
+			.error(function(data, status, headers, config) {
+				$scope.status = status;
+			});
+
 	};
 
 
@@ -586,43 +666,6 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 
 
 
-
-	/**
-	 * @function name:	$scope.setUserType = function(userType)
-	 * @description:	This function gets content of infinite scroll.
-	 * @related issues:	ITL-003
-	 * @param:			string userType
-	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
-	 * @return:			void
-	 * @author:			Don Hsieh
-	 * @since:			03/27/2015
-	 * @last modified: 	03/27/2015
-	 * @called by:		itApp.controller('HomeController')
-	 *					itApp.controller('FavoritesController')
-	 *					 in php/public/js/app.js
-	 */
-	$scope.setUserType = function(userType)
-	{
-		// $scope.userType = userType;
-		$scope.studentShow = false;
-		$scope.practictionerShow = false;
-		// console.log('userType =', userType);
-		if (userType === 'student') {
-			$scope.studentShow = !$scope.studentShow;
-			// $scope.studentShow = true;
-			$scope.PractictionerShow = false;
-		} else if (userType === 'practictioner') {
-			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
-			$scope.practictionerShow = !$scope.practictionerShow;
-			// $scope.practictionerShow = true;
-			$scope.studentShow = false;
-			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
-		} else {
-			// $scope.userType = false;
-			// $scope.studentShow = false;
-			// $scope.PractictionerShow = false;
-		}
-	};
 
 
 
