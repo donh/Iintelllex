@@ -207,6 +207,27 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	};
 
 
+	/**
+	 * @function name:	$scope.addDiv = function(userType)
+	 * @description:	This function gets content of infinite scroll.
+	 * @related issues:	ITL-003
+	 * @param:			string userType
+	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			03/27/2015
+	 * @last modified: 	04/07/2015
+	 * @called by:		<a ng-click="setUserType(type)" role="menuitem">{{type}}</a>
+	 *					 in php/public/profile_edit.html
+	 */
+	$scope.addDiv = function(divId)
+	{
+		console.log('divId =', divId);
+		var div = angular.element(document.querySelector('#' + divId));
+		console.log('div =', div);
+		console.log('div[0] =', div[0]);
+	};
+
 
 	/**
 	 * @function name:	editStudent = function (student)

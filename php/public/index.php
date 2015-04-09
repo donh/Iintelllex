@@ -74,6 +74,27 @@ try {
 
 
 	/**
+	 * @api name:		$app->post('/api/user')
+	 * @description:	This API adds a record to "user" table.
+	 * @related issues:	ITL-003
+	 * @param:			JSON $postdata
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			04/09/2015
+	 * @last modified:	04/09/2015
+	 * @called by:		$http.post('http://intelllex.com:3000/api/user', user)
+	 *					  in $scope.signup = function (user)
+	 *					  in itApp.controller('AppController') in php/public/js/app.js
+	 */
+	$app->post('/api/user', function () use ($app) {
+		$postdata = file_get_contents("php://input");
+		$post = json_decode($postdata);
+		$arr = User::addUser($post, $app);
+		return $arr;
+	});
+
+
+	/**
 	 * @api name:		$app->post('/api/practictioner')
 	 * @description:	This API adds a record to "practictioner" table.
 	 * @related issues:	ITL-003
