@@ -111,6 +111,9 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.userTypes = ['student', 'practictioner'];
 	$scope.userType = 'User Type';
 
+
+	$scope.works = [{company: '', from: '', to: '', supervisor: ''}];
+
 	$scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	$scope.types = ['Journal', 'Online Article'];
 	$scope.qualifications = ['CFA Level 1', 'CFA Level 2', 'CFA Level 3', 'CPA', 'MBBS', 'Others'];
@@ -220,12 +223,21 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 * @called by:		<a ng-click="setUserType(type)" role="menuitem">{{type}}</a>
 	 *					 in php/public/profile_edit.html
 	 */
-	$scope.addDiv = function(divId)
+	$scope.addDiv = function(div)
 	{
-		console.log('divId =', divId);
-		var div = angular.element(document.querySelector('#' + divId));
 		console.log('div =', div);
-		console.log('div[0] =', div[0]);
+		// var div = angular.element(document.querySelector('#' + divId));
+		// console.log('div =', div);
+		// console.log('div[0] =', div[0]);
+		if (div === 'work') {
+			// $scope.works = [{company: '', from: '', to: '', supervisor: ''}];
+			console.log('$scope.works.length =', $scope.works.length);
+			console.log('$scope.works =', $scope.works);
+			if ($scope.works.length < 3) {
+				$scope.works.push({company: '', from: '', to: '', supervisor: ''});
+				// console.log('$scope.works =', $scope.works);
+			} else {}
+		}
 	};
 
 
