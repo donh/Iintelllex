@@ -128,7 +128,7 @@
 					</div>
 					<div ng-show="studentShow" class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Work Experience</span>
-						<button ng-click="addDiv('work')" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+						<button ng-click="addDiv('work')" ng-show="works.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
 						</button>
 
@@ -253,6 +253,16 @@
 									<input ng-model="work.company" type="text" class="form-control" id="inputType" placeholder="Company">
 								</div>
 							</div>
+							<!-- <div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">From</label>
+								<div class="col-md-1">
+									<input ng-model="work.monthFrom" type="text" class="form-control" id="inputType" placeholder="MM" style="float:left;">
+								</div>
+								<div style="float:left;"> / </div>
+								<div class="col-md-1">
+									<input ng-model="work.yearFrom" type="text" class="form-control" id="inputType" placeholder="YYYY" style="float:left;">
+								</div>
+							</div> -->
 							<div class="form-group">
 								<label for="inputType" class="col-md-2 control-label">From</label>
 								<div class="col-md-3">
@@ -272,11 +282,9 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 
-
-					<div ng-show="studentShow" class="well">
+					<!-- <div ng-show="studentShow" class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Mooting Experience</span>
 						<button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
@@ -293,8 +301,28 @@
 								<input ng-model="user.competitionResult" type="text" class="form-control" id="inputType" placeholder="Result">
 							</div>
 						</div>
-					</div>
+					</div> -->
 
+					<div ng-show="studentShow" class="well">
+						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Mooting Experience</span>
+						<button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
+						</button>
+						<div ng-repeat="competition in competitions track by $index">
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Competition Name</label>
+								<div class="col-md-3">
+									<input ng-model="competition.competitionName" type="text" class="form-control" id="inputType" placeholder="Mooting Competition Name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Competition Result</label>
+								<div class="col-md-3">
+									<input ng-model="competition.competitionResult" type="text" class="form-control" id="inputType" placeholder="Competition Result">
+								</div>
+							</div>
+						</div>
+					</div>
 
 					<div ng-show="practictionerShow" class="well">
 						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Admissions</span>

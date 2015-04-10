@@ -111,9 +111,6 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.userTypes = ['student', 'practictioner'];
 	$scope.userType = 'User Type';
 
-
-	$scope.works = [{company: '', from: '', to: '', supervisor: ''}];
-
 	$scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	$scope.types = ['Journal', 'Online Article'];
 	$scope.qualifications = ['CFA Level 1', 'CFA Level 2', 'CFA Level 3', 'CPA', 'MBBS', 'Others'];
@@ -209,32 +206,41 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		}
 	};
 
+	$scope.rowLimit = 3;
+	$scope.works = [{company: '', from: '', to: '', supervisor: ''}];
+	$scope.competitions = [{competitionName: '', competitionResult: ''}];
 
 	/**
 	 * @function name:	$scope.addDiv = function(userType)
-	 * @description:	This function gets content of infinite scroll.
+	 * @description:	This function adds rows for button "+".
 	 * @related issues:	ITL-003
-	 * @param:			string userType
-	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
+	 * @param:			string div
 	 * @return:			void
 	 * @author:			Don Hsieh
-	 * @since:			03/27/2015
-	 * @last modified: 	04/07/2015
-	 * @called by:		<a ng-click="setUserType(type)" role="menuitem">{{type}}</a>
+	 * @since:			04/10/2015
+	 * @last modified: 	04/10/2015
+	 * @called by:		<button ng-click="addDiv('work')" ng-show="works.length < rowLimit">
+	 *					<button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit">
 	 *					 in php/public/profile_edit.html
 	 */
 	$scope.addDiv = function(div)
 	{
 		console.log('div =', div);
+		// $scope.rowLimit = 3;
 		// var div = angular.element(document.querySelector('#' + divId));
 		// console.log('div =', div);
 		// console.log('div[0] =', div[0]);
 		if (div === 'work') {
 			// $scope.works = [{company: '', from: '', to: '', supervisor: ''}];
-			console.log('$scope.works.length =', $scope.works.length);
-			console.log('$scope.works =', $scope.works);
-			if ($scope.works.length < 3) {
+			// console.log('$scope.works.length =', $scope.works.length);
+			// console.log('$scope.works =', $scope.works);
+			if ($scope.works.length < $scope.rowLimit) {
 				$scope.works.push({company: '', from: '', to: '', supervisor: ''});
+				// console.log('$scope.works =', $scope.works);
+			} else {}
+		} else if (div === 'competition') {
+			if ($scope.competitions.length < $scope.rowLimit) {
+				$scope.competitions.push({competitionName: '', competitionResult: ''});
 				// console.log('$scope.works =', $scope.works);
 			} else {}
 		}
