@@ -129,7 +129,7 @@
 					<div ng-show="studentShow" class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Work Experience</span>
 						<button ng-click="addDiv('work')" ng-show="works.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 						</button>
 
 						<!-- <div id="workExperience">
@@ -201,7 +201,7 @@
 					<div ng-show="studentShow" class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Mooting Experience</span>
 						<button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 						</button>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Competition Name</label>
@@ -287,7 +287,7 @@
 					<!-- <div ng-show="studentShow" class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Mooting Experience</span>
 						<button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 						</button>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Competition Name</label>
@@ -306,7 +306,7 @@
 					<div ng-show="studentShow" class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Mooting Experience</span>
 						<button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 						</button>
 						<div ng-repeat="competition in competitions track by $index">
 							<div class="form-group">
@@ -327,7 +327,7 @@
 					<div ng-show="practictionerShow" class="well">
 						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Admissions</span>
 						<button ng-click="addDiv('admission')" ng-show="admissions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 						</button>
 						<div ng-repeat="admission in admissions track by $index">
 							<div class="form-group">
@@ -380,7 +380,7 @@
 					<div ng-show="practictionerShow" class="well">
 						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Awards / Citations</span>
 						<button ng-click="addDiv('award')" ng-show="awards.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 						</button>
 						<div ng-repeat="award in awards">
 							<div class="form-group">
@@ -411,46 +411,54 @@
 
 					<div class="well">
 						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Publications</span>
-						<button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
+						<button ng-click="addDiv('publication')" ng-show="publications.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 						</button>
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">Publication Name</label>
-							<div class="col-md-3">
-								<input ng-model="user.publicationName" type="text" class="form-control" id="inputType" placeholder="Publication Name">
+						<div ng-repeat="publication in publications">
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Publication Name</label>
+								<div class="col-md-3">
+									<input ng-model="publication.publicationName" type="text" class="form-control" id="inputType" placeholder="Publication Name">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">Publication Type</label>
-							<div class="col-md-3 dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" id="publicationType" data-toggle="dropdown" aria-expanded="false">
-									<span ng-bind="publicationType"></span>
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="publicationType">
-									<li ng-repeat="type in types track by $index" role="presentation">
-										<a ng-click="setPublicationType(type)" role="menuitem">{{type}}</a>
-									</li>
-								</ul>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Publication Type</label>
+								<div class="col-md-3 dropdown">
+									<select class="btn btn-primary" ng-model="publication.type" ng-options="type for type in types">
+										<option value="">Type</option>
+									</select>
+								</div>
+
+								<!-- <div class="col-md-3 dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" id="publicationType" data-toggle="dropdown" aria-expanded="false">
+										<span ng-bind="publicationType"></span>
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="publicationType">
+										<li ng-repeat="type in types track by $index" role="presentation">
+											<a ng-click="setPublicationType(type)" role="menuitem">{{type}}</a>
+										</li>
+									</ul>
+								</div> -->
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">URL (if any)</label>
-							<div class="col-md-3">
-								<input ng-model="user.publicationUrl" type="text" class="form-control" id="inputType" placeholder="">
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">URL (if any)</label>
+								<div class="col-md-3">
+									<input ng-model="publication.publicationUrl" type="text" class="form-control" id="inputType" placeholder="URL (if any)">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">Citation (if any)</label>
-							<div class="col-md-3">
-								<textarea ng-model="user.publicationCitation" type="text" class="form-control" id="inputType" placeholder="" cols="50" rows="4"></textarea>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Citation (if any)</label>
+								<div class="col-md-3">
+									<textarea ng-model="publication.publicationCitation" type="text" class="form-control" id="inputType" placeholder="Citation (if any)" cols="50" rows="4"></textarea>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div ng-show="studentShow" class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Other Relevant Experience</span>
 						<button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: black;"></span>
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 						</button>
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">Qualification</label>

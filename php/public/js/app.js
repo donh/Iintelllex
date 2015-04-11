@@ -226,6 +226,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.competitions = [{competitionName: '', competitionResult: ''}];
 	$scope.admissions = [{jurisdiction: '', otherJurisdiction: '', admissionYear: ''}];
 	$scope.awards = [{awardName: '', awardYear: ''}];
+	$scope.publications = [{publicationName: '', type: '', publicationUrl: '', publicationCitation: ''}];
 
 	/**
 	 * @function name:	$scope.addDiv = function(userType)
@@ -235,7 +236,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 * @return:			void
 	 * @author:			Don Hsieh
 	 * @since:			04/10/2015
-	 * @last modified: 	04/10/2015
+	 * @last modified: 	04/11/2015
 	 * @called by:		<button ng-click="addDiv('work')" ng-show="works.length < rowLimit">
 	 *					<button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit">
 	 *					 in php/public/profile_edit.html
@@ -268,6 +269,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		} else if (div === 'award') {
 			if ($scope.awards.length < $scope.rowLimit) {
 				$scope.awards.push({awardName: '', awardYear: ''});
+			} else {}
+		} else if (div === 'publication') {
+			if ($scope.publications.length < $scope.rowLimit) {
+				$scope.publications.push({publicationName: '', type: '', publicationUrl: '', publicationCitation: ''});
 			} else {}
 		}
 	};
