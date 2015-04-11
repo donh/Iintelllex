@@ -83,7 +83,9 @@
 						<div class="form-group">
 							<label for="inputType" class="col-md-2 control-label">User Type</label>
 							<div class="col-md-3 dropdown">
-								<!-- <button class="btn btn-primary dropdown-toggle" type="button" id="graduationYear" data-toggle="dropdown" aria-expanded="false"> -->
+								<!-- <select class="btn btn-success" ng-model="publication.type" ng-options="type for type in types">
+									<option value="">User Type</option>
+								</select> -->
 								<button class="btn btn-success dropdown-toggle" type="button" id="graduationYear" data-toggle="dropdown" aria-expanded="false">
 									<span ng-bind="userType"></span>
 									<span class="caret"></span>
@@ -457,41 +459,49 @@
 					</div>
 					<div ng-show="studentShow" class="well">
 						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Other Relevant Experience</span>
-						<button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+						<button ng-click="addDiv('qualification')" ng-show="others.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 						</button>
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">Qualification</label>
-							<div class="col-md-3 dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" id="otherQualification" data-toggle="dropdown" aria-expanded="false">
-									<span ng-bind="qualification"></span>
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-									<li ng-repeat="qualification in qualifications track by $index" role="presentation">
-										<a ng-click="setQualification(qualification)" role="menuitem">{{qualification}}</a>
-									</li>
-								</ul>
+						<div ng-repeat="other in others">
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Qualification</label>
+								<div class="col-md-3 dropdown">
+									<select class="btn btn-primary" ng-model="other.qualificationName" ng-options="qualification for qualification in qualifications">
+										<option value="">Qualification</option>
+									</select>
+									<!-- <button class="btn btn-primary dropdown-toggle" type="button" id="otherQualification" data-toggle="dropdown" aria-expanded="false">
+										<span ng-bind="qualification"></span>
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li ng-repeat="qualification in qualifications track by $index" role="presentation">
+											<a ng-click="setQualification(qualification)" role="menuitem">{{qualification}}</a>
+										</li>
+									</ul> -->
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">Qualification (Others)</label>
-							<div class="col-md-3">
-								<input ng-model="user.otherQualification" type="text" class="form-control" id="inputType" placeholder="Other Qualification">
+							<div ng-show="other.qualificationName=='Others'" class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Qualification (Others)</label>
+								<div class="col-md-3">
+									<input ng-model="other.otherQualification" type="text" class="form-control" id="inputType" placeholder="Other Qualification">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">Year Attained</label>
-							<div class="col-md-3 dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" id="qualificationYear" data-toggle="dropdown" aria-expanded="false">
-									<span ng-bind="qualificationYear"></span>
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-									<li ng-repeat="year in years track by $index" role="presentation">
-										<a ng-click="setQualificationYear(year)" role="menuitem">{{year}}</a>
-									</li>
-								</ul>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Year Attained</label>
+								<div class="col-md-1">
+									<input ng-model="other.qualificationYear" type="text" class="form-control" id="inputType" placeholder="YYYY">
+								</div>
+								<!-- <div class="col-md-3 dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" id="qualificationYear" data-toggle="dropdown" aria-expanded="false">
+										<span ng-bind="qualificationYear"></span>
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li ng-repeat="year in years track by $index" role="presentation">
+											<a ng-click="setQualificationYear(year)" role="menuitem">{{year}}</a>
+										</li>
+									</ul>
+								</div> -->
 							</div>
 						</div>
 					</div>

@@ -91,10 +91,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.$path = $location.$$path;
 	$scope.messages = null;
 	$scope.userType = false;
-	// $scope.studentShow = true;
-	// $scope.practictionerShow = false;
-	$scope.studentShow = false;
-	$scope.practictionerShow = true;
+	$scope.studentShow = true;
+	$scope.practictionerShow = false;
+	// $scope.studentShow = false;
+	// $scope.practictionerShow = true;
 
 	// $scope.lotteryModel = [
 	// 	{
@@ -227,6 +227,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.admissions = [{jurisdiction: '', otherJurisdiction: '', admissionYear: ''}];
 	$scope.awards = [{awardName: '', awardYear: ''}];
 	$scope.publications = [{publicationName: '', type: '', publicationUrl: '', publicationCitation: ''}];
+	$scope.others = [{qualificationName: '', otherQualification: '', qualificationYear: ''}];
 
 	/**
 	 * @function name:	$scope.addDiv = function(userType)
@@ -273,6 +274,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		} else if (div === 'publication') {
 			if ($scope.publications.length < $scope.rowLimit) {
 				$scope.publications.push({publicationName: '', type: '', publicationUrl: '', publicationCitation: ''});
+			} else {}
+		} else if (div === 'qualification') {
+			if ($scope.others.length < $scope.rowLimit) {
+				$scope.others.push({qualificationName: '', otherQualification: '', qualificationYear: ''});
 			} else {}
 		}
 	};
