@@ -225,6 +225,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.works = [{company: '', from: '', to: '', supervisor: ''}];
 	$scope.competitions = [{competitionName: '', competitionResult: ''}];
 	$scope.admissions = [{jurisdiction: '', otherJurisdiction: '', admissionYear: ''}];
+	$scope.awards = [{awardName: '', awardYear: ''}];
 
 	/**
 	 * @function name:	$scope.addDiv = function(userType)
@@ -263,6 +264,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			if ($scope.admissions.length < $scope.rowLimit) {
 				$scope.admissions.push({jurisdiction: '', otherJurisdiction: '', admissionYear: ''});
 				// console.log('$scope.works =', $scope.works);
+			} else {}
+		} else if (div === 'award') {
+			if ($scope.awards.length < $scope.rowLimit) {
+				$scope.awards.push({awardName: '', awardYear: ''});
 			} else {}
 		}
 	};
