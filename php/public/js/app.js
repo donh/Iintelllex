@@ -91,10 +91,25 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.$path = $location.$$path;
 	$scope.messages = null;
 	$scope.userType = false;
-	$scope.studentShow = true;
-	$scope.practictionerShow = false;
-	// $scope.studentShow = false;
-	// $scope.practictionerShow = true;
+	// $scope.studentShow = true;
+	// $scope.practictionerShow = false;
+	$scope.studentShow = false;
+	$scope.practictionerShow = true;
+
+	// $scope.lotteryModel = [
+	// 	{
+	// 		id: 1,
+	// 		ProductName: '威力彩'
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		ProductName: '今彩539'
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		ProductName: '大樂透'
+	// 	}
+	// ];
 
 
 	var years = [];
@@ -156,7 +171,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.yearAwarded = 'Year';
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
-	$scope.jurisdiction = 'Jurisdiction';
+	// $scope.jurisdiction = 'Jurisdiction';
 	$scope.admissionYear = 'Year';
 
 	$scope.practictioner = {
@@ -209,6 +224,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.rowLimit = 3;
 	$scope.works = [{company: '', from: '', to: '', supervisor: ''}];
 	$scope.competitions = [{competitionName: '', competitionResult: ''}];
+	$scope.admissions = [{jurisdiction: '', otherJurisdiction: '', admissionYear: ''}];
 
 	/**
 	 * @function name:	$scope.addDiv = function(userType)
@@ -241,6 +257,11 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		} else if (div === 'competition') {
 			if ($scope.competitions.length < $scope.rowLimit) {
 				$scope.competitions.push({competitionName: '', competitionResult: ''});
+				// console.log('$scope.works =', $scope.works);
+			} else {}
+		} else if (div === 'admission') {
+			if ($scope.admissions.length < $scope.rowLimit) {
+				$scope.admissions.push({jurisdiction: '', otherJurisdiction: '', admissionYear: ''});
 				// console.log('$scope.works =', $scope.works);
 			} else {}
 		}

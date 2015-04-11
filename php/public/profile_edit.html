@@ -333,68 +333,28 @@
 							<div class="form-group">
 								<label for="inputType" class="col-md-2 control-label">Jurisdiction</label>
 								<div class="col-md-3 dropdown">
-									<button  class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false">
-										<span ng-bind="jurisdiction"></span>
-										<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-										<li ng-repeat="jurisdiction in jurisdictions track by $index" role="presentation">
-											<a ng-click="setJurisdiction(jurisdiction)" role="menuitem">{{jurisdiction}}</a>
-										</li>
-									</ul>
+									<select class="btn btn-primary" ng-model="admission.jurisdiction" ng-options="jurisdiction for jurisdiction in jurisdictions">
+										<option value="">Jurisdiction</option>
+									</select>
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="inputType" class="col-md-2 control-label">Competition Result</label>
+							<div ng-show="admission.jurisdiction=='Others'" class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Other Jurisdiction</label>
 								<div class="col-md-3">
-									<input ng-model="competition.competitionResult" type="text" class="form-control" id="inputType" placeholder="Competition Result">
+									<input ng-model="admission.otherJurisdiction" type="text" class="form-control" id="inputType" placeholder="Other Jurisdiction">
 								</div>
 							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label"></label>
-							<div class="col-md-3 dropdown">
-								<button  class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false">
-									<span ng-bind="jurisdiction"></span>
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-									<li ng-repeat="jurisdiction in jurisdictions track by $index" role="presentation">
-										<a ng-click="setJurisdiction(jurisdiction)" role="menuitem">{{jurisdiction}}</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">Other Jurisdiction</label>
-							<div class="col-md-3">
-								<input ng-model="practictioner.otherJurisdiction" type="text" class="form-control" id="inputType" placeholder="Other Jurisdiction">
-							</div>
-						</div>
-						<div class="form-group">
-							<!-- <label for="inputType" class="col-md-2 control-label">Year of Admission</label>
-							<div class="col-md-3 dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false">
-									<span ng-bind="admissionYear"></span>
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-									<li ng-repeat="year in years track by $index" role="presentation">
-										<a ng-click="setAdmissionYear(year)" role="menuitem">{{year}}</a>
-									</li>
-								</ul>
-							</div> -->
 							<div class="form-group">
 								<label for="inputType" class="col-md-2 control-label">Year of Admission</label>
 								<div class="col-md-3">
-									<input ng-model="work.admissionYear" type="text" class="form-control" id="inputType" placeholder="MM/YYYY">
+									<input ng-model="admission.admissionYear" type="text" class="form-control" id="inputType" placeholder="MM/YYYY">
 								</div>
 							</div>
-
-
 						</div>
 					</div>
+
+
+
 
 					<div ng-show="practictionerShow" class="well">
 						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Area of Expertise/Practice</span>
