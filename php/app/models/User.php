@@ -218,8 +218,10 @@ class User extends \Phalcon\Mvc\Model
 			$user['username'] = $post->username;
 			$user['account'] = strtolower($post->username);
 		} else $messages['error'] = 'Please enter your institution.';
-		if (isset($post->type)) $user['type'] = $post->type;
-		else $messages['error'] = 'Please select your user type.';
+		if (isset($post->type)) {
+			$type = $post->type
+			$user['type'] = $type;
+		} else $messages['error'] = 'Please select your user type.';
 		if (isset($post->firstName)) $user['firstName'] = $post->firstName;
 		else $messages['firstName'] = 'Please enter your first name.';
 		if (isset($post->lastName)) $user['lastName'] = $post->lastName;
@@ -233,21 +235,21 @@ class User extends \Phalcon\Mvc\Model
 		
 
 
-		if (isset($post->company)) $user['company'] = $post->company;
-		if (isset($post->monthFrom)) $user['monthFrom'] = $post->monthFrom;
-		if (isset($post->yearFrom)) $user['yearFrom'] = $post->yearFrom;
-		if (isset($post->monthFrom)) $user['monthFrom'] = $post->monthFrom;
-		if (isset($post->monthTo)) $user['monthTo'] = $post->monthTo;
-		if (isset($post->yearTo)) $user['yearTo'] = $post->yearTo;
-		if (isset($post->supervisor)) $user['supervisor'] = $post->supervisor;
-		if (isset($post->competitionName)) $user['competitionName'] = $post->competitionName;
-		if (isset($post->competitionResult)) $user['competitionResult'] = $post->competitionResult;
-		if (isset($post->publicationName)) $user['publicationName'] = $post->publicationName;
-		if (isset($post->publicationType)) $user['publicationType'] = $post->publicationType;
-		if (isset($post->publicationUrl)) $user['publicationUrl'] = $post->publicationUrl;
-		if (isset($post->publicationCitation)) $user['publicationCitation'] = $post->publicationCitation;
-		if (isset($post->qualification)) $user['qualification'] = $post->qualification;
-		if (isset($post->qualificationYear)) $user['qualificationYear'] = $post->qualificationYear;
+		// if (isset($post->company)) $user['company'] = $post->company;
+		// if (isset($post->monthFrom)) $user['monthFrom'] = $post->monthFrom;
+		// if (isset($post->yearFrom)) $user['yearFrom'] = $post->yearFrom;
+		// if (isset($post->monthFrom)) $user['monthFrom'] = $post->monthFrom;
+		// if (isset($post->monthTo)) $user['monthTo'] = $post->monthTo;
+		// if (isset($post->yearTo)) $user['yearTo'] = $post->yearTo;
+		// if (isset($post->supervisor)) $user['supervisor'] = $post->supervisor;
+		// if (isset($post->competitionName)) $user['competitionName'] = $post->competitionName;
+		// if (isset($post->competitionResult)) $user['competitionResult'] = $post->competitionResult;
+		// if (isset($post->publicationName)) $user['publicationName'] = $post->publicationName;
+		// if (isset($post->publicationType)) $user['publicationType'] = $post->publicationType;
+		// if (isset($post->publicationUrl)) $user['publicationUrl'] = $post->publicationUrl;
+		// if (isset($post->publicationCitation)) $user['publicationCitation'] = $post->publicationCitation;
+		// if (isset($post->qualification)) $user['qualification'] = $post->qualification;
+		// if (isset($post->qualificationYear)) $user['qualificationYear'] = $post->qualificationYear;
 
 		if (isset($messages['error'])) {
 			$arr = array(
@@ -257,6 +259,21 @@ class User extends \Phalcon\Mvc\Model
 			);
 			return $arr;
 		}
+
+		if ($type == 'student') {
+			$user['institution'] = '';
+			$user['graduationYear'] = '';
+			$user['degree'] = '';
+			$user['works'] = '';
+			$user['competitions'] = '';
+			$user['others'] = '';
+			if (isset($post->institution)) $user['institution'] = $post->institution;
+			if (isset($post->institution)) $user['institution'] = $post->institution;
+			if (isset($post->institution)) $user['institution'] = $post->institution;
+			if (isset($post->institution)) $user['institution'] = $post->institution;
+
+
+		} else $messages['error'] = 'Please select your user type.';
 
 		// $now = User::getNow();
 		$now = Practictioner::getNow();
