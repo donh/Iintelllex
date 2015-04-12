@@ -6,10 +6,11 @@
 # @return:			void
 # @author:			Don Hsieh
 # @since:			03/30/2015
-# @last modified:	03/30/2015
+# @last modified:	04/12/2015
 # @called by:		/etc/nginx
 #
 # Usage:
+#sudo ln -sf /var/www/intelllex/nginx/default_phalcon /etc/nginx/sites-available/default; sudo ln -sf /var/www/intelllex/nginx/nginx.conf /etc/nginx/nginx.conf; sudo nginx -s reload; sudo nginx -t
 #sudo ln -sf /var/www/php/nginx/default_phalcon /etc/nginx/sites-available/default; sudo ln -sf /var/www/php/nginx/nginx.conf /etc/nginx/nginx.conf; sudo nginx -s reload; sudo nginx -t
 #
 #sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf_$(date -d "today" +"%Y%m%d"); sudo rm /etc/nginx/nginx.conf; sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default_$(date -d "today" +"%Y%m%d"); sudo rm /etc/nginx/sites-available/default

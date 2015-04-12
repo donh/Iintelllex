@@ -204,7 +204,7 @@ class User extends \Phalcon\Mvc\Model
 	 * @return:			JSON $json
 	 * @author:			Don Hsieh
 	 * @since:			03/31/2015
-	 * @last modified:	03/31/2015
+	 * @last modified:	04/12/2015
 	 * @called by:		$app->post('/api/student')
 	 *					 in php/public/index.php
 	 */
@@ -215,42 +215,57 @@ class User extends \Phalcon\Mvc\Model
 		
 		$user = array();
 		if (isset($post->username)) {
-			$user['username'] = $post->username;
-			$user['account'] = strtolower($post->username);
-		} else $messages['error'] = 'Please enter your institution.';
-		if (isset($post->type)) {
-			$type = $post->type
+			$username = $post->username;
+			if (strpos($username, ' ') !== FALSE) {
+				$messages['error'] = 'Username should contain no spaces.';
+			} else {
+				$user['username'] = $username;
+				$user['account'] = strtolower($username);
+			}
+		} else $messages['error'] = 'Please enter your username.';
+		$row = User::findFirstByAccount($user['account']);
+		if ($row) {
+			$messages['error'] = 'Username already taken.';
+		}
+
+		if (isset($post->email)) {
+			$email = strtolower($post->email);
+			$regex = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/";
+			$result = preg_match($regex, $email);
+			if (isset($result)) {
+				$user['email'] = $email;
+			} else {
+				$messages['error'] = 'Please enter valid email.';
+			}
+		} else $messages['error'] = 'Please enter your email.';
+		$row = User::findFirstByEmail($email);
+		if ($row) {
+			$messages['error'] = 'Email already registered.';
+		}
+
+		if (isset($post->password) && isset($post->password_confirmation)) {
+			$password = $post->password;
+			$password_confirmation = $post->password_confirmation;
+			if (strcmp($password, $password_confirmation) !== 0) {
+				$messages['error'] = 'Please enter matched password.';
+			} else if (strlen($password) < 6) {
+				$messages['error'] = 'Please enter valid password.';
+			// } else $user['password'] = $app->security->hash($password);
+			} else $user['password'] = $password;
+		} else $messages['error'] = 'Please enter your password.';
+
+		if (isset($post->userType)) {
+			$type = $post->userType;
 			$user['type'] = $type;
 		} else $messages['error'] = 'Please select your user type.';
 		if (isset($post->firstName)) $user['firstName'] = $post->firstName;
 		else $messages['firstName'] = 'Please enter your first name.';
 		if (isset($post->lastName)) $user['lastName'] = $post->lastName;
 		else $messages['lastName'] = 'Please enter your last name.';
-		if (isset($post->email)) $user['email'] = $post->email;
-		else $messages['email'] = 'Please enter your email.';
-
+		
 			// 'ip' => 'ip', 
 			// 'ips' => 'ips', 
-		//password shall match
 		
-
-
-		// if (isset($post->company)) $user['company'] = $post->company;
-		// if (isset($post->monthFrom)) $user['monthFrom'] = $post->monthFrom;
-		// if (isset($post->yearFrom)) $user['yearFrom'] = $post->yearFrom;
-		// if (isset($post->monthFrom)) $user['monthFrom'] = $post->monthFrom;
-		// if (isset($post->monthTo)) $user['monthTo'] = $post->monthTo;
-		// if (isset($post->yearTo)) $user['yearTo'] = $post->yearTo;
-		// if (isset($post->supervisor)) $user['supervisor'] = $post->supervisor;
-		// if (isset($post->competitionName)) $user['competitionName'] = $post->competitionName;
-		// if (isset($post->competitionResult)) $user['competitionResult'] = $post->competitionResult;
-		// if (isset($post->publicationName)) $user['publicationName'] = $post->publicationName;
-		// if (isset($post->publicationType)) $user['publicationType'] = $post->publicationType;
-		// if (isset($post->publicationUrl)) $user['publicationUrl'] = $post->publicationUrl;
-		// if (isset($post->publicationCitation)) $user['publicationCitation'] = $post->publicationCitation;
-		// if (isset($post->qualification)) $user['qualification'] = $post->qualification;
-		// if (isset($post->qualificationYear)) $user['qualificationYear'] = $post->qualificationYear;
-
 		if (isset($messages['error'])) {
 			$arr = array(
 				'status' => 'INVALID-INPUT',
@@ -259,21 +274,9 @@ class User extends \Phalcon\Mvc\Model
 			);
 			return $arr;
 		}
-
-		if ($type == 'student') {
-			$user['institution'] = '';
-			$user['graduationYear'] = '';
-			$user['degree'] = '';
-			$user['works'] = '';
-			$user['competitions'] = '';
-			$user['others'] = '';
-			if (isset($post->institution)) $user['institution'] = $post->institution;
-			if (isset($post->institution)) $user['institution'] = $post->institution;
-			if (isset($post->institution)) $user['institution'] = $post->institution;
-			if (isset($post->institution)) $user['institution'] = $post->institution;
-
-
-		} else $messages['error'] = 'Please select your user type.';
+		
+		$user['publications'] = '';
+		if (isset($post->publications)) $user['publications'] = json_encode($post->publications);
 
 		// $now = User::getNow();
 		$now = Practictioner::getNow();
@@ -291,15 +294,42 @@ class User extends \Phalcon\Mvc\Model
 
 		// $user['agent'] = $request->getUserAgent();
 		// $user['lang'] = $request->getBestLanguage();
-		$row = new Student();
-		// $result = $row->update($user, array(
-		$result = $row->save($user, array(
-			'institution', 'graduationYear', 'degree', 'company', 'monthFrom', 'yearFrom', 'monthTo',
-			'yearTo', 'supervisor', 'competitionName', 'competitionResult',
-			'publicationName', 'publicationType', 'publicationUrl', 'publicationCitation',
-			'qualification', 'qualificationYear', 'createdAt', 'updatedAt'
-		));;
-		
+		$row = new User();
+		if ($type == 'student') {
+			$user['institution'] = '';
+			$user['graduationYear'] = '';
+			$user['degree'] = '';
+			$user['works'] = '';
+			$user['competitions'] = '';
+			$user['others'] = '';
+			if (isset($post->institution)) $user['institution'] = $post->institution;
+			if (isset($post->graduationYear)) $user['graduationYear'] = $post->graduationYear;
+			if (isset($post->degree)) $user['degree'] = $post->degree;
+			if (isset($post->works)) $user['works'] = json_encode($post->works);
+			if (isset($post->competitions)) $user['competitions'] = json_encode($post->competitions);
+			if (isset($post->others)) $user['others'] = json_encode($post->others);
+			// $result = $row->update($user, array(
+			$result = $row->save($user, array(
+				'username', 'account', 'email', 'password', 'type', 'publications',
+				'firstName', 'lastName', 'createdAt', 'updatedAt',
+				'institution', 'graduationYear', 'degree', 'works', 'competitions', 'others'
+			));;
+		} else if ($type == 'practictioner') {
+			$user['admissions'] = '';
+			$user['area'] = '';
+			$user['industry'] = '';
+			$user['awards'] = '';
+			if (isset($post->admissions)) $user['admissions'] = json_encode($post->admissions);
+			if (isset($post->area)) $user['area'] = $post->area;
+			if (isset($post->industry)) $user['industry'] = $post->industry;
+			if (isset($post->awards)) $user['awards'] = json_encode($post->awards);
+			$result = $row->save($user, array(
+				'username', 'account', 'email', 'password', 'type', 'publications',
+				'firstName', 'lastName', 'createdAt', 'updatedAt',
+				'admissions', 'area', 'industry', 'awards'
+			));;
+		}
+
 		if (!$result) {
 			$arr = array();
 			foreach ($row->getMessages() as $message) {
@@ -309,20 +339,21 @@ class User extends \Phalcon\Mvc\Model
 			$arr = array(
 				'status' => 'SAVE-FAILED',
 				'messages' => $messages,
-				'editContent' => $row,
+				'rowContent' => $row,
 				'result' => $result,
 				'data' => $post
 			);
 			return $arr;
 		} else {
-			$messages['success'] = 'Your profile has been updated.';
+			// $messages['success'] = 'Your profile has been updated.';
+			$messages['success'] = 'Registration of ' . $username . ' successful!';
 			$arr = array(
-				'status' => 'EDIT-DONE',
+				'status' => 'SIGNUP-DONE',
 				'messages' => $messages,
-				'editContent' => $row,
-				'user' => $user,
-				'result' => $result,
-				'data' => $post
+				// 'editContent' => $row,
+				// 'user' => $user,
+				// 'result' => $result,
+				// 'data' => $post
 			);
 			return $arr;
 		}
