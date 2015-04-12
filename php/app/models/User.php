@@ -21,6 +21,24 @@ class User extends \Phalcon\Mvc\Model
 	 *
 	 * @var string
 	 */
+	public $type;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $ip;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $ips;
+
+	/**
+	 *
+	 * @var string
+	 */
 	public $username;
 
 	/**
@@ -45,31 +63,13 @@ class User extends \Phalcon\Mvc\Model
 	 *
 	 * @var string
 	 */
-	public $ip;
+	public $publications;
 
 	/**
 	 *
 	 * @var string
 	 */
-	public $ips;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $type;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $jurisdiction;
-
-	/**
-	 *
-	 * @var integer
-	 */
-	public $admissionYear;
+	public $admissions;
 
 	/**
 	 *
@@ -87,37 +87,7 @@ class User extends \Phalcon\Mvc\Model
 	 *
 	 * @var string
 	 */
-	public $awardName;
-
-	/**
-	 *
-	 * @var integer
-	 */
-	public $awardYear;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $publicationName;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $publicationType;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $publicationUrl;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $publicationCitation;
+	public $awards;
 
 	/**
 	 *
@@ -141,61 +111,19 @@ class User extends \Phalcon\Mvc\Model
 	 *
 	 * @var string
 	 */
-	public $company;
+	public $works;
 
 	/**
 	 *
 	 * @var string
 	 */
-	public $monthFrom;
-
-	/**
-	 *
-	 * @var integer
-	 */
-	public $yearFrom;
+	public $competitions;
 
 	/**
 	 *
 	 * @var string
 	 */
-	public $monthTo;
-
-	/**
-	 *
-	 * @var integer
-	 */
-	public $yearTo;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $supervisor;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $competitionName;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $competitionResult;
-
-	/**
-	 *
-	 * @var string
-	 */
-	public $qualification;
-
-	/**
-	 *
-	 * @var integer
-	 */
-	public $qualificationYear;
+	public $others;
 
 	/**
 	 *
@@ -242,36 +170,24 @@ class User extends \Phalcon\Mvc\Model
 		return array(
 			'id' => 'id', 
 			'account' => 'account', 
+			'type' => 'type', 
+			'ip' => 'ip', 
+			'ips' => 'ips', 
 			'username' => 'username', 
 			'firstName' => 'firstName', 
 			'lastName' => 'lastName', 
 			'email' => 'email', 
-			'ip' => 'ip', 
-			'ips' => 'ips', 
-			'type' => 'type', 
-			'jurisdiction' => 'jurisdiction', 
-			'admissionYear' => 'admissionYear', 
+			'publications' => 'publications', 
+			'admissions' => 'admissions', 
 			'area' => 'area', 
 			'industry' => 'industry', 
-			'awardName' => 'awardName', 
-			'awardYear' => 'awardYear', 
-			'publicationName' => 'publicationName', 
-			'publicationType' => 'publicationType', 
-			'publicationUrl' => 'publicationUrl', 
-			'publicationCitation' => 'publicationCitation', 
+			'awards' => 'awards', 
 			'institution' => 'institution', 
 			'graduationYear' => 'graduationYear', 
 			'degree' => 'degree', 
-			'company' => 'company', 
-			'monthFrom' => 'monthFrom', 
-			'yearFrom' => 'yearFrom', 
-			'monthTo' => 'monthTo', 
-			'yearTo' => 'yearTo', 
-			'supervisor' => 'supervisor', 
-			'competitionName' => 'competitionName', 
-			'competitionResult' => 'competitionResult', 
-			'qualification' => 'qualification', 
-			'qualificationYear' => 'qualificationYear', 
+			'works' => 'works', 
+			'competitions' => 'competitions', 
+			'others' => 'others', 
 			'password' => 'password', 
 			'createdAt' => 'createdAt', 
 			'updatedAt' => 'updatedAt'

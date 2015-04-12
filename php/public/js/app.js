@@ -126,19 +126,70 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.userTypes = ['student', 'practictioner'];
 	$scope.userType = 'User Type';
 
-	$scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	// $scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	$scope.months = [
+		{
+			name: 'Jan',
+			value: '01',
+		},
+		{
+			name: 'Feb',
+			value: '02',
+		},
+		{
+			name: 'Mar',
+			value: '03',
+		},
+		{
+			name: 'Apr',
+			value: '04',
+		},
+		{
+			name: 'May',
+			value: '05',
+		},
+		{
+			name: 'Jun',
+			value: '06',
+		},
+		{
+			name: 'Jul',
+			value: '07',
+		},
+		{
+			name: 'Aug',
+			value: '08',
+		},
+		{
+			name: 'Sep',
+			value: '09',
+		},
+		{
+			name: 'Oct',
+			value: '10',
+		},
+		{
+			name: 'Nov',
+			value: '11',
+		},
+		{
+			name: 'Dec',
+			value: '12',
+		}
+	];
 	$scope.types = ['Journal', 'Online Article'];
 	$scope.qualifications = ['CFA Level 1', 'CFA Level 2', 'CFA Level 3', 'CPA', 'MBBS', 'Others'];
+
+	$scope.user = {
+		username: '',
+		firstName: '',
+		lastName: '',
+		password: '',
+		password_confirmation: '',
+		email: ''
+	};
 	
 	$scope.student = {
-		// firstName: '',
-		// lastName: '',
-		// username: '',
-		// password: '',
-		// password_confirmation: '',
-		// email: '',
-		// photo: '',
-		// userType: '',
 		institution: '',
 		graduationYear: '',
 		degree: '',
@@ -160,19 +211,19 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		qualificationYear: '',
 	};
 
-	$scope.graduationYear = 'Year';
-	$scope.monthFrom = 'Month';
-	$scope.monthTo = 'Month';
-	$scope.yearFrom = 'Year';
-	$scope.yearTo = 'Year';
+	// $scope.graduationYear = 'Year';
+	// $scope.monthFrom = 'Month';
+	// $scope.monthTo = 'Month';
+	// $scope.yearFrom = 'Year';
+	// $scope.yearTo = 'Year';
 	$scope.publicationType = 'Type';
 	$scope.qualification = 'Qualification';
-	$scope.qualificationYear = 'Year';
-	$scope.yearAwarded = 'Year';
+	// $scope.qualificationYear = 'Year';
+	// $scope.yearAwarded = 'Year';
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
 	// $scope.jurisdiction = 'Jurisdiction';
-	$scope.admissionYear = 'Year';
+	// $scope.admissionYear = 'Year';
 
 	$scope.practictioner = {
 		jurisdiction: '',
@@ -222,7 +273,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	};
 
 	$scope.rowLimit = 3;
-	$scope.works = [{company: '', from: '', to: '', supervisor: ''}];
+	$scope.works = [{company: '', monthFrom: '', yearFrom: '', monthTo: '', yearTo: '', supervisor: ''}];
 	$scope.competitions = [{competitionName: '', competitionResult: ''}];
 	$scope.admissions = [{jurisdiction: '', otherJurisdiction: '', admissionYear: ''}];
 	$scope.awards = [{awardName: '', awardYear: ''}];
@@ -250,11 +301,8 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		// console.log('div =', div);
 		// console.log('div[0] =', div[0]);
 		if (div === 'work') {
-			// $scope.works = [{company: '', from: '', to: '', supervisor: ''}];
-			// console.log('$scope.works.length =', $scope.works.length);
-			// console.log('$scope.works =', $scope.works);
 			if ($scope.works.length < $scope.rowLimit) {
-				$scope.works.push({company: '', from: '', to: '', supervisor: ''});
+				$scope.works.push({company: '', monthFrom: '', yearFrom: '', monthTo: '', yearTo: '', supervisor: ''});
 				// console.log('$scope.works =', $scope.works);
 			} else {}
 		} else if (div === 'competition') {
@@ -291,40 +339,83 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 * @return:			void
 	 * @author:			Don Hsieh
 	 * @since:			04/07/2015
-	 * @last modified: 	04/07/2015
+	 * @last modified: 	04/12/2015
 	 * @called by:		<form ng-show="practictionerShow" ng-submit="editPractictioner(practictioner)">
 	 *					 in php/public/profile_edit.html
 	 */
 	// $scope.signup = function (user, $flow)
 	$scope.signup = function (user)
 	{
+		var userType = $scope.userType;
+		// console.log('$scope.userType =', $scope.userType);
+		console.log('userType =', userType);
+
+		if (userType === 'student') {
+			user.institution = $scope.student.institution;
+			user.graduationYear = $scope.student.graduationYear;
+			user.degree = $scope.student.degree;
+			user.works = $scope.works;
+			user.competitions = $scope.competitions;
+			user.others = $scope.others;
+		} else if (userType === 'practictioner') {
+			user.admissions = $scope.admissions;
+			user.area = $scope.practictioner.area;
+			user.industry = $scope.practictioner.industry;
+			user.awards = $scope.awards;
+		}
+		user.publications = $scope.publications;
+		console.log('user =', user);
+
+
+		user = {
+			degree: "PhD",
+			email: "don@don.com",
+			firstName: "Don",
+			graduationYear: "1998",
+			institution: "NTU",
+			lastName: "Hsieh",
+			password: "dwer33",
+			passwordConfirmation: "dwer33",
+
+			// monthFrom: "Month",
+			// monthTo: "Month",
+			
+			publicationType: "Type",
+			qualification: "Qualification",
+			qualificationYear: "Year",
+			username: "don",
+			yearFrom: "Year",
+			yearTo: "Year"
+		}
+		// console.log('user =', user);
+		
 		// var monthFrom = angular.element(document.querySelector('#monthFrom')).val();
 		// console.log('monthFrom =', monthFrom);
 		// var yearFrom = angular.element(document.querySelector('#yearFrom')).val();
 		// console.log('yearFrom =', yearFrom);
-		user.graduationYear = $scope.graduationYear;
-		user.monthFrom = $scope.monthFrom;
-		user.yearFrom = $scope.yearFrom;
-		user.monthTo = $scope.monthTo;
-		user.yearTo = $scope.yearTo;
-		user.publicationType = $scope.publicationType;
-		user.qualification = $scope.qualification;
-		user.qualificationYear = $scope.qualificationYear;
+		// user.graduationYear = $scope.graduationYear;
+		// user.monthFrom = $scope.monthFrom;
+		// user.yearFrom = $scope.yearFrom;
+		// user.monthTo = $scope.monthTo;
+		// user.yearTo = $scope.yearTo;
+		// user.publicationType = $scope.publicationType;
+		// user.qualification = $scope.qualification;
+		// user.qualificationYear = $scope.qualificationYear;
 
 
 		if (user.qualification === 'Others' && user.otherQualification.length > 0) {
 			user.qualification = user.otherQualification;
 		}
-		console.log('user =', user);
+		// console.log('user =', user);
 
-		$http.post('http://intelllex.com:3000/api/user', user)
-			.success(function(data, status, headers, config) {
-				console.log('data =', data);
-				$scope.setMessages(data.messages);
-			})
-			.error(function(data, status, headers, config) {
-				$scope.status = status;
-			});
+		// $http.post('http://intelllex.com:3000/api/user', user)
+		// 	.success(function(data, status, headers, config) {
+		// 		console.log('data =', data);
+		// 		$scope.setMessages(data.messages);
+		// 	})
+		// 	.error(function(data, status, headers, config) {
+		// 		$scope.status = status;
+		// 	});
 
 	};
 
