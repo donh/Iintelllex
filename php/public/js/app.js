@@ -90,9 +90,11 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.$location = $location;
 	$scope.$path = $location.$$path;
 	$scope.messages = null;
-	$scope.userType = false;
-	$scope.studentShow = true;
-	$scope.practictionerShow = false;
+	// $scope.userType = false;
+	// $scope.studentShow = true;
+	// $scope.practictionerShow = false;
+
+	
 	// $scope.studentShow = false;
 	// $scope.practictionerShow = true;
 
@@ -102,8 +104,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	}
 	$scope.years = years;
 
-	$scope.userTypes = ['student', 'practictioner'];
-	$scope.userType = 'User Type';
+	// $scope.userTypes = ['student', 'practictioner'];
+	$scope.userTypes = ['practictioner', 'student'];
+	$scope.userType = 'practictioner';
+	// $scope.userType = 'student';
 
 	// $scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	$scope.months = [
@@ -229,25 +233,21 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 * @called by:		<a ng-click="setUserType(type)" role="menuitem">{{type}}</a>
 	 *					 in php/public/profile_edit.html
 	 */
-	$scope.setUserType = function(userType)
-	{
-		$scope.userType = userType;
-		$scope.studentShow = false;
-		$scope.practictionerShow = false;
-		console.log('userType =', userType);
-		if (userType === 'student') {
-			$scope.studentShow = !$scope.studentShow;
-			// $scope.studentShow = true;
-			$scope.PractictionerShow = false;
-		} else if (userType === 'practictioner') {
-			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
-			$scope.practictionerShow = !$scope.practictionerShow;
-			// $scope.practictionerShow = true;
-			$scope.studentShow = false;
-			// console.log('$scope.practictionerShow =', $scope.practictionerShow);
-		} else {
-		}
-	};
+	// $scope.setUserType = function(userType)
+	// {
+	// 	$scope.userType = userType;
+	// 	$scope.studentShow = false;
+	// 	$scope.practictionerShow = false;
+	// 	console.log('userType =', userType);
+	// 	if (userType === 'student') {
+	// 		$scope.studentShow = !$scope.studentShow;
+	// 		$scope.PractictionerShow = false;
+	// 	} else if (userType === 'practictioner') {
+	// 		$scope.practictionerShow = !$scope.practictionerShow;
+	// 		$scope.studentShow = false;
+	// 	} else {
+	// 	}
+	// };
 
 	$scope.rowLimit = 3;
 	$scope.works = [{company: '', monthFrom: '', yearFrom: '', monthTo: '', yearTo: '', supervisor: ''}];
@@ -327,7 +327,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			user.institution = $scope.student.institution;
 			user.graduationYear = $scope.student.graduationYear;
 			user.degree = $scope.student.degree;
-			user.works = $scope.works;
+			// user.works = $scope.works;
 			user.competitions = $scope.competitions;
 			user.others = $scope.others;
 		} else if (userType === 'practictioner') {
@@ -336,6 +336,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			user.industry = $scope.practictioner.industry;
 			user.awards = $scope.awards;
 		}
+		user.works = $scope.works;
 		user.publications = $scope.publications;
 
 		if (user.qualification === 'Others' && user.otherQualification.length > 0) {
