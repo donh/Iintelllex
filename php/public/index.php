@@ -89,7 +89,8 @@ try {
 	$app->post('/api/user', function () use ($app) {
 		$postdata = file_get_contents("php://input");
 		$post = json_decode($postdata);
-		$arr = User::addUser($post, $app);
+		// $arr = User::addUser($post, $app);
+		$arr = Edit::addUser($post, $app);
 		return $arr;
 	});
 
