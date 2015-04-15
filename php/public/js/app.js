@@ -106,8 +106,8 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 
 	// $scope.userTypes = ['student', 'practictioner'];
 	$scope.userTypes = ['practictioner', 'student'];
-	$scope.userType = 'practictioner';
-	// $scope.userType = 'student';
+	// $scope.userType = 'practictioner';
+	$scope.userType = 'student';
 
 	// $scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	$scope.months = [

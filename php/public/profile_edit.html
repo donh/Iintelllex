@@ -537,26 +537,21 @@
 						<div ng-repeat="other in others">
 							<div class="form-group">
 								<!-- <label for="inputType" class="col-md-2 control-label">Qualification</label> -->
-								<div class="col-md-2 dropdown">
-									<select class="btn btn-primary" ng-model="other.qualificationName" ng-options="qualification for qualification in qualifications">
+								<div class="col-md-8 dropdown">
+									<select class="btn btn-primary" ng-model="other.qualificationName" ng-options="qualification for qualification in qualifications" style="float:left; height:34px;">
 										<option value="">Qualification</option>
 									</select>
-									<!-- <button class="btn btn-primary dropdown-toggle" type="button" id="otherQualification" data-toggle="dropdown" aria-expanded="false">
-										<span ng-bind="qualification"></span>
-										<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-										<li ng-repeat="qualification in qualifications track by $index" role="presentation">
-											<a ng-click="setQualification(qualification)" role="menuitem">{{qualification}}</a>
-										</li>
-									</ul> -->
+									<input ng-model="other.otherQualification" ng-show="other.qualificationName=='Others'" type="text" class="form-control" placeholder="Other Qualification" style="float:left; width:150px; margin-left:30px;">
+									<input ng-model="other.qualificationYear" placeholder="Year Attained" type="text" class="form-control" style="float:left; width:150px; margin-left:30px;">
 								</div>
-								<div ng-show="other.qualificationName=='Others'" class="col-md-3">
+
+								<!-- <div ng-show="other.qualificationName=='Others'" class="col-md-3">
 									<input ng-model="other.otherQualification" type="text" class="form-control" id="inputType" placeholder="Other Qualification">
 								</div>
 								<div class="col-md-2">
 									<input ng-model="other.qualificationYear" type="text" class="form-control" id="inputType" placeholder="Year Attained">
 								</div>
+								-->
 								<button ng-click="addDiv('qualification')" ng-show="others.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 								</button>
