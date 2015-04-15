@@ -150,34 +150,29 @@
 						<div ng-repeat="admission in admissions track by $index">
 							<div class="form-group">
 								<!-- <label for="inputType" class="col-md-2 control-label">Jurisdiction</label> -->
-								<div class="col-md-2 dropdown">
-									<select class="btn btn-primary" ng-model="admission.jurisdiction" ng-options="jurisdiction for jurisdiction in jurisdictions">
+								<!-- <div class="col-md-2 dropdown"> -->
+								<div class="col-md-8 dropdown">
+									<select class="btn btn-primary" ng-model="admission.jurisdiction" ng-options="jurisdiction for jurisdiction in jurisdictions" style="float:left;">
 										<option value="">Jurisdiction</option>
 									</select>
+									<input ng-show="admission.jurisdiction=='Others'" ng-model="admission.otherJurisdiction" placeholder="Other Jurisdiction" type="text" class="form-control" style="width:260px; float:left; margin-left:30px;">
+									<input ng-model="admission.admissionYear" placeholder="Year of Admitted" type="text" class="form-control" style="float:left; width:150px; margin-left:30px;">
+									<button ng-click="addDiv('admission')" ng-show="admissions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align:text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
 								</div>
+								<!--
 								<div ng-show="admission.jurisdiction=='Others'" class="col-md-2">
 									<input ng-model="admission.otherJurisdiction" type="text" class="form-control" id="inputType" placeholder="Other Jurisdiction">
 								</div>
 								<div class="col-md-2">
 									<input ng-model="admission.admissionYear" type="text" class="form-control" id="inputType" placeholder="Year of Admitted">
-									<!-- <input ng-model="admission.admissionYear" type="text" class="form-control" id="inputType" placeholder="Year of Admission"> -->
 								</div>
 								<button ng-click="addDiv('admission')" ng-show="admissions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 								</button>
+								-->
 							</div>
-							<!-- <div ng-show="admission.jurisdiction=='Others'" class="form-group">
-								<label for="inputType" class="col-md-2 control-label">Other Jurisdiction</label>
-								<div class="col-md-2">
-									<input ng-model="admission.otherJurisdiction" type="text" class="form-control" id="inputType" placeholder="Other Jurisdiction">
-								</div>
-							</div> -->
-							<!-- <div class="form-group">
-								<label for="inputType" class="col-md-2 control-label">Year of Admission</label>
-								<div class="col-md-1">
-									<input ng-model="admission.admissionYear" type="text" class="form-control" id="inputType" placeholder="YYYY">
-								</div>
-							</div> -->
 						</div>
 						<!-- <div class="form-group">
 							<label for="inputType" class="col-md-2 control-label"></label>
@@ -338,9 +333,30 @@
 						<div ng-repeat="work in works track by $index">
 							<div class="form-group">
 								<!-- <label for="inputType" class="col-md-2 control-label">Company</label> -->
-								<div class="col-md-3">
-									<input ng-model="work.company" type="text" class="form-control" id="inputType" placeholder="Company">
+								<!-- <div class="col-md-3"> -->
+								<!-- <div class="row"> -->
+								<div class="col-md-12">
+									<input ng-model="work.company" placeholder="Company" type="text" class="form-control" style="width:260px; float:left;">
+
+									<div style="font-weight:700; text-align:right; float:left; display:inline-block; padding-top:7px; margin-bottom:0; margin-left:30px;">From</div>
+									<select class="btn btn-primary" ng-model="work.monthFrom" ng-options="month.value as month.name for month in months" style="height:33px; margin-top:1px; float:left; margin-left:15px;">
+										<option value="">Month</option>
+									</select>
+									<input ng-model="work.yearFrom" placeholder="YYYY" type="text" class="form-control" style="width:64px; float:left; margin-left:15px;">
+
+									<div style="font-weight:700; text-align:right; float:left; display:inline-block; padding-top:7px; margin-bottom:0; margin-left:30px;">To</div>
+									<select class="btn btn-primary" ng-model="work.monthTo" ng-options="month.value as month.name for month in months" style="height:33px; margin-top:1px; float:left; margin-left:15px;">
+										<option value="">Month</option>
+									</select>
+									<input ng-model="work.yearTo" placeholder="YYYY" type="text" class="form-control" style="width:64px; float:left; margin-left:15px;">
+
+									<input ng-model="work.supervisor" placeholder="Supervisor" type="text" class="form-control" style="width:260px; float:left; margin-left:30px;">
+								
+									<button ng-click="addDiv('work')" ng-show="works.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align:text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
 								</div>
+								<!--
 								<div style="font-weight:700; text-align:right; float:left; display:inline-block; padding-top:7px; margin-bottom:0;">From</div>
 								<div class="col-md-1 dropdown">
 									<select class="btn btn-primary" ng-model="work.monthFrom" ng-options="month.value as month.name for month in months">
@@ -367,6 +383,7 @@
 								<button ng-click="addDiv('work')" ng-show="works.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 								</button>
+								-->
 							</div>
 							
 							<!-- <div class="form-group">
@@ -437,15 +454,22 @@
 						<div ng-repeat="competition in competitions track by $index">
 							<div class="form-group">
 								<!-- <label for="inputType" class="col-md-2 control-label">Competition</label> -->
-								<div class="col-md-3">
-									<input ng-model="competition.competitionName" type="text" class="form-control" id="inputType" placeholder="Competition Name">
+								<!-- <div class="col-md-3"> -->
+								<div class="col-md-8">
+									<input ng-model="competition.competitionName" placeholder="Competition Name" type="text" class="form-control" style="width:260px; float:left;">
+									<input ng-model="competition.competitionResult" placeholder="Competition Result" type="text" class="form-control" style="width:260px; float:left; margin-left:30px;">
+									<button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
 								</div>
+								<!--
 								<div class="col-md-3">
 									<input ng-model="competition.competitionResult" type="text" class="form-control" id="inputType" placeholder="Competition Result">
 								</div>
-								<button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+								<button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom; margin-left:30px;">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 								</button>
+								-->
 							</div>
 							<!-- <div class="form-group">
 								<label for="inputType" class="col-md-2 control-label">Competition Result</label>
@@ -485,9 +509,18 @@
 						<div ng-repeat="publication in publications">
 							<div class="form-group">
 								<!-- <label for="inputType" class="col-md-2 control-label">Publication Name</label> -->
-								<div class="col-md-3">
-									<input ng-model="publication.publicationName" type="text" class="form-control" id="inputType" placeholder="Publication Name">
+								<!-- <div class="col-md-3"> -->
+								<div class="col-md-9">
+									<input ng-model="publication.publicationName" placeholder="Publication Name" type="text" class="form-control" style="width:260px; float:left;">
+									<select class="btn btn-primary" ng-model="publication.type" ng-options="type for type in types" style="height:34px; float:left; margin-left:30px;">
+										<option value="">Type</option>
+									</select>
+									<input ng-model="publication.publicationUrl" placeholder="URL (if any)" type="text" class="form-control" style="float:left; width:260px; margin-left:30px;">
+									<button ng-click="addDiv('publication')" ng-show="publications.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
 								</div>
+								<!--
 								<div class="col-md-2 dropdown">
 									<select class="btn btn-primary" ng-model="publication.type" ng-options="type for type in types">
 										<option value="">Type</option>
@@ -499,6 +532,7 @@
 								<button ng-click="addDiv('publication')" ng-show="publications.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
 								</button>
+								-->
 							</div>
 							<!-- <div class="form-group">
 								<label for="inputType" class="col-md-2 control-label">Publication Name</label>
@@ -543,8 +577,10 @@
 									</select>
 									<input ng-model="other.otherQualification" ng-show="other.qualificationName=='Others'" type="text" class="form-control" placeholder="Other Qualification" style="float:left; width:150px; margin-left:30px;">
 									<input ng-model="other.qualificationYear" placeholder="Year Attained" type="text" class="form-control" style="float:left; width:150px; margin-left:30px;">
+									<button ng-click="addDiv('qualification')" ng-show="others.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align:text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
 								</div>
-
 								<!-- <div ng-show="other.qualificationName=='Others'" class="col-md-3">
 									<input ng-model="other.otherQualification" type="text" class="form-control" id="inputType" placeholder="Other Qualification">
 								</div>
@@ -552,9 +588,6 @@
 									<input ng-model="other.qualificationYear" type="text" class="form-control" id="inputType" placeholder="Year Attained">
 								</div>
 								-->
-								<button ng-click="addDiv('qualification')" ng-show="others.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
-								</button>
 							</div>
 							<!-- <div ng-show="other.qualificationName=='Others'" class="form-group">
 								<label for="inputType" class="col-md-2 control-label">Qualification (Others)</label>
@@ -575,8 +608,8 @@
 						<div ng-if="messages.info" ng-bind="messages.info" class="alert alert-info"></div>
 						<div ng-if="messages.success" ng-bind="messages.success" class="alert alert-success"></div>
 					</div>
-					<input type="submit" value="Submit" class="btn btn-success">
-					<a ng-href="/index2.php" class="btn btn-danger">Cancel</a>
+					<input type="submit" value="Submit" class="btn btn-success" style="margin-left:20px;">
+					<a ng-href="/index2.php" class="btn btn-danger" style="margin-left:30px;">Cancel</a>
 					<!-- <a ng-href="/login.php" class="btn btn-danger">Cancel</a> -->
 					<!-- <a ng-click="addDiv('qualification')" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;"></a> -->
 
@@ -588,8 +621,8 @@
 				<div ng-if="messages.success" ng-bind="messages.success" class="alert alert-success"></div>
 			</div> -->
 		</div><!--END .container-->
+		<br>
 	</div><!--END #wrapper-->
-
 
 	<div class="content-bottom">
 	</div>
