@@ -206,19 +206,19 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
 
-	// $scope.practictioner = {
-	// 	jurisdiction: '',
-	// 	otherJurisdiction: '',
-	// 	admissionYear: '',
-	// 	area: '',
-	// 	industry: '',
-	// 	awardName: '',
-	// 	yearAwarded: '',
-	// 	publicationName: '',
-	// 	publicationType: '',
-	// 	publicationUrl: '',
-	// 	publicationCitation: '',
-	// };
+	$scope.practictioner = {
+		jurisdiction: '',
+		otherJurisdiction: '',
+		admissionYear: '',
+		area: '',
+		industry: '',
+		awardName: '',
+		yearAwarded: '',
+		publicationName: '',
+		publicationType: '',
+		publicationUrl: '',
+		publicationCitation: '',
+	};
 
 	/**
 	 * @function name:	$scope.setUserType = function(userType)
