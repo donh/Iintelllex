@@ -12,7 +12,7 @@ var itApp = angular.module('itApp', ['ngRoute']);
  * @return:			void
  * @author:			Don Hsieh
  * @since:			03/29/2015
- * @last modified: 	03/29/2015
+ * @last modified: 	04/15/2015
  * @called by:		URL
  */
 // http://viralpatel.net/blogs/angularjs-routing-and-views-tutorial-with-example/
