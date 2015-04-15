@@ -81,7 +81,7 @@ try {
 	 * @return:			void
 	 * @author:			Don Hsieh
 	 * @since:			04/09/2015
-	 * @last modified:	04/09/2015
+	 * @last modified:	04/15/2015
 	 * @called by:		$http.post('http://intelllex.com:3000/api/user', user)
 	 *					  in $scope.signup = function (user)
 	 *					  in itApp.controller('AppController') in php/public/js/app.js
@@ -91,6 +91,16 @@ try {
 		$post = json_decode($postdata);
 		// $arr = User::addUser($post, $app);
 		$arr = Edit::addUser($post, $app);
+		// $email = $app->session->get('email');
+		// $firstName = $app->session->get('user_fn');
+		// $lastName = $app->session->get('user_ln');
+		$email = $_SESSION["email"];
+		$firstName = $_SESSION["user_fn"];
+		$lastName = $_SESSION["user_ln"];
+		$arr['email'] = $email;
+		$arr['firstName'] = $firstName;
+		$arr['lastName'] = $lastName;
+		$arr['session'] = $_SESSION;
 		return $arr;
 	});
 

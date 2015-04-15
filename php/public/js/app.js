@@ -312,7 +312,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	 * @return:			void
 	 * @author:			Don Hsieh
 	 * @since:			04/12/2015
-	 * @last modified: 	04/12/2015
+	 * @last modified: 	04/15/2015
 	 * @called by:		<form id="user-form" class="form-horizontal" role="form" ng-submit="signup(user)">
 	 *					 in php/public/profile_edit.html
 	 */
@@ -322,7 +322,6 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		var userType = $scope.userType;
 		// console.log('userType =', userType);
 		user.userType = userType;
-
 		if (userType === 'student') {
 			user.institution = $scope.student.institution;
 			user.graduationYear = $scope.student.graduationYear;
@@ -346,13 +345,17 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 
 		$http.post('http://intelllex.com:3000/api/user', user)
 			.success(function(data, status, headers, config) {
-				// console.log('data =', data);
+				console.log('data =', data);
+				console.log('data.session =', data.session);
+				console.log('data.email =', data.email);
+				console.log('data.firstName =', data.firstName);
+				console.log('data.lastName =', data.lastName);
 				// console.log('data.status =', data.status);
 				$scope.setMessages(data.messages);
 				// if (data.messages.success == 'Your profile has been updated.') {
 				if (data.status === 'EDIT-DONE') {
 					// console.log('EDIT-DONE');
-					$window.location = '/index2.php';
+					// $window.location = '/index2.php';
 					// $location.path('/index2.php');
 				} else {}
 			})
