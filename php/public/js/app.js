@@ -206,19 +206,19 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
 
-	$scope.practictioner = {
-		jurisdiction: '',
-		otherJurisdiction: '',
-		admissionYear: '',
-		area: '',
-		industry: '',
-		awardName: '',
-		yearAwarded: '',
-		publicationName: '',
-		publicationType: '',
-		publicationUrl: '',
-		publicationCitation: '',
-	};
+	// $scope.practictioner = {
+	// 	jurisdiction: '',
+	// 	otherJurisdiction: '',
+	// 	admissionYear: '',
+	// 	area: '',
+	// 	industry: '',
+	// 	awardName: '',
+	// 	yearAwarded: '',
+	// 	publicationName: '',
+	// 	publicationType: '',
+	// 	publicationUrl: '',
+	// 	publicationCitation: '',
+	// };
 
 	/**
 	 * @function name:	$scope.setUserType = function(userType)
@@ -253,7 +253,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	$scope.works = [{company: '', monthFrom: '', yearFrom: '', monthTo: '', yearTo: '', supervisor: ''}];
 	$scope.competitions = [{competitionName: '', competitionResult: ''}];
 	$scope.admissions = [{jurisdiction: '', otherJurisdiction: '', admissionYear: ''}];
-	$scope.awards = [{awardName: '', awardYear: ''}];
+	// $scope.awards = [{awardName: '', awardYear: ''}];
 	$scope.publications = [{publicationName: '', type: '', publicationUrl: '', publicationCitation: ''}];
 	$scope.others = [{qualificationName: '', otherQualification: '', qualificationYear: ''}];
 
@@ -288,10 +288,10 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 				$scope.admissions.push({jurisdiction: '', otherJurisdiction: '', admissionYear: ''});
 				// console.log('$scope.works =', $scope.works);
 			} else {}
-		} else if (div === 'award') {
-			if ($scope.awards.length < $scope.rowLimit) {
-				$scope.awards.push({awardName: '', awardYear: ''});
-			} else {}
+		// } else if (div === 'award') {
+		// 	if ($scope.awards.length < $scope.rowLimit) {
+		// 		$scope.awards.push({awardName: '', awardYear: ''});
+		// 	} else {}
 		} else if (div === 'publication') {
 			if ($scope.publications.length < $scope.rowLimit) {
 				$scope.publications.push({publicationName: '', type: '', publicationUrl: '', publicationCitation: ''});
@@ -334,7 +334,7 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			user.admissions = $scope.admissions;
 			user.area = $scope.practictioner.area;
 			user.industry = $scope.practictioner.industry;
-			user.awards = $scope.awards;
+			// user.awards = $scope.awards;
 		}
 		user.works = $scope.works;
 		user.publications = $scope.publications;
