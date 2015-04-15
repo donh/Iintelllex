@@ -11,7 +11,7 @@
 #wrapper {
 	position: relative;
 	margin: 0 auto 30px auto !important;
-	background: #f9f9f9;
+	/*background: #f9f9f9;*/
 	box-shadow: 0 0 3px rgba(0,0,0,.2);
 }
 
