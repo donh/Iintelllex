@@ -93,8 +93,6 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	// $scope.userType = false;
 	// $scope.studentShow = true;
 	// $scope.practictionerShow = false;
-
-	
 	// $scope.studentShow = false;
 	// $scope.practictionerShow = true;
 

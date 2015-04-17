@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en" ng-app='itApp'>
+<head>
+	<meta charset="UTF-8"/>
+	<title>Login - INTELLLEX Search</title>
+	<!-- <base href='/'> -->
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="./css/styles.css"/> -->
+	<!-- <link rel="stylesheet" href="/css/style.css"/> -->
+	<!-- <link rel="stylesheet" href="./css/style.css"/> -->
+	<link rel="stylesheet" href="./css/don.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular-route.min.js"></script> -->
+</head>
+<body ng-controller="AppController">
+	<div id="wrapper">
+		<div class="header">
+			<div class="title-container">
+				<!-- <div id="logo"><a href="http://intelllex.com">INTELLLEX</a></div>
+				<div id="tagline">Get a Headstart in your Legal Research</div>  -->
+				<!--END .title-container-->
+			</div>
+		</div>
+
+		<!-- <div id="messageBox" ng-show="messages" class="container hide" style="width:330px;">
+			<div ng-if="messages.error" ng-bind="messages.error" class="alert alert-danger"></div>
+			<div ng-if="messages.info" ng-bind="messages.info" class="alert alert-info"></div>
+			<div ng-if="messages.success" ng-bind="messages.success" class="alert alert-success"></div>
+		</div> -->
+
+		<!-- <div class="container container-center row" style="margin 0 auto;"> -->
+		<div class="container container-center">
+			<div class="row form-horizontal">
+				<!-- <div class="form-group">
+					<label for="inputType" class="col-md-2 control-label">User</label>
+					<div class="col-md-3 btn-group" role="group" aria-label="...">
+						<button id="form-choice-student" type="button" class="btn btn-success" ng-click="setUserType('student')">Student</button>
+						<button id="form-choice-practictioner" type="button" class="btn btn-success" ng-click="setUserType('practictioner')">Practictioner</button>
+					</div>
+				</div> -->
+				<form id="user-form" class="form-horizontal" role="form" ng-submit="signup(user)">
+					<!-- <span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Signup</span> -->
+					<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;"></span>
+					<div class="well">
+						<!-- <span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Account</span>
+						<div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Username</label>
+							<div class="col-md-3">
+								<input type="text" ng-model="user.username" class="form-control" id="inputType" placeholder="Username">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">First Name</label>
+							<div class="col-md-3">
+								<input type="text" ng-model="user.firstName" class="form-control" id="inputType" placeholder="First Name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Last Name</label>
+							<div class="col-md-3">
+								<input type="text" ng-model="user.lastName" class="form-control" id="inputType" placeholder="Last Name">
+							</div>
+						</div> -->
+						<div class="form-group">
+							<!-- <label for="inputType" class="col-md-2 control-label"></label> -->
+							<div class="col-md-10">
+								<p style="font-size:18px;">
+									To better cater to your search needs, tell us a little more about yourself.
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<!-- <label for="inputType" class="col-md-2 control-label">Email Address</label> -->
+							<div class="col-md-3">
+								<input type="email" ng-model="user.email" class="form-control" id="inputType" placeholder="Email Address">
+							</div>
+						</div>
+						<!-- <div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Password</label>
+							<div class="col-md-3">
+								<input type="password" ng-model="user.password" class="form-control" id="inputType" placeholder="Password">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Password Confirmation</label>
+							<div class="col-md-3">
+								<input type="password" ng-model="user.password_confirmation" class="form-control" id="inputType" placeholder="Password Confirmation">
+							</div>
+						</div> -->
+						<div class="form-group">
+							<!-- <label for="inputType" class="col-md-2 control-label">User Type</label> -->
+							<!-- <label for="inputType" class="col-md-2 control-label">I am a </label> -->
+							<div style="font-weight:700; text-align:right; float:left; display:inline-block; padding-top:7px; margin-bottom:0; margin-left:20px;">I am a </div>
+							<div class="col-md-1 dropdown">
+								<select class="btn btn-success" ng-model="userType" ng-options="type for type in userTypes">
+									<!-- <option value="">Month</option> -->
+								</select>
+							</div>
+							<!-- <div class="col-md-3 dropdown">
+								<button class="btn btn-success dropdown-toggle" type="button" id="graduationYear" data-toggle="dropdown" aria-expanded="false">
+									<span ng-bind="userType"></span>
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+									<li ng-repeat="type in userTypes track by $index" role="presentation">
+										<a ng-click="setUserType(type)" role="menuitem">{{type}}</a>
+									</li>
+								</ul>
+							</div> -->
+						</div>
+					</div>
+
+					<!-- <div ng-show="studentShow" class="well"> -->
+					<div ng-show="userType=='student'" class="well">
+						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Legal Education</span>
+						<div class="form-group">
+							<!-- <label for="inputType" class="col-md-2 control-label">Institution</label> -->
+							<div class="col-md-3">
+								<input type="text" ng-model="student.institution" class="form-control" id="inputType" placeholder="Institution">
+							</div>
+							<div class="col-md-2">
+								<input ng-model="student.graduationYear" type="text" class="form-control" id="inputType" placeholder="Graduation Year">
+							</div>
+							<div class="col-md-3">
+								<input ng-model="student.degree" type="text" class="form-control" id="inputType" placeholder="Degree Earned">
+							</div>
+						</div>
+						<!-- <div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Graduation Year</label>
+							<div class="col-md-1">
+								<input ng-model="student.graduationYear" type="text" class="form-control" id="inputType" placeholder="YYYY">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Degree Earned</label>
+							<div class="col-md-3">
+								<input ng-model="student.degree" type="text" class="form-control" id="inputType" placeholder="Degree Earned">
+							</div>
+						</div> -->
+					</div>
+
+					<!-- <div ng-show="practictionerShow" class="well"> -->
+					<div ng-show="userType=='practictioner'" class="well">
+						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Admissions</span>
+						<!-- <button ng-click="addDiv('admission')" ng-show="admissions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+						</button> -->
+						<div ng-repeat="admission in admissions track by $index">
+							<div class="form-group">
+								<!-- <label for="inputType" class="col-md-2 control-label">Jurisdiction</label> -->
+								<!-- <div class="col-md-2 dropdown"> -->
+								<div class="col-md-8 dropdown">
+									<select class="btn btn-primary" ng-model="admission.jurisdiction" ng-options="jurisdiction for jurisdiction in jurisdictions" style="float:left;">
+										<option value="">Jurisdiction</option>
+									</select>
+									<input ng-show="admission.jurisdiction=='Others'" ng-model="admission.otherJurisdiction" placeholder="Other Jurisdiction" type="text" class="form-control" style="width:260px; float:left; margin-left:30px;">
+									<input ng-model="admission.admissionYear" placeholder="Year of Admitted" type="text" class="form-control" style="float:left; width:150px; margin-left:30px;">
+									<button ng-click="addDiv('admission')" ng-show="admissions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align:text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
+								</div>
+								<!--
+								<div ng-show="admission.jurisdiction=='Others'" class="col-md-2">
+									<input ng-model="admission.otherJurisdiction" type="text" class="form-control" id="inputType" placeholder="Other Jurisdiction">
+								</div>
+								<div class="col-md-2">
+									<input ng-model="admission.admissionYear" type="text" class="form-control" id="inputType" placeholder="Year of Admitted">
+								</div>
+								<button ng-click="addDiv('admission')" ng-show="admissions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+								</button>
+								-->
+							</div>
+						</div>
+						<!-- <div class="form-group">
+							<label for="inputType" class="col-md-2 control-label"></label>
+							<div class="col-md-2">
+								<button ng-click="addDiv('admission')" ng-show="admissions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;">  Jurisdiction</span>
+								</button>
+							</div>
+						</div> -->
+					</div>
+
+					<!-- <div ng-show="practictionerShow" class="well"> -->
+					<div ng-show="userType=='practictioner'" class="well">
+						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Areas of Expertise</span>
+						<div class="form-group">
+							<!-- <label for="inputType" class="col-md-2 control-label">Areas</label> -->
+							<!-- <div class="col-md-4">
+								<input ng-model="practictioner.area" type="text" class="form-control" id="inputType" placeholder="Separate each area with a comma (,).">
+							</div> -->
+							<div class="col-md-8">
+								<textarea ng-model="practictioner.area" type="text" class="form-control" id="inputType" placeholder="Separate each area with a comma (,)." cols="50" rows="4"></textarea>
+							</div>
+						</div>
+						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Industries</span>
+						<div class="form-group">
+							<!-- <label for="inputType" class="col-md-2 control-label">Industries</label> -->
+							<!-- <div class="col-md-4">
+								<input ng-model="practictioner.industry" type="text" class="form-control" id="inputType" placeholder="Separate each industry with a comma (,).">
+							</div> -->
+							<div class="col-md-8">
+								<textarea ng-model="practictioner.industry" type="text" class="form-control" id="inputType" placeholder="Separate each industry with a comma (,)." cols="50" rows="4"></textarea>
+							</div>
+						</div>
+					</div>
+
+					<!-- <div ng-show="studentShow" class="well"> -->
+					<!-- <div ng-show="userType=='student'" class="well"> -->
+					<div class="well">
+						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Work Experience</span>
+						<!-- <button ng-click="addDiv('work')" ng-show="works.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+						</button> -->
+
+						<!-- <div id="workExperience">
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Company</label>
+								<div class="col-md-3">
+									<input ng-model="user.company" type="text" class="form-control" id="inputType" placeholder="Company">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">From</label>
+								<div class="col-md-1 dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" id="monthFrom" data-toggle="dropdown" aria-expanded="false">
+										<span ng-bind="monthFrom"></span>
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu month-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li ng-repeat="month in months track by $index" role="presentation">
+											<a ng-click="setMonthFrom(month)" role="menuitem">{{month}}</a>
+										</li>
+									</ul>
+								</div>
+								<div class="col-md-3 dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" id="yearFrom" data-toggle="dropdown" aria-expanded="false">
+										<span ng-bind="yearFrom"></span>
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li ng-repeat="year in years track by $index" role="presentation">
+											<a ng-click="setYearFrom(year)" role="menuitem">{{year}}</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">To</label>
+								<div class="col-md-1 dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" id="monthTo" data-toggle="dropdown" aria-expanded="false">
+										<span ng-bind="monthTo"></span>
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu month-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li ng-repeat="month in months track by $index" role="presentation">
+											<a ng-click="setMonthTo(month)" role="menuitem">{{month}}</a>
+										</li>
+									</ul>
+								</div>
+								<div class="col-md-3 dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" id="yearTo" data-toggle="dropdown" aria-expanded="false">
+										<span ng-bind="yearTo"></span>
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu year-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li ng-repeat="year in years track by $index" role="presentation">
+											<a ng-click="setYearTo(year)" role="menuitem">{{year}}</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Supervisor Name</label>
+								<div class="col-md-3">
+									<input ng-model="user.supervisor" type="text" class="form-control" id="inputType" placeholder="Supervisor">
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div ng-show="studentShow" class="well">
+						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Mooting Experience</span>
+						<button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+						</button>
+						<div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Competition Name</label>
+							<div class="col-md-3">
+								<input ng-model="user.competitionName" type="text" class="form-control" id="inputType" placeholder="Mooting Competition Name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Result</label>
+							<div class="col-md-3">
+								<input ng-model="user.competitionResult" type="text" class="form-control" id="inputType" placeholder="Result">
+							</div>
+						</div>
+					</div> -->
+
+					<!-- <div id="workExperience">
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Company</label>
+								<div class="col-md-3">
+									<input ng-model="user.company" type="text" class="form-control" id="inputType" placeholder="Company">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">From</label>
+								<div class="col-md-3">
+									<input ng-model="user.companyFrom" type="text" class="form-control" id="inputType" placeholder="MM/YYYY">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">To</label>
+								<div class="col-md-3">
+									<input ng-model="user.companyTo" type="text" class="form-control" id="inputType" placeholder="MM/YYYY">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Supervisor Name</label>
+								<div class="col-md-3">
+									<input ng-model="user.supervisor" type="text" class="form-control" id="inputType" placeholder="Supervisor">
+								</div>
+							</div>
+						</div>
+					</div> -->
+
+
+						<div ng-repeat="work in works track by $index">
+							<div class="form-group">
+								<!-- <label for="inputType" class="col-md-2 control-label">Company</label> -->
+								<!-- <div class="col-md-3"> -->
+								<!-- <div class="row"> -->
+								<div class="col-md-12">
+									<input ng-model="work.company" placeholder="Company" type="text" class="form-control" style="width:260px; float:left;">
+
+									<div style="font-weight:700; text-align:right; float:left; display:inline-block; padding-top:7px; margin-bottom:0; margin-left:30px;">From</div>
+									<select class="btn btn-primary" ng-model="work.monthFrom" ng-options="month.value as month.name for month in months" style="height:33px; margin-top:1px; float:left; margin-left:15px;">
+										<option value="">Month</option>
+									</select>
+									<input ng-model="work.yearFrom" placeholder="YYYY" type="text" class="form-control" style="width:64px; float:left; margin-left:15px;">
+
+									<div style="font-weight:700; text-align:right; float:left; display:inline-block; padding-top:7px; margin-bottom:0; margin-left:30px;">To</div>
+									<select class="btn btn-primary" ng-model="work.monthTo" ng-options="month.value as month.name for month in months" style="height:33px; margin-top:1px; float:left; margin-left:15px;">
+										<option value="">Month</option>
+									</select>
+									<input ng-model="work.yearTo" placeholder="YYYY" type="text" class="form-control" style="width:64px; float:left; margin-left:15px;">
+
+									<input ng-model="work.supervisor" placeholder="Supervisor" type="text" class="form-control" style="width:260px; float:left; margin-left:30px;">
+								
+									<button ng-click="addDiv('work')" ng-show="works.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align:text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
+								</div>
+								<!--
+								<div style="font-weight:700; text-align:right; float:left; display:inline-block; padding-top:7px; margin-bottom:0;">From</div>
+								<div class="col-md-1 dropdown">
+									<select class="btn btn-primary" ng-model="work.monthFrom" ng-options="month.value as month.name for month in months">
+										<option value="">Month</option>
+									</select>
+								</div>
+								<div class="col-md-1">
+									<input ng-model="work.yearFrom" type="text" class="form-control" id="inputType" placeholder="YYYY">
+								</div>
+
+								<div style="font-weight:700; text-align:right; float:left; display:inline-block; padding-top:7px; margin-bottom:0;">To</div>
+								<div class="col-md-1 dropdown">
+									<select class="btn btn-primary" ng-model="work.monthTo" ng-options="month.value as month.name for month in months">
+										<option value="">Month</option>
+									</select>
+								</div>
+								<div class="col-md-1">
+									<input ng-model="work.yearTo" type="text" class="form-control" id="inputType" placeholder="YYYY">
+								</div>
+
+								<div class="col-md-3">
+									<input ng-model="work.supervisor" type="text" class="form-control" id="inputType" placeholder="Supervisor">
+								</div>
+								<button ng-click="addDiv('work')" ng-show="works.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+								</button>
+								-->
+							</div>
+							
+							<!-- <div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">From</label>
+								<div class="col-md-1 dropdown">
+									<select class="btn btn-primary" ng-model="work.monthFrom" ng-options="month.value as month.name for month in months">
+										<option value="">Month</option>
+									</select>
+								</div>
+								<div class="col-md-1">
+									<input ng-model="work.yearFrom" type="text" class="form-control" id="inputType" placeholder="YYYY">
+								</div>
+								<label for="inputType" class="col-md-2 control-label">To</label>
+								<div class="col-md-1 dropdown">
+									<select class="btn btn-primary" ng-model="work.monthTo" ng-options="month.value as month.name for month in months">
+										<option value="">Month</option>
+									</select>
+								</div>
+								<div class="col-md-1">
+									<input ng-model="work.yearTo" type="text" class="form-control" id="inputType" placeholder="YYYY">
+								</div>
+							</div> -->
+							<!-- <div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">To</label>
+								<div class="col-md-1 dropdown">
+									<select class="btn btn-primary" ng-model="work.monthTo" ng-options="month.value as month.name for month in months">
+										<option value="">Month</option>
+									</select>
+								</div>
+								<div class="col-md-1">
+									<input ng-model="work.yearTo" type="text" class="form-control" id="inputType" placeholder="YYYY">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Supervisor Name</label>
+								<div class="col-md-3">
+									<input ng-model="work.supervisor" type="text" class="form-control" id="inputType" placeholder="Supervisor">
+								</div>
+							</div> -->
+						</div>
+					</div>
+
+					<!-- <div ng-show="studentShow" class="well">
+						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Mooting Experience</span>
+						<button type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+						</button>
+						<div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Competition Name</label>
+							<div class="col-md-3">
+								<input ng-model="user.competitionName" type="text" class="form-control" id="inputType" placeholder="Mooting Competition Name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputType" class="col-md-2 control-label">Result</label>
+							<div class="col-md-3">
+								<input ng-model="user.competitionResult" type="text" class="form-control" id="inputType" placeholder="Result">
+							</div>
+						</div>
+					</div> -->
+
+					<!-- <div ng-show="studentShow" class="well"> -->
+					<div ng-show="userType=='student'" class="well">
+						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Mooting Experience</span>
+						<!-- <button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+						</button> -->
+						<div ng-repeat="competition in competitions track by $index">
+							<div class="form-group">
+								<!-- <label for="inputType" class="col-md-2 control-label">Competition</label> -->
+								<!-- <div class="col-md-3"> -->
+								<div class="col-md-8">
+									<input ng-model="competition.competitionName" placeholder="Competition Name" type="text" class="form-control" style="width:260px; float:left;">
+									<input ng-model="competition.competitionResult" placeholder="Competition Result" type="text" class="form-control" style="width:260px; float:left; margin-left:30px;">
+									<button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
+								</div>
+								<!--
+								<div class="col-md-3">
+									<input ng-model="competition.competitionResult" type="text" class="form-control" id="inputType" placeholder="Competition Result">
+								</div>
+								<button ng-click="addDiv('competition')" ng-show="competitions.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom; margin-left:30px;">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+								</button>
+								-->
+							</div>
+							<!-- <div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Competition Result</label>
+								<div class="col-md-3">
+									<input ng-model="competition.competitionResult" type="text" class="form-control" id="inputType" placeholder="Competition Result">
+								</div>
+							</div> -->
+						</div>
+					</div>
+					
+					<!-- <div ng-show="userType=='practictioner'" class="well">
+						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Awards / Citations</span>
+						<button ng-click="addDiv('award')" ng-show="awards.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+						</button>
+						<div ng-repeat="award in awards">
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Award Name</label>
+								<div class="col-md-3">
+									<input ng-model="award.awardName" type="text" class="form-control" id="inputType" placeholder="Award Name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Year Awarded</label>
+								<div class="col-md-1">
+									<input ng-model="award.awardYear" type="text" class="form-control" id="inputType" placeholder="YYYY">
+								</div>
+							</div>
+						</div>
+					</div> -->
+
+					<div class="well">
+						<span style="font-weight:bold; margin-bottom:1em; display:inline-block; font-size:150%; margin-right:1em;">Publications</span>
+						<!-- <button ng-click="addDiv('publication')" ng-show="publications.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+						</button> -->
+						<div ng-repeat="publication in publications">
+							<div class="form-group">
+								<!-- <label for="inputType" class="col-md-2 control-label">Publication Name</label> -->
+								<!-- <div class="col-md-3"> -->
+								<div class="col-md-9">
+									<input ng-model="publication.publicationName" placeholder="Publication Name" type="text" class="form-control" style="width:260px; float:left;">
+									<select class="btn btn-primary" ng-model="publication.type" ng-options="type for type in types" style="height:34px; float:left; margin-left:30px;">
+										<option value="">Type</option>
+									</select>
+									<input ng-model="publication.publicationUrl" placeholder="URL (if any)" type="text" class="form-control" style="float:left; width:260px; margin-left:30px;">
+									<button ng-click="addDiv('publication')" ng-show="publications.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
+								</div>
+								<!--
+								<div class="col-md-2 dropdown">
+									<select class="btn btn-primary" ng-model="publication.type" ng-options="type for type in types">
+										<option value="">Type</option>
+									</select>
+								</div>
+								<div class="col-md-3">
+									<input ng-model="publication.publicationUrl" type="text" class="form-control" id="inputType" placeholder="URL (if any)">
+								</div>
+								<button ng-click="addDiv('publication')" ng-show="publications.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+								</button>
+								-->
+							</div>
+							<!-- <div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Publication Name</label>
+								<div class="col-md-3">
+									<input ng-model="publication.publicationName" type="text" class="form-control" id="inputType" placeholder="Publication Name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Publication Type</label>
+								<div class="col-md-3 dropdown">
+									<select class="btn btn-primary" ng-model="publication.type" ng-options="type for type in types">
+										<option value="">Type</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">URL (if any)</label>
+								<div class="col-md-3">
+									<input ng-model="publication.publicationUrl" type="text" class="form-control" id="inputType" placeholder="URL (if any)">
+								</div>
+							</div> -->
+							<div class="form-group">
+								<!-- <label for="inputType" class="col-md-2 control-label">Citation (if any)</label> -->
+								<div class="col-md-8">
+									<textarea ng-model="publication.publicationCitation" type="text" class="form-control" id="inputType" placeholder="Citation (if any)" cols="50" rows="4"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div ng-show="studentShow" class="well"> -->
+					<div ng-show="userType=='student'" class="well">
+						<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Other Relevant Experience</span>
+						<!-- <button ng-click="addDiv('qualification')" ng-show="others.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+						</button> -->
+						<div ng-repeat="other in others">
+							<div class="form-group">
+								<!-- <label for="inputType" class="col-md-2 control-label">Qualification</label> -->
+								<div class="col-md-8 dropdown">
+									<select class="btn btn-primary" ng-model="other.qualificationName" ng-options="qualification for qualification in qualifications" style="float:left; height:34px;">
+										<option value="">Qualification</option>
+									</select>
+									<input ng-model="other.otherQualification" ng-show="other.qualificationName=='Others'" type="text" class="form-control" placeholder="Other Qualification" style="float:left; width:150px; margin-left:30px;">
+									<input ng-model="other.qualificationYear" placeholder="Year Attained" type="text" class="form-control" style="float:left; width:150px; margin-left:30px;">
+									<button ng-click="addDiv('qualification')" ng-show="others.length < rowLimit" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align:text-bottom; margin-left:30px;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:black;"></span>
+									</button>
+								</div>
+								<!-- <div ng-show="other.qualificationName=='Others'" class="col-md-3">
+									<input ng-model="other.otherQualification" type="text" class="form-control" id="inputType" placeholder="Other Qualification">
+								</div>
+								<div class="col-md-2">
+									<input ng-model="other.qualificationYear" type="text" class="form-control" id="inputType" placeholder="Year Attained">
+								</div>
+								-->
+							</div>
+							<!-- <div ng-show="other.qualificationName=='Others'" class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Qualification (Others)</label>
+								<div class="col-md-3">
+									<input ng-model="other.otherQualification" type="text" class="form-control" id="inputType" placeholder="Other Qualification">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputType" class="col-md-2 control-label">Year Attained</label>
+								<div class="col-md-1">
+									<input ng-model="other.qualificationYear" type="text" class="form-control" id="inputType" placeholder="YYYY">
+								</div>
+							</div> -->
+						</div>
+					</div>
+					<div id="messageBox" ng-show="messages" class="container hide" style="width:330px;">
+						<div ng-if="messages.error" ng-bind="messages.error" class="alert alert-danger"></div>
+						<div ng-if="messages.info" ng-bind="messages.info" class="alert alert-info"></div>
+						<div ng-if="messages.success" ng-bind="messages.success" class="alert alert-success"></div>
+					</div>
+					<input type="submit" value="Submit" class="btn btn-success" style="margin-left:20px;">
+					<a ng-href="/index2.php" class="btn btn-danger" style="margin-left:30px;">Cancel</a>
+					<!-- <a ng-href="/login.php" class="btn btn-danger">Cancel</a> -->
+					<!-- <a ng-click="addDiv('qualification')" type="button" class="btn btn-default" aria-label="Left Align" style="vertical-align: text-bottom;"></a> -->
+
+				</form>
+			</div>
+			<!-- <div id="messageBox" ng-show="messages" class="container hide" style="width:330px;">
+				<div ng-if="messages.error" ng-bind="messages.error" class="alert alert-danger"></div>
+				<div ng-if="messages.info" ng-bind="messages.info" class="alert alert-info"></div>
+				<div ng-if="messages.success" ng-bind="messages.success" class="alert alert-success"></div>
+			</div> -->
+		</div><!--END .container-->
+		<br>
+	</div><!--END #wrapper-->
+
+	<div class="content-bottom">
+	</div>
+
+
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<!-- <script src="./js/ng-flow-standalone.min.js" type="text/javascript"></script> -->
+	<!-- <script src="./js/script.js" type="text/javascript"></script> -->
+	<script src="./js/app.js" type="text/javascript"></script>
+</body>
+</html>
