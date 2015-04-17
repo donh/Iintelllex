@@ -343,17 +343,18 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 
 		$http.post('http://intelllex.com:3000/api/user', user)
 			.success(function(data, status, headers, config) {
-				console.log('data =', data);
-				console.log('data.session =', data.session);
-				console.log('data.email =', data.email);
-				console.log('data.firstName =', data.firstName);
-				console.log('data.lastName =', data.lastName);
+				// console.log('data =', data);
+				// console.log('data.session =', data.session);
+				// console.log('data.email =', data.email);
+				// console.log('data.firstName =', data.firstName);
+				// console.log('data.lastName =', data.lastName);
 				// console.log('data.status =', data.status);
 				$scope.setMessages(data.messages);
 				// if (data.messages.success == 'Your profile has been updated.') {
 				if (data.status === 'EDIT-DONE') {
 					// console.log('EDIT-DONE');
 					// $window.location = '/index2.php';
+					$window.location = 'http://intelllex.com/index2.php';
 					// $location.path('/index2.php');
 				} else {}
 			})
