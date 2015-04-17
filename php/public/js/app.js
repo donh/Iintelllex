@@ -68,8 +68,32 @@ var itApp = angular.module('itApp', ['ngRoute']);
 // ]);
 
 
+
 /**
- * @controller:		AppController
+ * @controller:		LoginController
+ * @description:	This controller opens dress page in a new window.
+ * @related issues:	ITL-003
+ * @param:			object $scope
+ * @param:			object $routeParams
+ * @param:			object $http
+ * @param:			object $window
+ * @param:			object $document
+ * @param:			object $compile
+ * @param:			object $location
+ * @return:			void
+ * @author:			Don Hsieh
+ * @since:			04/17/2015
+ * @last modified: 	04/17/2015
+ * @called by:		<body ng-controller="AppController">
+ *					 in php/public/index.html
+ */
+itApp.controller('LoginController', function ($scope, $routeParams, $http, $window, $document, $compile, $location) {
+	
+});
+
+
+/**
+ * @controller:		EditController
  * @description:	This controller opens dress page in a new window.
  * @related issues:	ITL-003
  * @param:			object $scope
@@ -86,15 +110,10 @@ var itApp = angular.module('itApp', ['ngRoute']);
  * @called by:		<body ng-controller="AppController">
  *					 in php/public/index.html
  */
-itApp.controller('AppController', function ($scope, $routeParams, $http, $window, $document, $compile, $location) {
+itApp.controller('EditController', function ($scope, $routeParams, $http, $window, $document, $compile, $location) {
 	$scope.$location = $location;
 	$scope.$path = $location.$$path;
 	$scope.messages = null;
-	// $scope.userType = false;
-	// $scope.studentShow = true;
-	// $scope.practictionerShow = false;
-	// $scope.studentShow = false;
-	// $scope.practictionerShow = true;
 
 	var years = [];
 	for (var i=1990 ; i<=2020; i++) {
@@ -102,7 +121,6 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 	}
 	$scope.years = years;
 
-	// $scope.userTypes = ['student', 'practictioner'];
 	$scope.userTypes = ['practictioner', 'student'];
 	$scope.userType = 'practictioner';
 	// $scope.userType = 'student';
@@ -192,15 +210,8 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		qualificationYear: '',
 	};
 
-	// $scope.graduationYear = 'Year';
-	// $scope.monthFrom = 'Month';
-	// $scope.monthTo = 'Month';
-	// $scope.yearFrom = 'Year';
-	// $scope.yearTo = 'Year';
 	$scope.publicationType = 'Type';
 	$scope.qualification = 'Qualification';
-	// $scope.qualificationYear = 'Year';
-	// $scope.yearAwarded = 'Year';
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
 
@@ -217,35 +228,6 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 		publicationUrl: '',
 		publicationCitation: '',
 	};
-
-	/**
-	 * @function name:	$scope.setUserType = function(userType)
-	 * @description:	This function gets content of infinite scroll.
-	 * @related issues:	ITL-003
-	 * @param:			string userType
-	 * @param:			integer pinCount:	counts of pins to show in a batch. Default 15.
-	 * @return:			void
-	 * @author:			Don Hsieh
-	 * @since:			03/27/2015
-	 * @last modified: 	04/07/2015
-	 * @called by:		<a ng-click="setUserType(type)" role="menuitem">{{type}}</a>
-	 *					 in php/public/profile_edit.html
-	 */
-	// $scope.setUserType = function(userType)
-	// {
-	// 	$scope.userType = userType;
-	// 	$scope.studentShow = false;
-	// 	$scope.practictionerShow = false;
-	// 	console.log('userType =', userType);
-	// 	if (userType === 'student') {
-	// 		$scope.studentShow = !$scope.studentShow;
-	// 		$scope.PractictionerShow = false;
-	// 	} else if (userType === 'practictioner') {
-	// 		$scope.practictionerShow = !$scope.practictionerShow;
-	// 		$scope.studentShow = false;
-	// 	} else {
-	// 	}
-	// };
 
 	$scope.rowLimit = 3;
 	$scope.works = [{company: '', monthFrom: '', yearFrom: '', monthTo: '', yearTo: '', supervisor: ''}];
@@ -386,5 +368,4 @@ itApp.controller('AppController', function ($scope, $routeParams, $http, $window
 			$scope.messages = messages;
 		} else $scope.messages = null;
 	};
-
 });
