@@ -84,14 +84,11 @@
 			<!-- <form class="form-inline" method="post" action="login.php" style="width: 70%; margin-left: auto; margin-right: auto;"> -->
 			<form ng-submit="login(user)" class="form-inline" style="width: 70%; margin-left: auto; margin-right: auto;">
 
-			
-
-
 				<div class="form-group" style="width:100%;">
 					<label class="sr-only" for="searchQuery"></label>
 					<div class="input-group" style="display:block; width: 1000px; margin-left: auto; margin-right: auto;">
-						<input style="width: 400px;" type="email" name="email" class="form-control" id="searchQuery" placeholder="Email Address">
-						<input type="password" style="float:left; width:300px; margin-left: 20px;" name="pw" class="form-control" id="searchQuery" placeholder="Password">
+						<input ng-model="user.email" style="width: 400px;" type="email" name="email" class="form-control" id="searchQuery" placeholder="Email Address">
+						<input ng-model="user.password" type="password" style="float:left; width:300px; margin-left: 20px;" name="pw" class="form-control" id="searchQuery" placeholder="Password">
 						<button style="margin-left: 20px; float:left; width: 200px;" type="submit" class="btn btn-default" aria-label="Left Align">
 							<span aria-hidden="true">Login</span>
 						</button>
