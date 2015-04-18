@@ -88,7 +88,48 @@ var itApp = angular.module('itApp', ['ngRoute']);
  *					 in php/public/index.html
  */
 itApp.controller('LoginController', function ($scope, $routeParams, $http, $window, $document, $compile, $location) {
-	
+
+	/**
+	 * @function name:	signup = function (user)
+	 * @description:	This function submits user signup request.
+	 * @related issues:	ITL-003
+	 * @param:			object user
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			04/12/2015
+	 * @last modified: 	04/15/2015
+	 * @called by:		<form id="user-form" class="form-horizontal" role="form" ng-submit="signup(user)">
+	 *					 in php/public/profile_edit.html
+	 */
+	$scope.login = function (user)
+	{
+		// var userType = $scope.userType;
+		console.log('user =', user);
+		// console.log('user =', user);
+
+		$http.post('http://intelllex.com:3000/api/login', user)
+			.success(function(data, status, headers, config) {
+				console.log('user =', data);
+				console.log('type =', user.type);
+				// $scope.setMessages(data.messages);
+				// if (data.messages.success == 'Your profile has been updated.') {
+				if (data.status === 'LOGIN') {
+				// if (data.status === 'LOGIN-DONE') {
+					// console.log('EDIT-DONE');
+					if (user.type) {	// user has profile
+						$window.location = 'http://intelllex.com/index2.php';
+					} else {
+						$window.location = 'http://intelllex.com/profile_edit';
+					}
+					// $window.location = 'http://intelllex.com/index2.php';
+					// $location.path('/index2.php');
+				} else {}
+			})
+			.error(function(data, status, headers, config) {
+				$scope.status = status;
+			});
+	};
+
 });
 
 
@@ -121,8 +162,8 @@ itApp.controller('EditController', function ($scope, $routeParams, $http, $windo
 	}
 	$scope.years = years;
 
-	$scope.userTypes = ['practictioner', 'student'];
-	$scope.userType = 'practictioner';
+	$scope.userTypes = ['practitioner', 'student'];
+	$scope.userType = 'practitioner';
 	// $scope.userType = 'student';
 
 	// $scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -215,7 +256,7 @@ itApp.controller('EditController', function ($scope, $routeParams, $http, $windo
 
 	$scope.jurisdictions = ['Australia', 'Canada', 'Europe', 'Hong Kong', 'India', 'Malaysia', 'New Zealand', 'Singapore', 'United Kingdom', 'Others'];
 
-	$scope.practictioner = {
+	$scope.practitioner = {
 		jurisdiction: '',
 		otherJurisdiction: '',
 		admissionYear: '',
@@ -309,10 +350,10 @@ itApp.controller('EditController', function ($scope, $routeParams, $http, $windo
 			// user.works = $scope.works;
 			user.competitions = $scope.competitions;
 			user.others = $scope.others;
-		} else if (userType === 'practictioner') {
+		} else if (userType === 'practitioner') {
 			user.admissions = $scope.admissions;
-			user.area = $scope.practictioner.area;
-			user.industry = $scope.practictioner.industry;
+			user.area = $scope.practitioner.area;
+			user.industry = $scope.practitioner.industry;
 			// user.awards = $scope.awards;
 		}
 		user.works = $scope.works;

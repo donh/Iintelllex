@@ -74,6 +74,29 @@ try {
 
 
 	/**
+	 * @api name:		$app->post('/api/login')
+	 * @description:	This API adds a record to "user" table.
+	 * @related issues:	ITL-003
+	 * @param:			JSON $postdata
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			04/18/2015
+	 * @last modified:	04/18/2015
+	 * @called by:		$http.post('http://intelllex.com:3000/api/login', user)
+	 *					  in $scope.login = function (user)
+	 *					  in itApp.controller('LoginController') in php/public/js/app.js
+	 */
+	$app->post('/api/login', function () use ($app) {
+		$postdata = file_get_contents("php://input");
+		$post = json_decode($postdata);
+		$email = $post->email;
+		$password = $post->password;
+		$arr = User::login($email, $password, $app);
+		return $arr;
+	});
+
+
+	/**
 	 * @api name:		$app->post('/api/user')
 	 * @description:	This API adds a record to "user" table.
 	 * @related issues:	ITL-003
@@ -91,16 +114,13 @@ try {
 		$post = json_decode($postdata);
 		// $arr = User::addUser($post, $app);
 		$arr = Edit::addUser($post, $app);
-		// $email = $app->session->get('email');
-		// $firstName = $app->session->get('user_fn');
-		// $lastName = $app->session->get('user_ln');
-		$email = $_SESSION["email"];
-		$firstName = $_SESSION["user_fn"];
-		$lastName = $_SESSION["user_ln"];
-		$arr['email'] = $email;
-		$arr['firstName'] = $firstName;
-		$arr['lastName'] = $lastName;
-		$arr['session'] = $_SESSION;
+		// $email = $_SESSION["email"];
+		// $firstName = $_SESSION["user_fn"];
+		// $lastName = $_SESSION["user_ln"];
+		// $arr['email'] = $email;
+		// $arr['firstName'] = $firstName;
+		// $arr['lastName'] = $lastName;
+		// $arr['session'] = $_SESSION;
 		return $arr;
 	});
 
