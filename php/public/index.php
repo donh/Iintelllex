@@ -12,16 +12,20 @@
  */
 error_reporting(E_ALL);
 
-header("Cache-Control: private, max-age=10800, pre-check=10800");
-header("Pragma: private");
-header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
-header("Content-Transfer-Encoding: binary");
-header('Access-Control-Allow-Origin: *');
+// header("Cache-Control: private, max-age=10800, pre-check=10800");
+// header("Pragma: private");
+// header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
+// header("Content-Transfer-Encoding: binary");
+// header('Access-Control-Allow-Origin: *');
 
 // header('Access-Control-Allow-Origin: *');
 
 use Phalcon\Mvc\Micro,
-	Phalcon\Db\Adapter\Pdo\Mysql as MysqlAdapter;
+	Phalcon\Db\Adapter\Pdo\Mysql as MysqlAdapter,
+	// below may remove
+	Phalcon\Mvc\Micro\Collection as MicroCollection,
+	Phalcon\DI\FactoryDefault,
+	Phalcon\Config\Adapter\Ini as IniConfig;
 
 try {
 
@@ -92,6 +96,24 @@ try {
 		$email = $post->email;
 		$password = $post->password;
 		$arr = User::login($email, $password, $app);
+
+		$arr['emailSession3'] = $app->session->get('email');
+
+		$user = $arr['data'];
+		$app->session->set('email', $user['email']);
+		$app->session->set('firstName', $user['firstName']);
+		$app->session->set('lastName', $user['lastName']);
+		$app->session->set('user', $user['user']);
+		
+		// $arr['session'] = print_r($_SESSION);
+		$arr['session'] = $_SESSION;
+
+		// header("Cache-Control: private, max-age=10800, pre-check=10800");
+		// header("Pragma: private");
+		// header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
+		// header("Content-Transfer-Encoding: binary");
+		header('Access-Control-Allow-Origin: *');
+
 		return $arr;
 	});
 
@@ -109,11 +131,18 @@ try {
 	 *					  in $scope.signup = function (user)
 	 *					  in itApp.controller('AppController') in php/public/js/app.js
 	 */
-	$app->post('/api/user', function () use ($app) {
+	$app->post('/api/edit', function () use ($app) {
 		$postdata = file_get_contents("php://input");
 		$post = json_decode($postdata);
+
+		// $user = $app->session->get('user');
+		// $post->email = $user['email'];
+		// $post->email = print_r($user);
+		// $post->email = $app->session->get('email');
+
 		// $arr = User::addUser($post, $app);
-		$arr = Edit::addUser($post, $app);
+		$arr = User::editUser($post, $app);
+		$arr['emailSession3'] = $app->session->get('email');
 		// $email = $_SESSION["email"];
 		// $firstName = $_SESSION["user_fn"];
 		// $lastName = $_SESSION["user_ln"];
@@ -121,8 +150,39 @@ try {
 		// $arr['firstName'] = $firstName;
 		// $arr['lastName'] = $lastName;
 		// $arr['session'] = $_SESSION;
+		header('Access-Control-Allow-Origin: *');
 		return $arr;
 	});
+
+
+	/**
+	 * @api name:		$app->post('/api/loginstatus')
+	 * @description:	This API checks user's login status.
+	 * @related issues:	ITL-003
+	 * @param:			void
+	 * @return:			array $arr
+	 * @author:			Don Hsieh
+	 * @since:			04/18/2015
+	 * @last modified:	04/18/2015
+	 * @called by:		$scope.checkLoginStatus = function ()
+	 *					  in wdApp.controller('AppController') in php/public/js/app.js
+	 */
+	$app->get('/api/loginstatus', function () use ($app) {
+		$postdata = file_get_contents("php://input");
+		$post = json_decode($postdata);
+		$user = $app->session->get('user');
+		if (!isset($user)) {
+			$arr = array('status' => 'NOT-LOGIN');
+		} else {
+			// unset($user['dressIds']);
+			$arr = array(
+				'status' => 'LOGIN',
+				'user' => $user
+			);
+		}
+		return $arr;
+	});
+
 
 
 	/**

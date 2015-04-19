@@ -269,7 +269,7 @@ module.exports = function (grunt) {
 		
 		watch: {
 			options: {
-				livereload: true,
+				// livereload: true,
 				interrupt: true,
 				dateFormat: function(time) {
 					grunt.log.writeln('The watch finished in ' + time + 'ms at ' + (new Date()).toString());
@@ -296,8 +296,9 @@ module.exports = function (grunt) {
 				files: ['public/js/**/*'],
 				tasks: ['jshint'],
 				options: {
-					reload: true,
-					livereload: 35729
+					// reload: true,
+					// livereload: 35729
+
 					// livereload: true
 				}
 			},
@@ -306,8 +307,9 @@ module.exports = function (grunt) {
 				files: ['public/index.html', 'public/templates/**/*'],
 				options: {
 					// livereload: true
-					reload: true,
-					livereload: 35729
+					
+					// reload: true,
+					// livereload: 35729
 				}
 			},
 		}

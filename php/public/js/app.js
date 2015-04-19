@@ -116,11 +116,15 @@ itApp.controller('LoginController', function ($scope, $routeParams, $http, $wind
 				if (data.status === 'LOGIN') {
 				// if (data.status === 'LOGIN-DONE') {
 					// console.log('EDIT-DONE');
-					if (user.type) {	// user has profile
-						$window.location = 'http://intelllex.com/index2.php';
-					} else {
-						$window.location = 'http://intelllex.com/profile_edit';
-					}
+
+
+					// if (user.type) {	// user has profile
+					// 	$window.location = 'http://intelllex.com/index2.php';
+					// } else {
+					// 	$window.location = 'http://intelllex.com/profile_edit';
+					// }
+					
+					
 					// $window.location = 'http://intelllex.com/index2.php';
 					// $location.path('/index2.php');
 				} else {}
@@ -155,6 +159,81 @@ itApp.controller('EditController', function ($scope, $routeParams, $http, $windo
 	$scope.$location = $location;
 	$scope.$path = $location.$$path;
 	$scope.messages = null;
+
+
+	/**
+	 * @function name:	checkLoginStatus = function ()
+	 * @description:	This function checks user's login status.
+	 * @related issues:	ITL-003
+	 * @param:			void
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			04/18/2015
+	 * @last modified: 	04/18/2015
+	 * @called by:		$scope.login = function (credentials)
+	 *					 in wdApp.controller('LoginController') in php/public/js/app.js
+	 */
+	$scope.checkLoginStatus = function ()
+	{
+		// $scope.loginPopupClose();
+		// var arr = {};
+		// arr.url = $location.url();
+
+		// $http.get('/api/loginstatus')
+		$http.get('http://intelllex.com:3000/api/loginstatus')
+			.success(function(data, status, headers, config) {
+				console.log('data =', data);
+				var user = data.user;
+				console.log('user =', user);
+				$scope.setCurrentUser(user);
+			})
+			.error(function(data, status, headers, config) {
+				$scope.status = status;
+			});
+	};
+
+	/**
+	 * @function name:	setCurrentUser = function (user)
+	 * @description:	This function opens URL in a new window.
+	 * @related issues:	WD-112
+	 * @param:			object user
+	 * @return:			void
+	 * @author:			Don Hsieh
+	 * @since:			02/04/2015
+	 * @last modified: 	02/13/2015
+	 * @called by:		$scope.login = function (credentials)
+	 *					 in wdApp.controller('LoginController') in php/public/js/app.js
+	 *					function $scope.wdScroll(url, sessionStorage, limit, stop)
+	 *					 in php/public/js/app.js
+	 */
+	$scope.setCurrentUser = function (user)
+	{
+		if (user) {
+			if (!$scope.currentUser) {
+				// var navbarAccount = angular.element(document.querySelector('#navbarAccount'));
+				// if (navbarAccount.hasClass('hide')) {
+				// 	navbarAccount.removeClass('hide');
+				// } else {}
+				// var navbarFavorites = angular.element(document.querySelector('#navbarFavorites'));
+				// if (navbarFavorites.hasClass('hide')) {
+				// 	navbarFavorites.removeClass('hide');
+				// } else {}
+				// var navbarEdit = angular.element(document.querySelector('#navbarEdit'));
+				// if (navbarEdit.hasClass('hide')) {
+				// 	navbarEdit.removeClass('hide');
+				// } else {}
+				// var navbarLogout = angular.element(document.querySelector('#navbarLogout'));
+				// if (navbarLogout.hasClass('hide')) {
+				// 	navbarLogout.removeClass('hide');
+				// } else {}
+				$scope.currentUser = user;
+			}
+		}
+	};
+
+	// $scope.checkLoginStatus();
+
+
 
 	var years = [];
 	for (var i=1990 ; i<=2020; i++) {
@@ -221,11 +300,11 @@ itApp.controller('EditController', function ($scope, $routeParams, $http, $windo
 	$scope.qualifications = ['CFA Level 1', 'CFA Level 2', 'CFA Level 3', 'CPA', 'MBBS', 'Others'];
 
 	$scope.user = {
-		username: '',
-		firstName: '',
-		lastName: '',
-		password: '',
-		password_confirmation: '',
+		// username: '',
+		// firstName: '',
+		// lastName: '',
+		// password: '',
+		// password_confirmation: '',
 		email: ''
 	};
 	
@@ -326,7 +405,7 @@ itApp.controller('EditController', function ($scope, $routeParams, $http, $windo
 
 
 	/**
-	 * @function name:	signup = function (user)
+	 * @function name:	edit = function (user)
 	 * @description:	This function submits user signup request.
 	 * @related issues:	ITL-003
 	 * @param:			object user
@@ -338,7 +417,8 @@ itApp.controller('EditController', function ($scope, $routeParams, $http, $windo
 	 *					 in php/public/profile_edit.html
 	 */
 	// $scope.signup = function (user, $flow)
-	$scope.signup = function (user)
+	// $scope.signup = function (user)
+	$scope.edit = function (user)
 	{
 		var userType = $scope.userType;
 		// console.log('userType =', userType);
@@ -364,9 +444,10 @@ itApp.controller('EditController', function ($scope, $routeParams, $http, $windo
 		}
 		// console.log('user =', user);
 
-		$http.post('http://intelllex.com:3000/api/user', user)
+		$http.post('http://intelllex.com:3000/api/edit', user)
+		// $http.post('http://intelllex.com:3000/api/login', user)
 			.success(function(data, status, headers, config) {
-				// console.log('data =', data);
+				console.log('data =', data);
 				// console.log('data.session =', data.session);
 				// console.log('data.email =', data.email);
 				// console.log('data.firstName =', data.firstName);

@@ -40,7 +40,8 @@
 						<button id="form-choice-practitioner" type="button" class="btn btn-success" ng-click="setUserType('practitioner')">practitioner</button>
 					</div>
 				</div> -->
-				<form id="user-form" class="form-horizontal" role="form" ng-submit="signup(user)">
+				<!-- <form id="user-form" class="form-horizontal" role="form" ng-submit="signup(user)"> -->
+				<form id="user-form" class="form-horizontal" role="form" ng-submit="edit(user)">
 					<!-- <span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;">Signup</span> -->
 					<span style="font-weight: bold;margin-bottom: 1em;display: inline-block;font-size: 150%;margin-right: 1em;"></span>
 					<div class="well">
@@ -72,23 +73,10 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<!-- <label for="inputType" class="col-md-2 control-label">Email Address</label> -->
 							<div class="col-md-3">
 								<input type="email" ng-model="user.email" class="form-control" id="inputType" placeholder="Email Address">
 							</div>
 						</div>
-						<!-- <div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">Password</label>
-							<div class="col-md-3">
-								<input type="password" ng-model="user.password" class="form-control" id="inputType" placeholder="Password">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="inputType" class="col-md-2 control-label">Password Confirmation</label>
-							<div class="col-md-3">
-								<input type="password" ng-model="user.password_confirmation" class="form-control" id="inputType" placeholder="Password Confirmation">
-							</div>
-						</div> -->
 						<div class="form-group">
 							<!-- <label for="inputType" class="col-md-2 control-label">User Type</label> -->
 							<!-- <label for="inputType" class="col-md-2 control-label">I am a </label> -->

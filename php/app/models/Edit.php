@@ -306,7 +306,6 @@ class Edit extends \Phalcon\Mvc\Model
 		} else {
 			$messages['success'] = 'Your profile has been updated.';
 			// $messages['success'] = 'Registration of ' . $username . ' successful!';
-			// $messages['success'] = 'Registration of ' . $username . ' successful!';
 			$arr = array(
 				'status' => 'EDIT-DONE',
 				'messages' => $messages,

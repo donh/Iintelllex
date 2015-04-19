@@ -26,29 +26,22 @@ $di->set('url', function () use ($config) {
 /**
  * Setting up the view component
  */
-$di->set('view', function () use ($config) {
-
-    $view = new View();
-
-    $view->setViewsDir($config->application->viewsDir);
-
-    $view->registerEngines(array(
-        '.volt' => function ($view, $di) use ($config) {
-
-            $volt = new VoltEngine($view, $di);
-
-            $volt->setOptions(array(
-                'compiledPath' => $config->application->cacheDir,
-                'compiledSeparator' => '_'
-            ));
-
-            return $volt;
-        },
-        '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
-    ));
-
-    return $view;
-}, true);
+// $di->set('view', function () use ($config) {
+//     $view = new View();
+//     $view->setViewsDir($config->application->viewsDir);
+//     $view->registerEngines(array(
+//         '.volt' => function ($view, $di) use ($config) {
+//             $volt = new VoltEngine($view, $di);
+//             $volt->setOptions(array(
+//                 'compiledPath' => $config->application->cacheDir,
+//                 'compiledSeparator' => '_'
+//             ));
+//             return $volt;
+//         },
+//         '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
+//     ));
+//     return $view;
+// }, true);
 
 /**
  * Database connection is created based in the parameters defined in the configuration file
@@ -77,4 +70,22 @@ $di->set('session', function () {
     $session->start();
 
     return $session;
+});
+
+
+/**
+ * Crypt service
+ */
+$di->set('crypt', function () use ($config) {
+    $crypt = new Crypt();
+    $crypt->setKey($config->application->cryptSalt);
+    return $crypt;
+});
+
+
+/**
+ * Custom authentication component
+ */
+$di->set('auth', function () {
+    return new Auth();
 });
