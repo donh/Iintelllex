@@ -66,11 +66,32 @@ $di->set('modelsMetadata', function () {
  * Start the session the first time some component request the session service
  */
 $di->set('session', function () {
-    $session = new SessionAdapter();
-    $session->start();
+    // Create a connection
+    $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
+        'host' => $config->database->host,
+        'username' => $config->database->username,
+        'password' => $config->database->password,
+        'dbname' => $config->database->dbname
+        // "host" => "localhost",
+        // "username" => "root",
+        // "password" => "secret",
+        // "dbname" => "test"
+    ));
 
+    $session = new Phalcon\Session\Adapter\Database(array(
+        'db' => $connection,
+        'table' => 'session_data'
+    ));
+    $session->start();
     return $session;
 });
+
+// $di->set('session', function () {
+//     $session = new SessionAdapter();
+//     $session->start();
+
+//     return $session;
+// });
 
 
 /**

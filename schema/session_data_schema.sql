@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `session_data` (
   `data` text NOT NULL,
   `created_at` int(15) unsigned NOT NULL,
   `modified_at` int(15) unsigned DEFAULT NULL,
-  PRIMARY KEY (`session_id`),
+  PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
